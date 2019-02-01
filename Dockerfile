@@ -11,6 +11,25 @@ MAINTAINER KBase Developer
 
 # -----------------------------------------
 
+RUN apt-get -y update \
+	&& apt-get -y install gcc \
+	&& apt-get -y install g++ \
+	&& apt-get -y install autoconf \
+	&& apt-get -y install zlib1g-dev \
+	&& apt-get -y install wget \
+	&& apt-get -y install pkg-config
+
+RUN git clone https://github.com/vcftools/vcftools.git \
+    && cd vcftools \
+    && ./autogen.sh \
+    && ./configure \
+    && make \
+    && make install
+
+RUN wget https://github.com/EBIvariation/vcf-validator/releases/download/v0.9.1/vcf_validator_linux \
+    && chmod 755 vcf_validator_linux \
+    && mv vcf_validator_linux /kb/deployment/bin 
+
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work
 RUN chmod -R a+rw /kb/module

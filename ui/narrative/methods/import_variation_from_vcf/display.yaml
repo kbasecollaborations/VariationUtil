@@ -1,0 +1,53 @@
+#
+# define display information
+#
+name: Variation Util
+
+tooltip: |
+    Import SNP variation data
+
+screenshots: []
+
+icon: icon.png
+
+#
+# define a set of similar methods that might be useful to the user
+#
+suggestions:
+    apps:
+        related:
+            []
+        next:
+            []
+    methods:
+        related:
+            []
+        next:
+            []
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    genome_ref :
+        ui-name : |
+            Genome object reference
+        short-hint : |
+            Object reference format X/Y/Z
+    vcf_staging_file_path :
+        ui-name : |
+            Input VCF staging file
+        short-hint : |
+            The path of your SNP input file. Should be in Variant Call Format (VCF).
+    sample_attribute_ref :
+        ui-name : |
+            Sample attribute reference
+        short-hint : |
+            Object reference format X/Y/Z for sample meta-data object.
+    variation_object_name :
+        ui-name: |
+            Output name for variation object
+        short-hint : |
+            Name for the variation object returned from the application.
+description : |
+    <p>This method will validate and import a VCF file.</p>

@@ -26,7 +26,7 @@ class VariationUtil:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/rroutsong/VariationUtil.git"
-    GIT_COMMIT_HASH = "36ae8151466815f073a701d4c877ffb328420178"
+    GIT_COMMIT_HASH = "1a64565c740a2866b522b270f9da1ea1fbc3bf8c"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -41,7 +41,6 @@ class VariationUtil:
                             level=logging.INFO)
         #END_CONSTRUCTOR
         pass
-
 
     def save_variation_from_vcf(self, ctx, params):
         """
@@ -100,20 +99,20 @@ class VariationUtil:
            parameter "shock_id" of String
         """
         # ctx is the context object
-        # return variables are: output
+        # return variables are: returnVal
         #BEGIN export_variation_as_vcf
 
         vtf = VariationToVCF(self.callback_url, self.shared_folder)
-        output = vtf.export_as_vcf(ctx, params)
+        output = vtf
 
         #END export_variation_as_vcf
 
         # At some point might do deeper type checking...
-        if not isinstance(output, dict):
+        if not isinstance(returnVal, dict):
             raise ValueError('Method export_variation_as_vcf return value ' +
-                             'output is not type dict as required.')
+                             'returnVal is not type dict as required.')
         # return the results
-        return [output]
+        return [returnVal]
 
     def get_variation_as_vcf(self, ctx, params):
         """
@@ -144,6 +143,7 @@ class VariationUtil:
                              'file is not type dict as required.')
         # return the results
         return [file]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

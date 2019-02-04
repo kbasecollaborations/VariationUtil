@@ -96,7 +96,7 @@ module VariationUtil {
 	*/
 
 	funcdef export_variation_as_vcf(export_variation_input params)
-	    returns (export_variation_output) authentication required;
+	    returns (export_variation_output output) authentication required;
 
 	/*
         ## funcdef get_variation_as_vcf ##

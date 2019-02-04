@@ -4,6 +4,8 @@ import logging
 import os
 
 from installed_clients.KBaseReportClient import KBaseReport
+
+from VariationUtil.VariationToVCF import VariationToVCF
 #END_HEADER
 
 
@@ -23,8 +25,8 @@ class VariationUtil:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = ""
-    GIT_COMMIT_HASH = ""
+    GIT_URL = "https://github.com/rroutsong/VariationUtil.git"
+    GIT_COMMIT_HASH = "1a64565c740a2866b522b270f9da1ea1fbc3bf8c"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -40,18 +42,20 @@ class VariationUtil:
         #END_CONSTRUCTOR
         pass
 
-
-    def import_variation(self, ctx, import_variation_params):
+    def save_variation_from_vcf(self, ctx, params):
         """
-        :param import_variation_params: instance of type
-           "import_variation_params" (TODO: take assembly ref as input take
-           care of metagenomic use case required params: genome_ref:
+        Save a variation (and trait?) object to Kbase given a reference genome, object output name,
+        Variant Call Format (VCF) file, and sample attribute file.
+        TODO: Viewer for Variation/Trait object?
+        :param params: instance of type "save_variation_input" (## funcdef
+           save_variation_from_vcf ## required input params: genome_ref:
            KBaseGenomes.Genome object reference *** variation input data ***
            vcf_staging_file_path: path to location data associated with
            samples variation_object_name: output name for KBase variation
            object *** sample input data *** sample_attribute_ref: x/y/z
-           reference to kbase sample attribute optional params: ***
-           Visualization *** plot_maf: generate histogram of minor allele
+           reference to kbase sample attribute optional params: NA output
+           report: report_name report_ref HTML visualization: Manhattan plot
+           *** Visualization *** plot_maf: generate histogram of minor allele
            frequencies plot_hwe: generate histogram of Hardy-Weinberg
            Equilibrium p-values) -> structure: parameter "workspace_name" of
            String, parameter "genome_ref" of type "obj_ref" (An X/Y/Z style
@@ -59,27 +63,86 @@ class VariationUtil:
            (KBase file path to staging files), parameter
            "variation_object_name" of String, parameter
            "sample_attribute_ref" of type "obj_ref" (An X/Y/Z style reference)
-        :returns: instance of type "import_variation_results" -> structure:
+        :returns: instance of type "save_variation_output" -> structure:
            parameter "report_name" of String, parameter "report_ref" of String
         """
         # ctx is the context object
+        # return variables are: report
+        #BEGIN save_variation_from_vcf
+
+        report_client = KBaseReport(self.callback_url)
+        report = report = report_client.create_extended_report({
+            'direct_html_link_index': 0,
+            'message': "report message",
+            'report_object_name': 'test_report',
+            'workspace_name': params['workspace_name']
+        })
+
+        #END save_variation_from_vcf
+
+        # At some point might do deeper type checking...
+        if not isinstance(report, dict):
+            raise ValueError('Method save_variation_from_vcf return value ' +
+                             'report is not type dict as required.')
+        # return the results
+        return [report]
+
+    def export_variation_as_vcf(self, ctx, params):
+        """
+        Export KBase variation object as Variant Call Format (VCF) file
+        :param params: instance of type "export_variation_input" (## funcdef
+           export_variation_as_vcf ## required input params: Variation object
+           reference optional params: NA output report: Shock id pointing to
+           exported vcf file) -> structure: parameter "input_var_ref" of type
+           "obj_ref" (An X/Y/Z style reference)
+        :returns: instance of type "export_variation_output" -> structure:
+           parameter "shock_id" of String
+        """
+        # ctx is the context object
         # return variables are: returnVal
-        #BEGIN import_variation
-        print (import_variation_params);
+        #BEGIN export_variation_as_vcf
 
-        returnVal = {
-			'report_ref': "report_ref",
-			'report_name': 'report_name'
-		}
 
-        #END import_variation
+
+        #END export_variation_as_vcf
 
         # At some point might do deeper type checking...
         if not isinstance(returnVal, dict):
-            raise ValueError('Method import_variation return value ' +
+            raise ValueError('Method export_variation_as_vcf return value ' +
                              'returnVal is not type dict as required.')
         # return the results
         return [returnVal]
+
+    def get_variation_as_vcf(self, ctx, params):
+        """
+        Given a reference to a variation object, and output name: return a Variant Call Format (VCF)
+        file path and name.
+        :param params: instance of type "get_variation_input" (## funcdef
+           get_variation_as_vcf ## required input params: Variation object
+           reference output file name optional params: NA output report: path
+           to returned vcf name of variation object) -> structure: parameter
+           "variation_ref" of type "obj_ref" (An X/Y/Z style reference),
+           parameter "filename" of String
+        :returns: instance of type "get_variation_output" -> structure:
+           parameter "path" of type "filepath" (KBase file path to staging
+           files), parameter "variation_name" of String
+        """
+        # ctx is the context object
+        # return variables are: file
+        #BEGIN get_variation_as_vcf
+
+        vtf = VariationToVCF(self.callback_url, self.shared_folder)
+        file = vtf.variation_as_vcf(ctx, params)
+
+        #END get_variation_as_vcf
+
+        # At some point might do deeper type checking...
+        if not isinstance(file, dict):
+            raise ValueError('Method get_variation_as_vcf return value ' +
+                             'file is not type dict as required.')
+        # return the results
+        return [file]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

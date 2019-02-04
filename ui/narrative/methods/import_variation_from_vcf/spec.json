@@ -2,8 +2,7 @@
     "ver": "0.0.1",
     "authors": [
 		"pranjan77",
-		"rmr",
-        "pjtinker"
+		"rmr"
     ],
     "contact": "",
     "categories": ["active"],
@@ -61,7 +60,7 @@
         "service-mapping": {
             "url": "",
             "name": "VariationUtil",
-            "method": "import_variation",
+            "method": "save_variation_from_vcf",
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",

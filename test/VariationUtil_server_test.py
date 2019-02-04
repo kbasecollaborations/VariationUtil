@@ -49,8 +49,8 @@ class VariationUtilTest(unittest.TestCase):
             print('Test workspace was deleted')
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    def test_import_variation(self):
-        ret = self.serviceImpl.import_variation(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
+    def test_save_variation(self):
+        ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',
                                                              'vcf_staging_file_path' : '/kb/module/test/AT.vcf',
                                                              'sample_attribute_ref' : '24237/3/1',

@@ -338,10 +338,18 @@ class Application(object):
         self.serverlog.set_log_level(6)
         self.rpc_service = JSONRPCServiceCustom()
         self.method_authentication = dict()
-        self.rpc_service.add(impl_VariationUtil.import_variation,
-                             name='VariationUtil.import_variation',
+        self.rpc_service.add(impl_VariationUtil.save_variation_from_vcf,
+                             name='VariationUtil.save_variation_from_vcf',
                              types=[dict])
-        self.method_authentication['VariationUtil.import_variation'] = 'required'  # noqa
+        self.method_authentication['VariationUtil.save_variation_from_vcf'] = 'required'  # noqa
+        self.rpc_service.add(impl_VariationUtil.export_variation_as_vcf,
+                             name='VariationUtil.export_variation_as_vcf',
+                             types=[dict])
+        self.method_authentication['VariationUtil.export_variation_as_vcf'] = 'required'  # noqa
+        self.rpc_service.add(impl_VariationUtil.get_variation_as_vcf,
+                             name='VariationUtil.get_variation_as_vcf',
+                             types=[dict])
+        self.method_authentication['VariationUtil.get_variation_as_vcf'] = 'required'  # noqa
         self.rpc_service.add(impl_VariationUtil.status,
                              name='VariationUtil.status',
                              types=[dict])

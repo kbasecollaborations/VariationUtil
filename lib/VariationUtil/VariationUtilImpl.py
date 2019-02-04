@@ -2,10 +2,13 @@
 #BEGIN_HEADER
 import logging
 import os
+from pprint import pprint
 
 from installed_clients.KBaseReportClient import KBaseReport
 
 from VariationUtil.VariationToVCF import VariationToVCF
+from VariationUtil.VCFToVariation import VCFToVariation
+from VariationUtil.SampleAttrToTrait import SampleToTrait
 #END_HEADER
 
 
@@ -71,6 +74,15 @@ class VariationUtil:
         # return variables are: report
         #BEGIN save_variation_from_vcf
 
+        print('save_variation_from_vcf -- parameters:')
+        pprint(params)
+
+        vtv = VCFToVariation(self.callback_url, self.shared_folder)
+        var_info = vtv.import_vcf(ctx, params)
+
+        stt = SampleToTrait(self.callback_url, self.shared_folder)
+        trait_info = stt.import_trait(ctx, params)
+
         report_client = KBaseReport(self.callback_url)
         report = report = report_client.create_extended_report({
             'direct_html_link_index': 0,
@@ -103,8 +115,8 @@ class VariationUtil:
         # return variables are: output
         #BEGIN export_variation_as_vcf
 
-        vtf = VariationToVCF(self.callback_url, self.shared_folder)
-        output = vtf.export_as_vcf(ctx, params)
+        vtv = VariationToVCF(self.callback_url, self.shared_folder)
+        output = vtv.export_as_vcf(ctx, params)
 
         #END export_variation_as_vcf
 
@@ -133,8 +145,8 @@ class VariationUtil:
         # return variables are: file
         #BEGIN get_variation_as_vcf
 
-        vtf = VariationToVCF(self.callback_url, self.shared_folder)
-        file = vtf.variation_as_vcf(ctx, params)
+        vtv = VariationToVCF(self.callback_url, self.shared_folder)
+        file = vtv.variation_as_vcf(ctx, params)
 
         #END get_variation_as_vcf
 

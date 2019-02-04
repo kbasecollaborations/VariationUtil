@@ -19,6 +19,9 @@ RUN apt-get -y update \
 	&& apt-get -y install wget \
 	&& apt-get -y install pkg-config
 
+RUN pip install --upgrade pip \
+    && pip install -q pyvcf
+
 RUN git clone https://github.com/vcftools/vcftools.git \
     && cd vcftools \
     && ./autogen.sh \

@@ -52,7 +52,7 @@ class VariationUtilTest(unittest.TestCase):
     def test_save_variation(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',
-                                                             'vcf_staging_file_path' : '/kb/module/test/AT.vcf',
+                                                             'vcf_staging_file_path' : '/kb/module/test/sample_data/AT.vcf',
                                                              'sample_attribute_ref' : '24237/3/1',
                                                              'variation_object_name' : 'arabidopsis_variation' 
 														 })

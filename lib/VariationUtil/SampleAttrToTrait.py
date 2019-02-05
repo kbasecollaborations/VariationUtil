@@ -1,3 +1,6 @@
+from installed_clients.DataFileUtilClient import DataFileUtil
+from installed_clients.WorkspaceClient import Workspace
+
 class SampleToTrait:
     def __init__(self, callback_url, scratch):
         self.scratch = scratch

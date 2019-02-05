@@ -6,6 +6,7 @@ import logging
 import time
 
 from installed_clients.DataFileUtilClient import DataFileUtil
+from installed_clients.WorkspaceClient import Workspace
 
 logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
 def log(message, prefix_newline=False):
@@ -16,6 +17,8 @@ class VCFToVariation:
     def __init__(self, callback_url, scratch):
         self.scratch = scratch
         self.dfu = DataFileUtil(callback_url)
+        self.wsc = Workspace(callback_url)
+        self.wsc_appdev = Workspace("https://appdev.kbase.us/services/ws")
 
     def _parse_vcf_data(self, vcf_filepath):
         # TODO: move to pyvcf for information extraction
@@ -73,6 +76,7 @@ class VCFToVariation:
             print("VCF version below 4.1.  No validation logging.")
 
         print("Validator command: {}".format(validator_cmd))
+
         p = subprocess.Popen(validator_cmd,
                              cwd=self.scratch,
                              stdout=subprocess.PIPE,
@@ -88,18 +92,74 @@ class VCFToVariation:
 
         p.wait()
 
-        validation_output_filename = [f for f in os.listdir(validation_output_dir) if f.endswith('.txt')][0]
-        validation_output_filepath = os.path.join(validation_output_dir, validation_output_filename)
+        validation_output_filename = os.path.join(validation_output_dir, 'vcf_validation.txt')
 
-        if not validation_output_filename:
+        try:
+            if validator_output[0][:6] == '[info]':
+                # validation by vcf_validator_linux
+                vo = validator_output[1].split(' ')
+                if os.path.exists(vo[6]):
+                    shutil.move(vo[6], validation_output_filename)
+                else:
+                    raise Error('No output from vcf validator, check installation')
+            else:
+                if validator_output:
+                    with open(validation_output_filename, 'w') as f:
+                        for line in validator_output:
+                            f.write(str(line))
+                        f.close()
+                else:
+                    raise Error('No output from vcftools, check installation')
+        except IndexError:
+            raise IndexError('Validation output failed to provide any details! Please check VCF validator:' + str(validator_cmd[0]))
+
+        if not os.path.exists(validation_output_filename):
             print('Validator did not generate log file!')
             raise Exception("Validator did not generate a log file.")
 
-        log("Validator output filepath: {}".format(validation_output_filepath))
+        log("Validator output filepath: {}".format(validation_output_filename))
 
         log("Return code from validator {}".format(p.returncode))
 
-        return validation_output_filepath, p.returncode
+        # TODO: validate chromosome ids against assembly_ref from ws cleint
+        # All chromosome ids from the vcf should be in assembly
+        # but not all assembly chromosome ids should be in vcf
+
+        # TODO: validate really with DFU vs ref assembly
+
+        ws_client = self.wsc_appdev
+
+        subset = ws_client.get_object_subset([{
+            'included': ['/assembly_ref'],
+            'ref': '24237/5/8'}]
+        )
+
+        assembly_ref = subset[0]['data']['assembly_ref']
+
+        assembly_chromosome_ids_call = ws_client.get_object_subset([{
+            'included': ['/contigs'],
+            'ref': assembly_ref
+        }])
+
+        assembly_chromosome_ids = assembly_chromosome_ids_call[0]['data']['contigs'].keys()
+
+        # TODO: validate sample ids against
+        # All samples within the VCF file need to be in sample attribute list
+
+        # TODO: validate against real concurrently uploaded sample ids
+
+        sample_ids_subset = ws_client.get_object_subset([{
+            'included': ['/instances'],
+            'ref': '24237/3/1'
+        }])
+
+        sample_ids = sample_ids_subset[0]['data']['instances'].keys()
+
+        # TODO:
+        # make these returns a list with, sample_id validation results, file validation
+        # results, and assembly validation results
+
+        return validation_output_filename, p.returncode
 
     def import_vcf(self, ctx, params):
         self._validate_vcf(ctx, params)

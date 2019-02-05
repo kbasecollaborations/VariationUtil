@@ -24,6 +24,7 @@ class VCFToVariation:
         # TODO: move to pyvcf for information extraction
         contigs = []
         genotypes = []
+        chromosomes = []
         version = ''
         with(gzip.open if vcf_filepath.endswith('.gz') else open)(vcf_filepath, 'rt') as vcf:
             line = vcf.readline()
@@ -35,16 +36,40 @@ class VCFToVariation:
             version = float(tokens[1][-4:].rstrip())
             log("VCF version: {}".format(version))
             for line in vcf:
-                if line.startswith("#CHROM"):
-                    log("#CHROM encountered, exiting loop.")
-                    genotypes = line.split()[9:]
-                    log("Number Genotypes in vcf: {}".format(len(genotypes)))
-                    break
-                tokens = line.split("=")
+                if line.startswith('#'):
+                    if line.startswith("#CHROM"):
+                        # log("#CHROM encountered, exiting loop.")
+                        genotypes = line.split()[9:]
+                        log("Number Genotypes in vcf: {}".format(len(genotypes)))
+                        # break
 
-                if tokens[0].startswith('##contig'):
-                    contigs.append(tokens[2][:-2])
-        return version, contigs, genotypes
+                    tokens = line.split("=")
+                    if tokens[0].startswith('##contig'):
+                        contigs.append(tokens[2][:-2])
+                else:
+                    tokens = line.split('\t')
+                    if tokens[0] not in chromosomes:
+                        chromosomes.append(tokens[0])
+
+        return version, contigs, genotypes, chromosomes
+
+    def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):
+        check = True
+
+        for geno in vcf_genotypes:
+            if geno not in sample_ids:
+                check = False
+
+        return check
+
+    def _validate_vcf_to_assembly(self, vcf_chromosomes, assembly_chromosomes):
+        check = True
+
+        for chromo in vcf_chromosomes:
+            if chromo not in assembly_chromosomes:
+                check = False
+
+        return check
 
     def _validate_vcf(self, ctx, params):
         if 'genome_ref' not in params:
@@ -60,7 +85,7 @@ class VCFToVariation:
         validation_output_dir = os.path.join(self.scratch, 'validation_' + str(uuid.uuid4()))
         os.mkdir(validation_output_dir)
 
-        vcf_version, contigs, genotypes = self._parse_vcf_data(vcf_filepath)
+        vcf_version, contigs, vcf_genotypes, vcf_chromosomes = self._parse_vcf_data(vcf_filepath)
 
         if vcf_version >= 4.1:
             print("Using vcf_validator_linux...")
@@ -141,7 +166,10 @@ class VCFToVariation:
             'ref': assembly_ref
         }])
 
-        assembly_chromosome_ids = assembly_chromosome_ids_call[0]['data']['contigs'].keys()
+        assembly_chromosomes = assembly_chromosome_ids_call[0]['data']['contigs'].keys()
+
+        if not self._validate_vcf_to_assembly(vcf_chromosomes, assembly_chromosomes):
+            raise Error('VCF chromosome ids do not correspond to chromosome IDs from the assembly master list')
 
         # TODO: validate sample ids against
         # All samples within the VCF file need to be in sample attribute list
@@ -154,6 +182,9 @@ class VCFToVariation:
         }])
 
         sample_ids = sample_ids_subset[0]['data']['instances'].keys()
+
+        if not self._validate_vcf_to_sample(vcf_genotypes, sample_ids):
+            raise Error('VCF file genotype ids do not correspond to Sample IDs in the Sample Attribute master list')
 
         # TODO:
         # make these returns a list with, sample_id validation results, file validation

@@ -26,6 +26,7 @@ class VariationUtilTest(unittest.TestCase):
         authServiceUrl = cls.cfg['auth-service-url']
         auth_client = _KBaseAuth(authServiceUrl)
         user_id = auth_client.get_user(token)
+        vcf_test_dir = '/kb/module/test/sample_data/vcf'
         # WARNING: don't call any logging methods on the context object,
         # it'll result in a NoneType error
         cls.ctx = MethodContext(None)

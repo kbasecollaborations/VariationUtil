@@ -87,6 +87,14 @@ class VCFToVariation:
 
         vcf_version, contigs, vcf_genotypes, vcf_chromosomes = self._parse_vcf_data(vcf_filepath)
 
+        # vcftools (vcf-validator) supports VCF v4.0-4.2
+        # https://github.com/vcftools/vcftools
+
+        # EBIvariation/vcf-validator (vcf_validator_linux) supports VCF v4.14.3
+        # https://github.com/EBIvariation/vcf-validator
+
+        # vcftools is only to validate VCF v4.0
+
         if vcf_version >= 4.1:
             print("Using vcf_validator_linux...")
             validator_cmd = ["vcf_validator_linux"]

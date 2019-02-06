@@ -5,6 +5,8 @@ import unittest
 from configparser import ConfigParser
 
 from VariationUtil.VariationUtilImpl import VariationUtil
+from VariationUtil.VariationToVCF import VariationToVCF
+from VariationUtil.VCFToVariation import VCFToVariation
 from VariationUtil.VariationUtilServer import MethodContext
 from VariationUtil.authclient import KBaseAuth as _KBaseAuth
 
@@ -26,7 +28,6 @@ class VariationUtilTest(unittest.TestCase):
         authServiceUrl = cls.cfg['auth-service-url']
         auth_client = _KBaseAuth(authServiceUrl)
         user_id = auth_client.get_user(token)
-        vcf_test_dir = '/kb/module/test/sample_data/vcf'
         # WARNING: don't call any logging methods on the context object,
         # it'll result in a NoneType error
         cls.ctx = MethodContext(None)
@@ -43,6 +44,8 @@ class VariationUtilTest(unittest.TestCase):
         cls.serviceImpl = VariationUtil(cls.cfg)
         cls.scratch = cls.cfg['scratch']
         cls.callback_url = os.environ['SDK_CALLBACK_URL']
+        cls.VCFtoVar = VCFToVariation(cls.callback_url, cls.scratch)
+        cls.vcf_test_dir = '/kb/module/test/sample_data/vcf'
 
     @classmethod
     def tearDownClass(cls):
@@ -54,6 +57,19 @@ class VariationUtilTest(unittest.TestCase):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',
                                                              'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
-                                                             'sample_attribute_ref' : '24237/3/1',
-                                                             'variation_object_name' : 'arabidopsis_variation'
-														 })
+                                                             'sample_attribute_ref' : '24237/17/1',
+                                                             'variation_object_name' : 'arabidopsis_variation'})
+    def test_validate_vcf_pass(self):
+        file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
+                                                             'genome_ref': '24237/5/8',
+                                                             'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.3/pass/complexfile_passed_000.vcf',
+                                                             'sample_attribute_ref' : '24237/17/1',
+                                                             'variation_object_name' : 'arabidopsis_variation'})
+    """
+    def test_validate_vcf_fail(self):
+        file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
+                                                             'genome_ref': '24237/5/8',
+                                                             'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.3/pass/complexfile_passed_000.vcf',
+                                                             'sample_attribute_ref' : '24237/17/1',
+                                                             'variation_object_name' : 'arabidopsis_variation'})
+    """

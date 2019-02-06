@@ -1,0 +1,4 @@
+According to the VCF specification, the input file is valid
+Warning: A valid 'reference' entry is not listed in the meta section. This occurs 1 time(s), first time in line 3.
+Warning: Chromosome/contig '1' is not described in a 'contig' meta description. This occurs 17 time(s), first time in line 3.
+Warning: Reference and alternate alleles do not share the first nucleotide. This occurs 3 time(s), first time in line 6.

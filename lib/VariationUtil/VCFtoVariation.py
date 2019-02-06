@@ -62,7 +62,7 @@ class VCFToVariation:
 
         return check
 
-    def _validate_vcf_to_assembly(self, vcf_chromosomes, assembly_chromosomes):
+    def _chk_if_vcf_ids_in_assembly(self, vcf_chromosomes, assembly_chromosomes):
         check = True
 
         for chromo in vcf_chromosomes:
@@ -71,7 +71,7 @@ class VCFToVariation:
 
         return check
 
-    def _validate_vcf(self, ctx, params):
+    def validate_vcf(self, ctx, params):
         if 'genome_ref' not in params:
             raise ValueError('Genome reference not in input parameters: \n\n'+params)
         if 'vcf_staging_file_path' not in params:
@@ -154,61 +154,54 @@ class VCFToVariation:
 
         log("Return code from validator {}".format(p.returncode))
 
+        return validation_output_filename, vcf_chromosomes, vcf_genotypes
+
+    def _validate_assembly_ids(self, ctx, params, vcf_chromosomes):
         # All chromosome ids from the vcf should be in assembly
         # but not all assembly chromosome ids should be in vcf
 
         # TODO: validate really with DFU vs ref assembly
 
-        ws_client = self.wsc_appdev
-
-        subset = ws_client.get_object_subset([{
+        subset = self.wsc_appdev.get_object_subset([{
             'included': ['/assembly_ref'],
-            'ref': '24237/5/8'}]
-        )
+            'ref': params['sample_attribute_ref']
+        }])
 
         assembly_ref = subset[0]['data']['assembly_ref']
 
-        assembly_chromosome_ids_call = ws_client.get_object_subset([{
+        assembly_chromosome_ids_call = self.wsc_appdev.get_object_subset([{
             'included': ['/contigs'],
             'ref': assembly_ref
         }])
 
         assembly_chromosomes = assembly_chromosome_ids_call[0]['data']['contigs'].keys()
 
-        if not self._validate_vcf_to_assembly(vcf_chromosomes, assembly_chromosomes):
+        if not self._chk_if_vcf_ids_in_assembly(vcf_chromosomes, assembly_chromosomes):
             raise Error('VCF chromosome ids do not correspond to chromosome IDs from the assembly master list')
-        else:
-            assembly_validation = True
 
+        return assembly_chromosomes
+
+    def _validate_sample_ids(self, ctx, params, vcf_genotypes):
         # All samples within the VCF file need to be in sample attribute list
-
         # TODO: validate against real concurrently uploaded sample ids
 
-        sample_ids_subset = ws_client.get_object_subset([{
+        sample_ids_subset = self.wsc_appdev.get_object_subset([{
             'included': ['/instances'],
-            'ref': '24237/17/1'
+            'ref': params['sample_attribute_ref']
         }])
 
         sample_ids = sample_ids_subset[0]['data']['instances'].keys()
 
         if not self._validate_vcf_to_sample(vcf_genotypes, sample_ids):
             raise Error('VCF file genotype ids do not correspond to Sample IDs in the Sample Attribute master list')
-        else:
-            sample_validation = True
 
-        # TODO:
-        # make these returns a list with, sample_id validation results, file validation
-        # results, and assembly validation results
-
-        validation_results = {
-            'file_validation' : { 'validation_output_file': validation_output_filename, 'subprocess_return_code': p.returncode },
-            'assembly_validation' : assembly_validation,
-            'sample_validation': sample_validation
-        }
-
-        return validation_results
+        return sample_ids
 
     def import_vcf(self, ctx, params):
-        self._validate_vcf(ctx, params)
+        file_valid_result, vcf_chr_ids, vcf_genos = self.validate_vcf(ctx, params)
+
+        assembly_chr_ids = self._validate_assembly_ids(ctx, params, vcf_chr_ids)
+
+        sample_ids = self._validate_sample_ids(ctx, params, vcf_genos)
 
         return 'cool'

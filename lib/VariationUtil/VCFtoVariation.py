@@ -146,7 +146,6 @@ class VCFToVariation:
 
         log("Return code from validator {}".format(p.returncode))
 
-        # TODO: validate chromosome ids against assembly_ref from ws cleint
         # All chromosome ids from the vcf should be in assembly
         # but not all assembly chromosome ids should be in vcf
 
@@ -170,8 +169,9 @@ class VCFToVariation:
 
         if not self._validate_vcf_to_assembly(vcf_chromosomes, assembly_chromosomes):
             raise Error('VCF chromosome ids do not correspond to chromosome IDs from the assembly master list')
+        else:
+            assembly_validation = True
 
-        # TODO: validate sample ids against
         # All samples within the VCF file need to be in sample attribute list
 
         # TODO: validate against real concurrently uploaded sample ids
@@ -185,12 +185,20 @@ class VCFToVariation:
 
         if not self._validate_vcf_to_sample(vcf_genotypes, sample_ids):
             raise Error('VCF file genotype ids do not correspond to Sample IDs in the Sample Attribute master list')
+        else:
+            sample_validation = True
 
         # TODO:
         # make these returns a list with, sample_id validation results, file validation
         # results, and assembly validation results
 
-        return validation_output_filename, p.returncode
+        validation_results = {
+            'file_validation' : { 'validation_output_file': validation_output_filename, 'subprocess_return_code': p.returncode },
+            'assembly_validation' : assembly_validation,
+            'sample_validation': sample_validation
+        }
+
+        return validation_results
 
     def import_vcf(self, ctx, params):
         self._validate_vcf(ctx, params)

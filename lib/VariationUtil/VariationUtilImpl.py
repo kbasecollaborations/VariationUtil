@@ -8,7 +8,6 @@ from installed_clients.KBaseReportClient import KBaseReport
 
 from VariationUtil.VariationToVCF import VariationToVCF
 from VariationUtil.VCFToVariation import VCFToVariation
-from VariationUtil.SampleAttrToTrait import SampleToTrait
 #END_HEADER
 
 
@@ -79,9 +78,6 @@ class VariationUtil:
 
         vtv = VCFToVariation(self.callback_url, self.shared_folder)
         var_info = vtv.import_vcf(ctx, params)
-
-        stt = SampleToTrait(self.callback_url, self.shared_folder)
-        trait_info = stt.import_trait(ctx, params)
 
         report_client = KBaseReport(self.callback_url)
         report = report = report_client.create_extended_report({

@@ -178,7 +178,7 @@ class VCFToVariation:
 
         sample_ids_subset = ws_client.get_object_subset([{
             'included': ['/instances'],
-            'ref': '24237/3/1'
+            'ref': '24237/17/1'
         }])
 
         sample_ids = sample_ids_subset[0]['data']['instances'].keys()

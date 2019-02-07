@@ -9,7 +9,7 @@ from installed_clients.KBaseReportClient import KBaseReport
 
 from VariationUtil.VariationToVCF import VariationToVCF
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+exit(sys.path)
 
 from VariationUtil.VCFToVariation import VCFToVariation
 #END_HEADER

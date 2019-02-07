@@ -80,7 +80,7 @@ class VariationUtil:
         var_obj = vtv.import_vcf(ctx, params)
 
         report_client = KBaseReport(self.callback_url)
-        report = report = report_client.create_extended_report({
+        report = report_client.create_extended_report({
             'direct_html_link_index': 0,
             'message': "report message",
             'report_object_name': 'test_report',

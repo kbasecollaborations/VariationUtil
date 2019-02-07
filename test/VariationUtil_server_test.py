@@ -38,7 +38,8 @@ class VariationUtilTest(unittest.TestCase):
                              'method': 'please_never_use_it_in_production',
                              'method_params': []
                              }],
-                        'authenticated': 1})
+                        'authenticated': 1,
+                        'test_env': 1})
         cls.wsURL = cls.cfg['workspace-url']
         cls.wsClient = Workspace(cls.wsURL)
         cls.serviceImpl = VariationUtil(cls.cfg)
@@ -60,6 +61,7 @@ class VariationUtilTest(unittest.TestCase):
                                                              'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
                                                              'sample_attribute_ref' : '24237/17/1',
                                                              'variation_object_name' : 'arabidopsis_variation'})
+
 
     def test_vcf_validator_linux_pass(self):
         file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',

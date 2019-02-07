@@ -79,13 +79,17 @@ class VCFToVariation:
         if 'variation_object_name' not in params or params['variation_object_name'] is None or params['variation_object_name'] == '':
             var_obj_name = 'Variation_'+str(uuid.uuid4())
 
-        # TODO: shutil.move from staging location to scratch
-        vcf_filepath = params['vcf_staging_file_path']
+        # TODO: .move from staging location to scratch
+
+        if ctx['test_env']:
+            vcf_filepath = params['vcf_staging_file_path']
+        else:
+            vcf_filepath = self._save_staging_to_local(ctx, params)
 
         validation_output_dir = os.path.join(self.scratch, 'validation_' + str(uuid.uuid4()))
         os.mkdir(validation_output_dir)
 
-        vcf_version, contigs, vcf_genotypes, vcf_chromosomes = self._parse_vcf_data(vcf_filepath)
+        vcf_version, vcf_contigs, vcf_genotypes, vcf_chromosomes = self._parse_vcf_data(vcf_filepath)
 
         # vcftools (vcf-validator) supports VCF v4.0-4.2
         # https://github.com/vcftools/vcftools
@@ -180,7 +184,20 @@ class VCFToVariation:
 
         log("Return code from validator {}".format(p.returncode))
 
-        return validation_output_filename, vcf_chromosomes, vcf_genotypes
+        vcf_info = {
+            'version': vcf_version,
+            'contigs': vcf_contigs,
+            'genotype_ids': vcf_genotypes,
+            'chromosome_ids': vcf_chromosomes
+        }
+
+        return validation_output_filename, vcf_info
+
+    def _save_staging_to_local(self, ctx, params):
+        dl_vcf = self.dfu.download_staging_file({'staging_file_subdir_path' : params['vcf_staging_file_path']})
+        vcf_local_file_path = dl_vcf.get('copy_file_path')
+
+        return vcf_local_file_path
 
     def _validate_assembly_ids(self, ctx, params, vcf_chromosomes):
         # All chromosome ids from the vcf should be in assembly
@@ -203,7 +220,7 @@ class VCFToVariation:
         assembly_chromosomes = assembly_chromosome_ids_call[0]['data']['contigs'].keys()
 
         if not self._chk_if_vcf_ids_in_assembly(vcf_chromosomes, assembly_chromosomes):
-            raise Error('VCF chromosome ids do not correspond to chromosome IDs from the assembly master list')
+            raise ValueError('VCF chromosome ids do not correspond to chromosome IDs from the assembly master list')
 
         return assembly_chromosomes
 
@@ -224,10 +241,10 @@ class VCFToVariation:
         return sample_ids
 
     def import_vcf(self, ctx, params):
-        file_valid_result, vcf_chr_ids, vcf_genos = self.validate_vcf(ctx, params)
+        file_valid_result, vcf_info = self.validate_vcf(ctx, params)
 
-        assembly_chr_ids = self._validate_assembly_ids(ctx, params, vcf_chr_ids)
+        assembly_chr_ids = self._validate_assembly_ids(ctx, params, vcf_info['chromosome_ids'])
 
-        sample_ids = self._validate_sample_ids(ctx, params, vcf_genos)
+        sample_ids = self._validate_sample_ids(ctx, params, vcf_info['genotype_ids'])
 
         return 'cool'

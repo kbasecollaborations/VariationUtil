@@ -77,7 +77,7 @@ class VariationUtil:
         pprint(params)
 
         vtv = VCFToVariation(self.callback_url, self.shared_folder)
-        var_info = vtv.import_vcf(ctx, params)
+        var_obj = vtv.import_vcf(ctx, params)
 
         report_client = KBaseReport(self.callback_url)
         report = report = report_client.create_extended_report({

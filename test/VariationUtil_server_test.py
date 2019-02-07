@@ -53,6 +53,7 @@ class VariationUtilTest(unittest.TestCase):
             print('Test workspace was deleted')
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
+
     def test_save_variation(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',
@@ -60,18 +61,35 @@ class VariationUtilTest(unittest.TestCase):
                                                              'sample_attribute_ref' : '24237/17/1',
                                                              'variation_object_name' : 'arabidopsis_variation'})
 
-    def test_validate_vcf_pass(self):
+    def test_vcf_validator_linux_pass(self):
         file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',
                                                              'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.3/pass/complexfile_passed_000.vcf',
                                                              'sample_attribute_ref' : '24237/17/1',
                                                              'variation_object_name' : 'arabidopsis_variation'})
 
-    def test_validate_vcf_fail(self):
+    def test_vcf_validator_linux_fail(self):
         with self.assertRaises(ValueError):
             self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                      'genome_ref': '24237/5/8',
                                                      'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.3/fail/failed_body_alt_000.vcf',
+                                                     'sample_attribute_ref' : '24237/17/1',
+                                                     'variation_object_name' : 'arabidopsis_variation'
+            })
+
+    def test_vcftools_pass(self):
+        file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
+                                                             'genome_ref': '24237/5/8',
+                                                             'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.0/pass/valid-4.0.vcf',
+                                                             'sample_attribute_ref' : '24237/17/1',
+                                                             'variation_object_name' : 'arabidopsis_variation'})
+
+    
+    def test_vcftools_fail(self):
+        with self.assertRaises(ValueError):
+            self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
+                                                     'genome_ref': '24237/5/8',
+                                                     'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.0/fail/invalid-4.0.vcf',
                                                      'sample_attribute_ref' : '24237/17/1',
                                                      'variation_object_name' : 'arabidopsis_variation'
             })

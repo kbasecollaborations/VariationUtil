@@ -7,7 +7,7 @@ from pprint import pprint
 
 from installed_clients.KBaseReportClient import KBaseReport
 
-exit(sys.modules)
+exit(sys.modules['VariationUtil'])
 
 from VariationUtil.VariationToVCF import VariationToVCF
 from VariationUtil.VCFToVariation import VCFToVariation

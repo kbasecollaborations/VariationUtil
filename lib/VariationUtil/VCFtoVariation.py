@@ -135,6 +135,8 @@ class VCFToVariation:
                 shutil.move(vofile, validation_output_filename)
                 vo = validator_output[2].split(' ')
                 file_output_chk = ''.join(vo[9:]).strip('\n')
+
+                #TODO:
             else:
                 if validator_output:
                     with open(validation_output_filename, 'w') as f:

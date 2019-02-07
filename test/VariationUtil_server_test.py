@@ -59,17 +59,19 @@ class VariationUtilTest(unittest.TestCase):
                                                              'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
                                                              'sample_attribute_ref' : '24237/17/1',
                                                              'variation_object_name' : 'arabidopsis_variation'})
+
     def test_validate_vcf_pass(self):
         file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',
                                                              'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.3/pass/complexfile_passed_000.vcf',
                                                              'sample_attribute_ref' : '24237/17/1',
                                                              'variation_object_name' : 'arabidopsis_variation'})
-    """
+
     def test_validate_vcf_fail(self):
-        file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
-                                                             'genome_ref': '24237/5/8',
-                                                             'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.3/pass/complexfile_passed_000.vcf',
-                                                             'sample_attribute_ref' : '24237/17/1',
-                                                             'variation_object_name' : 'arabidopsis_variation'})
-    """
+        with self.assertRaises(ValueError):
+            self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
+                                                     'genome_ref': '24237/5/8',
+                                                     'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/v4.3/fail/failed_body_alt_000.vcf',
+                                                     'sample_attribute_ref' : '24237/17/1',
+                                                     'variation_object_name' : 'arabidopsis_variation'
+            })

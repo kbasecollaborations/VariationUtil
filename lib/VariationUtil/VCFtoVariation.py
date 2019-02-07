@@ -100,8 +100,8 @@ class VCFToVariation:
             validator_cmd = ["vcf_validator_linux"]
             validator_cmd.append("-i")
             validator_cmd.append(vcf_filepath)
-            validator_cmd.append("-o")
-            validator_cmd.append(validation_output_dir)
+            #validator_cmd.append("-o")
+            #validator_cmd.append(validation_output_dir)
         else:
             print("Using vcftools to validate...")
             validator_cmd = ["vcf-validator"]
@@ -121,30 +121,37 @@ class VCFToVariation:
             line = p.stdout.readline()
             if not line:
                 break
-            validator_output.append(line)
+            validator_output.append(line.decode("utf-8"))
 
         p.wait()
 
         validation_output_filename = os.path.join(validation_output_dir, 'vcf_validation.txt')
+        file_output_chk = []
 
         try:
             if validator_output[0][:6] == '[info]':
                 # validation by vcf_validator_linux
-                vo = validator_output[1].split(' ')
-                if os.path.exists(vo[6]):
-                    shutil.move(vo[6], validation_output_filename)
-                else:
-                    raise Error('No output from vcf validator, check installation')
+                vofile = validator_output[1].split(' ')[6].strip('\n')
+                shutil.move(vofile, validation_output_filename)
+                vo = validator_output[2].split(' ')
+                file_output_chk = ''.join(vo[9:]).strip('\n')
             else:
                 if validator_output:
                     with open(validation_output_filename, 'w') as f:
                         for line in validator_output:
                             f.write(str(line))
                         f.close()
+
+                    # TODO: parse vcf out for validity, put into file_output_chk
+                    file_output_chk = 'isvalid'
                 else:
                     raise Error('No output from vcftools, check installation')
         except IndexError:
             raise IndexError('Validation output failed to provide any details! Please check VCF validator:' + str(validator_cmd[0]))
+
+        if not file_output_chk == 'isvalid':
+            #raise ValueError('VCF file is not valid')
+            raise ValueError
 
         if not os.path.exists(validation_output_filename):
             print('Validator did not generate log file!')

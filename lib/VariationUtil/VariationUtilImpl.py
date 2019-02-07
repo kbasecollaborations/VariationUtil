@@ -87,6 +87,12 @@ class VariationUtil:
             'workspace_name': params['workspace_name']
         })
 
+        output = {
+            'report_name': report['name'],
+            'report_ref': report['ref'],
+            'workspace_name': params['workspace_name']
+        }
+
         #END save_variation_from_vcf
 
         # At some point might do deeper type checking...
@@ -94,7 +100,7 @@ class VariationUtil:
             raise ValueError('Method save_variation_from_vcf return value ' +
                              'report is not type dict as required.')
         # return the results
-        return [report]
+        return [output]
 
     def export_variation_as_vcf(self, ctx, params):
         """

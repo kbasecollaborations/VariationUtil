@@ -164,7 +164,7 @@ class VCFToVariation:
 
         subset = self.wsc_appdev.get_object_subset([{
             'included': ['/assembly_ref'],
-            'ref': params['sample_attribute_ref']
+            'ref': params['genome_ref']
         }])
 
         assembly_ref = subset[0]['data']['assembly_ref']

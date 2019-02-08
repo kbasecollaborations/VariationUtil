@@ -81,9 +81,12 @@ class VCFToVariation:
 
         # TODO: .move from staging location to scratch
 
-        if ctx['test_env']:
-            vcf_filepath = params['vcf_staging_file_path']
-        else:
+        try:
+            if ctx['test_env']:
+                vcf_filepath = params['vcf_staging_file_path']
+            else:
+                vcf_filepath = self._save_staging_to_local(ctx, params)
+        except KeyError:
             vcf_filepath = self._save_staging_to_local(ctx, params)
 
         validation_output_dir = os.path.join(self.scratch, 'validation_' + str(uuid.uuid4()))

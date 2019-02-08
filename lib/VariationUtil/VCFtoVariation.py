@@ -5,7 +5,8 @@ import subprocess
 import logging
 import time
 
-exit(os.listdir('/'))
+os.listdir('/mnt')
+exit()
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace

@@ -11,6 +11,7 @@ from VariationUtil.VariationToVCF import VariationToVCF
 try:
     from VariationUtil.VCFToVariation import VCFToVariation
 except (ImportError, ModuleNotFoundError):
+    # KBase UI has some namespace differences versus kb-sdk test
     from VariationUtil import VCFtoVariation as VCFToVariation
 #END_HEADER
 
@@ -80,6 +81,9 @@ class VariationUtil:
         print('save_variation_from_vcf -- parameters:')
         pp(params)
 
+
+        # this try/except is accomodate for KBase UI namespace issues
+        # it does not like when files are renamed
         try:
             vtv = VCFToVariation(self.callback_url, self.shared_folder)
         except TypeError:

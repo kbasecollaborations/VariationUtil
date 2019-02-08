@@ -5,6 +5,8 @@ import subprocess
 import logging
 import time
 
+exit(os.listdir('/staging'))
+
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
 

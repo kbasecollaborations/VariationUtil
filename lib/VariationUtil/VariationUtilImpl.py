@@ -11,7 +11,7 @@ from VariationUtil.VariationToVCF import VariationToVCF
 try:
     from VariationUtil.VCFToVariation import VCFToVariation
 except (ImportError, ModuleNotFoundError):
-    from VariationUtil import VCFtoVariation
+    from VariationUtil import VCFtoVariation as VCFToVariation
 #END_HEADER
 
 

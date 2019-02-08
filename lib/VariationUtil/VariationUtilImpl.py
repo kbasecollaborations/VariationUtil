@@ -10,7 +10,7 @@ from installed_clients.KBaseReportClient import KBaseReport
 from VariationUtil.VariationToVCF import VariationToVCF
 try:
     from VariationUtil.VCFToVariation import VCFToVariation
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     from VariationUtil.VCFtoVariation import VCFtoVariation
 #END_HEADER
 

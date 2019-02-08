@@ -5,7 +5,8 @@ import subprocess
 import logging
 import time
 
-exit(os.system("find / -name 'AT-var-import.vcf'"))
+os.system("find / -name 'AT-var-import.vcf'")
+exit()
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace

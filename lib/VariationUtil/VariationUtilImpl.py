@@ -80,7 +80,11 @@ class VariationUtil:
         print('save_variation_from_vcf -- parameters:')
         pp(params)
 
-        vtv = VCFToVariation(self.callback_url, self.shared_folder)
+        try:
+            vtv = VCFToVariation(self.callback_url, self.shared_folder)
+        except TypeError:
+            vtv = VCFToVariation.VCFToVariation(self.callback_url, self.shared_folder)
+
         var_obj = vtv.import_vcf(ctx, params)
 
         report_client = KBaseReport(self.callback_url)

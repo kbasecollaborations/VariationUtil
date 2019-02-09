@@ -97,8 +97,6 @@ class VCFToVariation:
         except KeyError:
             vcf_filepath = self._stage_input(ctx, params)
 
-        exit(vcf_filepath)
-
         validation_output_dir = os.path.join(self.scratch, 'validation_' + str(uuid.uuid4()))
         os.mkdir(validation_output_dir)
 
@@ -107,7 +105,7 @@ class VCFToVariation:
         # vcftools (vcf-validator) supports VCF v4.0-4.2
         # https://github.com/vcftools/vcftools
 
-        # EBIvariation/vcf-validator (vcf_validator_linux) supports VCF v4.14.3
+        # EBIvariation/vcf-validator (vcf_validator_linux) supports VCF v4.1-4.3
         # https://github.com/EBIvariation/vcf-validator
 
         # vcftools is only to validate VCF v4.0
@@ -201,7 +199,8 @@ class VCFToVariation:
             'version': vcf_version,
             'contigs': vcf_contigs,
             'genotype_ids': vcf_genotypes,
-            'chromosome_ids': vcf_chromosomes
+            'chromosome_ids': vcf_chromosomes,
+            'file_ref': vcf_filepath
         }
 
         return validation_output_filename, vcf_info
@@ -218,6 +217,7 @@ class VCFToVariation:
         if is_gz_file(vcf_local_file_path):
             # /staging is read only, therefore have to copy before uncompressing
             copy = shutil.copy(vcf_local_file_path, os.path.join(self.scratch,params['vcf_staging_file_path']))
+            # TODO: alter DFU to accept option output dir?
             unpack = self.dfu.unpack_file({'file_path': copy})
             return unpack['file_path']
         else:
@@ -264,11 +264,188 @@ class VCFToVariation:
 
         return sample_ids
 
+    def _construct_population(self, ctx, params):
+        """
+            /*
+            Information about a location.
+            lat - latitude of the site, recorded as a decimal number. North latitudes
+                are positive values and south latitudes are negative numbers.
+            lon - longitude of the site, recorded as a decimal number. West
+                longitudes are positive values and east longitudes are negative
+                numbers.
+            elevation - elevation of the site, expressed in meters above sea level.
+                Negative values are allowed.
+                collection), expressed in the format YYYY-MM-DDThh:mm:ss.SSSZ
+            description - a free text description of the location and, if applicable,
+                the associated event.
+            */
+            typedef structure {
+              float lat;
+              float lon;
+              float elevation;
+              string description;
+            } Location;
+
+            /*
+            Details for each ecotype / germplasm / strain in a Population object.
+            */
+            typedef structure {
+              string source_id;
+              Location location_info;
+            } straininfo;
+
+            /*
+            stores metadata for each ecotype/germplasm/strain in the population
+            strains - list of straininfo
+            description - description of population
+            */
+            typedef structure {
+              string description;
+              list<straininfo> strains;
+            } Population;
+
+            :param ctx: KBase context reference
+            :param params: KBase ui input parameters
+            :return: population object (dictionary)
+        """
+        # TODO: input here is very rigid according to the structure of the sample meta data file
+        #   should make this more dynamic somehow
+
+        sample_ids_subset = self.wsc_appdev.get_object_subset([{
+            'included': ['/instances'],
+            'ref': params['sample_attribute_ref']
+        }])
+
+        strains = []
+        samples = sample_ids_subset[0]['data']['instances']
+
+        for sample in samples:
+            location = {
+                'lat': samples[sample][0],
+                'long': samples[sample][1],
+                'elevation': 0.0,
+                'description': samples[sample][5]
+            }
+
+            strain = {
+                'source_id': sample,
+                'location_info': location
+            }
+
+            strains.append(strain)
+
+        return strains
+
+    def _construct_variation(self, ctx, params, population, vcf_info):
+        """
+            Variation data types from Data Catalog in appdev:
+                /*
+                Kinship coefficient is a coefficient to assess the genetic resemblance between individuals.
+                    For N subjects, these coefficient can be assembled in a N x N matrix termed kinship matrix,
+                    can be used to model the covariance between individuals in quantitative genetics.
+
+                    Kinship matrix will be calculated within KBase as part of value addition to variation data
+
+                    The kinship matrix is represented as A simple 2D matrix of floating point numbers with labels/ids for rows and
+                     columns.  The matrix is stored as a list of lists, with the outer list
+                     containing rows, and the inner lists containing values for each column of
+                     that row.  Row/Col ids should be unique.
+                     row_ids - unique ids for rows.
+                     col_ids - unique ids for columns.
+                     kinship_co- two dimensional array indexed as: values[row][col]
+                */efficients
+                typedef structure {
+                  list<string> row_ids;
+                  list<string> col_ids;
+                  list<list<float>> kinship_coefficients;
+                } Kinship;
+
+                /*
+                Details of nucleotide variation in the population
+
+                      genome - genome_details
+                      population - Population
+                      assay - The assay method for genotyping or identifying SNPs
+                      originator - PI / LAB
+                      variation_file_reference - variation file handle
+                      kinship_info - kinship matrix info
+                */
+                typedef structure {
+                  Population population;
+                  string comment;
+                  string assay;
+                  string originator;
+                  string genome;
+                  string pubmed_id;
+                  list<string> contigs;
+                  string variation_file_reference;
+                  Kinship kinship_info;
+                } Variations;
+
+            :param ctx: KBase context reference
+            :param params: KBase ui input parameters
+            :param population: previoiusly constructed sample population data
+            :return: constructed variation object (dictionary)
+        """
+        # TODO: Where does comment come from? Should it be an input in the ui describing the VCF?
+        # TODO: ^ same for assay, originator, and pubmed id
+
+        placeholder_kinship = {
+            'row_ids': vcf_info['genotype_ids'],
+            'col_ids': vcf_info['genotype_ids'],
+            'kinship_coefficients': ''
+        }
+
+        exit(vcf_info['file_ref'])
+
+        if vcf_info['file_ref'].startswith(self.scratch):
+            vcf_file_ref = self.dfu.file_to_shock({'file_path': vcf_info['file_ref'], 'make_handle': 1})
+        else:
+            new_vcf_file = os.path.join(self.scratch, os.path.basename(vcf_info['file_ref']))
+            new_vcf = shutil.copy(vcf_info['file_ref'], new_vcf_file)
+
+            vcf_file_ref = self.dfu.file_to_shock({'file_path': new_vcf, 'make_handle': 1})
+
+        exit(vcf_file_ref)
+
+        variation_obj = {
+            'comment': 'dummy comment',
+            'assay': 'dummy assay',
+            'originator': 'dummy originator',
+            'genome': params['genome_ref'],
+            'pubmed_id': 'dummy PMID',
+            'contigs': vcf_info['contigs'],
+            'variation_file_reference': vcf_file_ref,
+            'kinship_info': placeholder_kinship
+        }
+
+    def _save_var_obj(ctx, params, var):
+        ref = '1/2/3'
+
+        return ref
+
     def import_vcf(self, ctx, params):
+        ## Variation component validation
+
+        # validate vcf file
         file_valid_result, vcf_info = self.validate_vcf(ctx, params)
 
+        # validate vcf chromosome ids against assembly chromosome ids
         assembly_chr_ids = self._validate_assembly_ids(ctx, params, vcf_info['chromosome_ids'])
 
+        # validate vcf genotypes against sample meta data ids
         sample_ids = self._validate_sample_ids(ctx, params, vcf_info['genotype_ids'])
 
-        return 'cool'
+        ## Variation object construction
+
+        # construct population structure from sample meta data
+        pop = self._construct_population(ctx, params)
+
+        # construct variation
+        var = self._construct_variation(ctx, params, pop, vcf_info)
+
+        ## Save variation object to workspace
+
+        var_ref = self._save_var_obj(ctx, params, var)
+
+        return var_ref

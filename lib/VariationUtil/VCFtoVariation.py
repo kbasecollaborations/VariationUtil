@@ -252,8 +252,6 @@ class VCFToVariation:
         # All samples within the VCF file need to be in sample attribute list
         # TODO: validate against real concurrently uploaded sample ids
 
-        exit(params['sample_attribute_ref'])
-
         sample_ids_subset = self.wsc_appdev.get_object_subset([{
             'included': ['/instances'],
             'ref': params['sample_attribute_ref']
@@ -262,7 +260,7 @@ class VCFToVariation:
         sample_ids = sample_ids_subset[0]['data']['instances'].keys()
 
         if not self._validate_vcf_to_sample(vcf_genotypes, sample_ids):
-            raise Error('VCF file genotype ids do not correspond to Sample IDs in the Sample Attribute master list')
+            raise ValueError('VCF file genotype ids do not correspond to Sample IDs in the Sample Attribute master list')
 
         return sample_ids
 
@@ -398,8 +396,6 @@ class VCFToVariation:
             'kinship_coefficients': ''
         }
 
-        exit(vcf_info['file_ref'])
-
         if vcf_info['file_ref'].startswith(self.scratch):
             vcf_file_ref = self.dfu.file_to_shock({'file_path': vcf_info['file_ref'], 'make_handle': 1})
         else:
@@ -407,8 +403,6 @@ class VCFToVariation:
             new_vcf = shutil.copy(vcf_info['file_ref'], new_vcf_file)
 
             vcf_file_ref = self.dfu.file_to_shock({'file_path': new_vcf, 'make_handle': 1})
-
-        exit(vcf_file_ref)
 
         variation_obj = {
             'comment': 'dummy comment',
@@ -421,7 +415,7 @@ class VCFToVariation:
             'kinship_info': placeholder_kinship
         }
 
-    def _save_var_obj(ctx, params, var):
+    def _save_var_obj(self, ctx, params, var):
         ref = '1/2/3'
 
         return ref

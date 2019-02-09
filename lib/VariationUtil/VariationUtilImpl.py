@@ -80,7 +80,6 @@ class VariationUtil:
 
         print('save_variation_from_vcf -- parameters:')
         pp(params)
-        exit(params)
 
         # this try/except is accomodate for KBase UI namespace issues
         # it does not like when files are renamed

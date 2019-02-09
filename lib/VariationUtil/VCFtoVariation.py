@@ -211,7 +211,7 @@ class VCFToVariation:
         staging_dir = '/staging'
         vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
 
-        if not os.path.exits(vcf_local_file_path):
+        if not os.path.exists(vcf_local_file_path):
             raise OSError('Staging input file does not exists, or is not readable')
         
         # TODO: use data file utils here, upload vcf to shock, use dfu.

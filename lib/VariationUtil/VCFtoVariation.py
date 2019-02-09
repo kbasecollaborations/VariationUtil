@@ -4,6 +4,7 @@ import os
 import subprocess
 import logging
 import time
+import binascii
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
@@ -12,6 +13,10 @@ logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
 def log(message, prefix_newline=False):
     """Logging function, provides a hook to suppress or redirect log messages."""
     print(('\n' if prefix_newline else '') + '{0:.2f}'.format(time.time()) + ': ' + str(message))
+
+def is_gz_file(filepath):
+    with open(filepath, 'rb') as test_f:
+        return binascii.hexlify(test_f.read(2)) == b'1f8b'
 
 class VCFToVariation:
     def __init__(self, callback_url, scratch):
@@ -91,6 +96,8 @@ class VCFToVariation:
                 vcf_filepath = self._stage_input(ctx, params)
         except KeyError:
             vcf_filepath = self._stage_input(ctx, params)
+
+        exit(vcf_filepath)
 
         validation_output_dir = os.path.join(self.scratch, 'validation_' + str(uuid.uuid4()))
         os.mkdir(validation_output_dir)
@@ -201,8 +208,18 @@ class VCFToVariation:
 
     def _stage_input(self, ctx, params):
         # extract file location from input ui parameters
+        staging_dir = '/staging'
+        vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
 
-        return vcf_local_file_path
+        if not os.path.exits(vcf_local_file_path):
+            raise OSError('Staging input file does not exists, or is not readable')
+        
+        # TODO: use data file utils here, upload vcf to shock, use dfu.
+        if is_gz_file(vcf_local_file_path):
+            unpack = self.dfu.unpack_file({'file_path': vcf_local_file_path})
+            return unpack['file_path']
+        else:
+            return vcf_local_file_path
 
     def _validate_assembly_ids(self, ctx, params, vcf_chromosomes):
         # All chromosome ids from the vcf should be in assembly

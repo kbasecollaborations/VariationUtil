@@ -83,7 +83,6 @@ class VariationUtil:
 
         # this try/except is accomodate for KBase UI namespace issues
         # it does not like when files are renamed
-        exit(params['vcf_staging_file_path'])
         try:
             vtv = VCFToVariation(self.callback_url, self.shared_folder)
         except TypeError:

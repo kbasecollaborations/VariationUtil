@@ -81,9 +81,9 @@ class VariationUtil:
         print('save_variation_from_vcf -- parameters:')
         pp(params)
 
-
         # this try/except is accomodate for KBase UI namespace issues
         # it does not like when files are renamed
+        exit(params['vcf_staging_file_path'])
         try:
             vtv = VCFToVariation(self.callback_url, self.shared_folder)
         except TypeError:

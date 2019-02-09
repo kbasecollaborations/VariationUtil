@@ -5,8 +5,6 @@ import subprocess
 import logging
 import time
 
-exit(os.listdir('/staging'))
-
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
 
@@ -85,11 +83,14 @@ class VCFToVariation:
 
         try:
             if ctx['test_env']:
+                # in the testing environment, vcf_staging_file_path set to local
+                # test vcf file
                 vcf_filepath = params['vcf_staging_file_path']
             else:
-                vcf_filepath = self._save_staging_to_local(ctx, params)
+                # otherwise extract the file location from the input ui parameters
+                vcf_filepath = self._stage_input(ctx, params)
         except KeyError:
-            vcf_filepath = self._save_staging_to_local(ctx, params)
+            vcf_filepath = self._stage_input(ctx, params)
 
         validation_output_dir = os.path.join(self.scratch, 'validation_' + str(uuid.uuid4()))
         os.mkdir(validation_output_dir)
@@ -198,9 +199,8 @@ class VCFToVariation:
 
         return validation_output_filename, vcf_info
 
-    def _save_staging_to_local(self, ctx, params):
-        dl_vcf = self.dfu.download_staging_file({'staging_file_subdir_path' : params['vcf_staging_file_path']})
-        vcf_local_file_path = dl_vcf.get('copy_file_path')
+    def _stage_input(self, ctx, params):
+        # extract file location from input ui parameters
 
         return vcf_local_file_path
 

@@ -252,6 +252,8 @@ class VCFToVariation:
         # All samples within the VCF file need to be in sample attribute list
         # TODO: validate against real concurrently uploaded sample ids
 
+        exit(params['sample_attribute_ref'])
+
         sample_ids_subset = self.wsc_appdev.get_object_subset([{
             'included': ['/instances'],
             'ref': params['sample_attribute_ref']

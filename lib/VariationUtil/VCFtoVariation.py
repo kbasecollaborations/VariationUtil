@@ -216,7 +216,9 @@ class VCFToVariation:
         
         # TODO: use data file utils here, upload vcf to shock, use dfu.
         if is_gz_file(vcf_local_file_path):
-            unpack = self.dfu.unpack_file({'file_path': vcf_local_file_path})
+            # /staging is read only, therefore have to copy before uncompressing
+            copy = shutil.copy(vcf_local_file_path, os.path.join(self.scratch,params['vcf_staging_file_path']))
+            unpack = self.dfu.unpack_file({'file_path': copy})
             return unpack['file_path']
         else:
             return vcf_local_file_path

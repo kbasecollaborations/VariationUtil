@@ -336,11 +336,12 @@ class VCFToVariation:
         for sample in samples:
             # TODO: try and except for typecasting latitude and longitude
             #   instead of if/else
-            if samples[sample][0] and samples[sample][1]:
+            if samples[sample][0] and samples[sample][1] and samples[sample][5]:
                 try:
                     loc_desc =  samples[sample][5]
                 except IndexError:
-                    pp("No description for sample: "+samples[sample]+"\n")
+                    pp("No description for sample: ")
+                    pp(samples[sample])
                     loc_desc = "NA"
 
                 location = {

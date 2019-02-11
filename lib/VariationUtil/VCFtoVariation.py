@@ -339,7 +339,7 @@ class VCFToVariation:
 
                 strains.append(strain)
             else:
-                pp("Removing sample with id " + sample + "due to insufficient data")
+                pp("Removing sample with id " + sample + " due to insufficient data")
 
         population = {
             'description': 'dummy population description',

@@ -93,7 +93,7 @@ class VariationUtil:
         report_client = KBaseReport(self.callback_url)
         report = report_client.create_extended_report({
             'direct_html_link_index': 0,
-            'message': "report message",
+            'message': "Variation object created.\nObject #"+str(var_obj[0])+"\nObject name: "+var_obj[1],
             'report_object_name': 'test_report',
             'workspace_name': params['workspace_name']
         })

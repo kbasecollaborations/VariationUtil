@@ -63,7 +63,7 @@ class VariationUtilTest(unittest.TestCase):
                                                              'sample_attribute_ref' : '24237/17/1',
                                                              'variation_object_name' : 'arabidopsis_variation'})
 
-
+"""
     def test_vcf_validator_linux_pass(self):
         file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',
@@ -96,3 +96,4 @@ class VariationUtilTest(unittest.TestCase):
                                                      'sample_attribute_ref' : '24237/17/1',
                                                      'variation_object_name' : 'arabidopsis_variation'
             })
+"""

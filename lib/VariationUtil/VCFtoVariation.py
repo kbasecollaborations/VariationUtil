@@ -139,7 +139,8 @@ class VCFToVariation:
             line = p.stdout.readline()
             if not line:
                 break
-            validator_output.append(line.decode("utf-8"))
+            if line.decode("utf-8").strip().startswith('[info]'):
+                validator_output.append(line.decode("utf-8"))
 
         p.wait()
 

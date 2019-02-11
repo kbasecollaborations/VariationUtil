@@ -337,16 +337,11 @@ class VCFToVariation:
             # TODO: try and except for typecasting latitude and longitude
             #   instead of if/else
             if samples[sample][0] and samples[sample][1]:
-                try:
-                    loc_desc = samples[sample][5]
-                except IndexError:
-                    pp(samples[sample])
-                
                 location = {
                     'lat': float(samples[sample][0]),
                     'lon': float(samples[sample][1]),
                     'elevation': 0.0,
-                    'description': loc_desc
+                    'description': samples[sample][5]
                 }
 
                 strain = {

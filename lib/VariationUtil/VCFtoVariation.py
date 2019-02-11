@@ -330,16 +330,23 @@ class VCFToVariation:
 
         strains = []
         samples = sample_ids_subset[0]['data']['instances']
+        
+
 
         for sample in samples:
             # TODO: try and except for typecasting latitude and longitude
             #   instead of if/else
             if samples[sample][0] and samples[sample][1]:
+                try:
+                    loc_desc = samples[sample][5]
+                except IndexError:
+                    pp(samples[sample])
+                
                 location = {
                     'lat': float(samples[sample][0]),
                     'lon': float(samples[sample][1]),
                     'elevation': 0.0,
-                    'description': samples[sample][5]
+                    'description': loc_desc
                 }
 
                 strain = {

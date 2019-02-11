@@ -66,8 +66,9 @@ class VCFToVariation:
         for geno in vcf_genotypes:
             if geno not in sample_ids:
                 check = False
+                id = geno
 
-        return check
+        return check, geno
 
     def _chk_if_vcf_ids_in_assembly(self, vcf_chromosomes, assembly_chromosomes):
         check = True
@@ -262,8 +263,10 @@ class VCFToVariation:
 
         sample_ids = sample_ids_subset[0]['data']['instances'].keys()
 
-        if not self._validate_vcf_to_sample(vcf_genotypes, sample_ids):
-            raise ValueError('VCF file genotype ids do not correspond to Sample IDs in the Sample Attribute master list')
+        chk, chkerror = self._validate_vcf_to_sample(vcf_genotypes, sample_ids)
+
+        if not chk:
+            raise ValueError('VCF file genotype id: '+str(chkerror)+' is not listed in the sample meta data')
 
         return sample_ids
 

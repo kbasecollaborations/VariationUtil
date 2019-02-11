@@ -1,10 +1,12 @@
 import uuid
 import shutil
 import os
+import sys
 import subprocess
 import logging
 import time
 import binascii
+from pprint import pprint as pp
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
@@ -252,8 +254,6 @@ class VCFToVariation:
         # All samples within the VCF file need to be in sample attribute list
         # TODO: validate against real concurrently uploaded sample ids
 
-        exit(params['sample_attribute_ref'])
-
         sample_ids_subset = self.wsc_appdev.get_object_subset([{
             'included': ['/instances'],
             'ref': params['sample_attribute_ref']
@@ -322,21 +322,31 @@ class VCFToVariation:
         samples = sample_ids_subset[0]['data']['instances']
 
         for sample in samples:
-            location = {
-                'lat': samples[sample][0],
-                'long': samples[sample][1],
-                'elevation': 0.0,
-                'description': samples[sample][5]
-            }
+            # TODO: try and except for typecasting latitude and longitude
+            #   instead of if/else
+            if samples[sample][0] and samples[sample][1]:
+                location = {
+                    'lat': float(samples[sample][0]),
+                    'lon': float(samples[sample][1]),
+                    'elevation': 0.0,
+                    'description': samples[sample][5]
+                }
 
-            strain = {
-                'source_id': sample,
-                'location_info': location
-            }
+                strain = {
+                    'source_id': sample,
+                    'location_info': location
+                }
 
-            strains.append(strain)
+                strains.append(strain)
+            else:
+                pp("Removing sample with id " + sample + "due to insufficient data")
 
-        return strains
+        population = {
+            'description': 'dummy population description',
+            'strains': strains
+        }
+
+        return population
 
     def _construct_variation(self, ctx, params, population, vcf_info):
         """
@@ -395,32 +405,56 @@ class VCFToVariation:
         placeholder_kinship = {
             'row_ids': vcf_info['genotype_ids'],
             'col_ids': vcf_info['genotype_ids'],
-            'kinship_coefficients': ''
+            'kinship_coefficients': [[]]
         }
 
         if vcf_info['file_ref'].startswith(self.scratch):
-            vcf_file_ref = self.dfu.file_to_shock({'file_path': vcf_info['file_ref'], 'make_handle': 1})
+            vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': vcf_info['file_ref'], 'make_handle': 1})
         else:
             new_vcf_file = os.path.join(self.scratch, os.path.basename(vcf_info['file_ref']))
             new_vcf = shutil.copy(vcf_info['file_ref'], new_vcf_file)
 
-            vcf_file_ref = self.dfu.file_to_shock({'file_path': new_vcf, 'make_handle': 1})
+            vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': new_vcf, 'make_handle': 1})
+
+        if not vcf_shock_file_ref['shock_id']:
+            raise ValueError('Unable to upload VCF to Shock!')
 
         variation_obj = {
+            'population': population,
             'comment': 'dummy comment',
             'assay': 'dummy assay',
             'originator': 'dummy originator',
             'genome': params['genome_ref'],
             'pubmed_id': 'dummy PMID',
             'contigs': vcf_info['contigs'],
-            'variation_file_reference': vcf_file_ref,
+            'variation_file_reference': vcf_shock_file_ref['shock_id'],
             'kinship_info': placeholder_kinship
         }
 
-    def _save_var_obj(self, ctx, params, var):
-        ref = '1/2/3'
+        return variation_obj
 
-        return ref
+    def _save_var_obj(self, ctx, params, var):
+        print('Saving Variation to workspace...\n')
+        sys.stdout.flush()
+
+        if var:
+            if not 'variation_object_name' in params:
+                var_obj_name = 'variation_'+str(uuid.uuid4())
+            else:
+                var_obj_name = params['variation_object_name']
+
+            var_obj_info = self.dfu.save_objects({
+                'id': self.dfu.ws_name_to_id(params['workspace_name']),
+                'objects': [{
+                    'type': 'KBaseGwasData.Variations',
+                    'data': var,
+                    'name': var_obj_name
+                }]
+            })[0]
+
+            return var_obj_info
+        else:
+            raise ValueError('Variation object blank, cannot not save to workspace!')
 
     def import_vcf(self, ctx, params):
         ## Variation component validation
@@ -444,6 +478,6 @@ class VCFToVariation:
 
         ## Save variation object to workspace
 
-        var_ref = self._save_var_obj(ctx, params, var)
+        var_wksp_obj = self._save_var_obj(ctx, params, var)
 
-        return var_ref
+        return var_wksp_obj

@@ -65,11 +65,11 @@ class VCFToVariation:
 
         for geno in vcf_genotypes:
             if geno not in sample_ids:
-                pp(sample_ids)
+                for gid in sample_ids:
+                    print(gid)
                 pp(geno)
                 exit()
                 check = False
-                id = geno
 
         return check, geno
 

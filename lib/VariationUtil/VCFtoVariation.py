@@ -62,16 +62,18 @@ class VCFToVariation:
 
     def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):
         check = True
+        gid = None
 
-        for geno in vcf_genotypes:
-            if geno not in sample_ids:
-                for gid in sample_ids:
-                    print(gid)
-                pp(geno)
-                exit()
+        vgenotypes = [x.upper().strip() for x in vcf_genotypes]
+        sids = [x.upper().strip() for x in sample_ids]
+
+        for geno in vgenotypes:
+            if geno not in sids:
                 check = False
+                gid = geno
+                break
 
-        return check, geno
+        return check, gid
 
     def _chk_if_vcf_ids_in_assembly(self, vcf_chromosomes, assembly_chromosomes):
         check = True
@@ -79,6 +81,7 @@ class VCFToVariation:
         for chromo in vcf_chromosomes:
             if chromo not in assembly_chromosomes:
                 check = False
+                break
 
         return check
 

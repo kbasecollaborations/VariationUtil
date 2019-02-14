@@ -21,6 +21,7 @@ RUN apt-get -y update \
 	&& apt-get -y install vim
 
 RUN pip install --upgrade pip \
+    && pip install -q pysam \
     && pip install -q pyvcf
 
 RUN git clone https://github.com/vcftools/vcftools.git \

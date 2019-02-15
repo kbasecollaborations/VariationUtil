@@ -97,18 +97,21 @@ class VariationUtil:
         upload_message += "\nGenotypes in variation: "+str(var_obj[1]['numgenotypes'])
         upload_message += "\nVariants in VCF file: "+str(var_obj[1]['numvariants'])
 
-        report_client = KBaseReport(self.callback_url)
-        report = report_client.create_extended_report({
-            'message': upload_message,
-            'direct_html': upload_message,
+        report_params = {
             'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
-            'report_object_name': 'variation_utils_report_'+str(uuid.uuid4()),
+            'message': upload_message,
+            'direct_html': None,
+            'report_object_name': 'variation_utils_report_' + str(uuid.uuid4()),
             'workspace_name': params['workspace_name']
-        })
+        }
+
+        report_client = KBaseReport(self.callback_url)
+        report = report_client.create_extended_report(report_params)
 
         output = {
             'report_name': report['name'],
-            'report_ref': report['ref']
+            'report_ref': report['ref'],
+            'variation_output': var_obj_ref
         }
 
         #END save_variation_from_vcf

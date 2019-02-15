@@ -451,4 +451,4 @@ class VCFToVariation:
         # Save variation object to workspace
         var_wksp_obj = self._save_var_obj(ctx, params, var)
 
-        return var_wksp_obj
+        return [var_wksp_obj, var]

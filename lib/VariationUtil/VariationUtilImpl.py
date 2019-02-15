@@ -89,14 +89,16 @@ class VariationUtil:
             vtv = VCFToVariation.VCFToVariation(self.callback_url, self.shared_folder)
 
         var_obj = vtv.import_vcf(ctx, params)
+        var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])
 
-        report_client = KBaseReport(self.callback_url)
-        report = report_client.create_extended_report({
-            'direct_html_link_index': 0,
-            'message': "Variation object created.\nObject #"+str(var_obj[0])+"\nObject name: "+var_obj[1],
-            'report_object_name': 'test_report',
-            'workspace_name': params['workspace_name']
-        })
+        reportObj = {
+            'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
+            'text_message': "Variation object created.\nObject #"+str(var_obj[0][0])+"\nObject name: "+ var_obj[0][1] +
+                            "\nGenotypes in variation: "+str(var_obj[1]['numgenotypes']) +
+                            "\nVariants in VCF file: "+str(var_obj[1]['numvariants']),
+        }
+        report_call = KBaseReport(self.callback_url)
+        report = report_call.create({'report': reportObj, 'workspace_name': params['workspace_name']})
 
         output = {
             'report_name': report['name'],

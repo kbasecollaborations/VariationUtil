@@ -103,11 +103,11 @@ class VariationUtil:
         }
 
         report_client = KBaseReport(self.callback_url)
-        report = report_client.create({'report': report_obj, 'workspace_name': params['workspace_name']})
+        report_create = report_client.create({'report': report_obj, 'workspace_name': params['workspace_name']})
 
-        output = {
-            "report_name": report['name'],
-            "report_ref": report['ref'],
+        report = {
+            "report_name": report_create['name'],
+            "report_ref": report_create['ref'],
             "workspace_name": params["workspace_name"]
         }
 
@@ -118,7 +118,7 @@ class VariationUtil:
             raise ValueError('Method save_variation_from_vcf return value ' +
                              'report is not type dict as required.')
         # return the results
-        return [output]
+        return [report]
 
     def export_variation_as_vcf(self, ctx, params):
         """

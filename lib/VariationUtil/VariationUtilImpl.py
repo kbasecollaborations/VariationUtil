@@ -109,9 +109,9 @@ class VariationUtil:
         report = report_client.create_extended_report(report_params)
 
         output = {
-            'report_name': report['name'],
-            'report_ref': report['ref'],
-            'object_ref': var_obj_ref
+            "report_name": report['name'],
+            "report_ref": report['ref'],
+            "obj_ref": var_obj_ref
         }
 
         #END save_variation_from_vcf

@@ -114,8 +114,6 @@ class VariationUtil:
             'variation_output': var_obj_ref
         }
 
-        exit(output)
-
         #END save_variation_from_vcf
 
         # At some point might do deeper type checking...

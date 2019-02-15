@@ -8,8 +8,6 @@ import time
 import binascii
 import vcf
 import gzip
-import json
-from pprint import pprint as pp
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
@@ -63,7 +61,7 @@ class VCFToVariation:
                     'contig_id': record.CHROM,
                     'totalvariants': 1,
                     'passvariants': passvar,
-                    'length': str(record.affected_end-record.affected_start),
+                    'length': int(record.affected_end-record.affected_start),
                 }
             else:
                 contigs[record.CHROM]['totalvariants'] += 1
@@ -261,7 +259,7 @@ class VCFToVariation:
         else:
             return vcf_local_file_path
 
-    def _validate_assembly_ids(self, ctx, params, vcf_info):
+    def _validate_assembly_ids(self, ctx, params):
         # All chromosome ids from the vcf should be in assembly
         # but not all assembly chromosome ids should be in vcf
 
@@ -271,24 +269,24 @@ class VCFToVariation:
             'ref': params['genome_ref']
         }])
 
-        vcf_info['assembly_ref'] = subset[0]['data']['assembly_ref']
+        self.vcf_info['assembly_ref'] = subset[0]['data']['assembly_ref']
 
         assembly_chromosome_ids_call = self.wsc.get_object_subset([{
             'included': ['/contigs'],
-            'ref': vcf_info['assembly_ref']
+            'ref': self.vcf_info['assembly_ref']
         }])
 
         assembly_chromosomes = assembly_chromosome_ids_call[0]['data']['contigs'].keys()
-        vcf_chromosomes = vcf_info['chromosome_ids']
+        vcf_chromosomes = self.vcf_info['chromosome_ids']
 
         if not self._chk_if_vcf_ids_in_assembly(vcf_chromosomes, assembly_chromosomes):
             raise ValueError('VCF chromosome ids do not correspond to chromosome IDs from the assembly master list')
 
         return assembly_chromosomes
 
-    def _validate_sample_ids(self, ctx, params, vcf_info):
+    def _validate_sample_ids(self, ctx, params):
         # All samples within the VCF file need to be in sample attribute list
-        vcf_genotypes = vcf_info['genotype_ids']
+        vcf_genotypes = self.vcf_info['genotype_ids']
 
         sample_ids_subset = self.wsc.get_object_subset([{
             'included': ['/instances'],
@@ -304,7 +302,7 @@ class VCFToVariation:
 
         return sample_ids
 
-    def _construct_contig_info(self, ctx, params, vcf_info):
+    def _construct_contig_info(self, ctx, params):
         """
             KBaseGwasData.Variations type spec
 
@@ -325,14 +323,14 @@ class VCFToVariation:
         """
         contigs = []
 
-        contig_infos = vcf_info['contigs']
+        contig_infos = self.vcf_info['contigs']
 
         for variant in contig_infos:
             contigs.append(contig_infos[variant])
 
         return contigs
 
-    def _construct_variation(self, ctx, params, contigs_info, vcf_info):
+    def _construct_variation(self, ctx, params, contigs_info):
         """
             KBaseGwasData.Variations type spec
              /*
@@ -363,11 +361,11 @@ class VCFToVariation:
             :return: constructed variation object (dictionary)
         """
 
-        if vcf_info['file_ref'].startswith(self.scratch):
-            vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': vcf_info['file_ref'], 'make_handle': 1})
+        if self.vcf_info['file_ref'].startswith(self.scratch):
+            vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
         else:
-            new_vcf_file = os.path.join(self.scratch, os.path.basename(vcf_info['file_ref']))
-            new_vcf = shutil.copy(vcf_info['file_ref'], new_vcf_file)
+            new_vcf_file = os.path.join(self.scratch, os.path.basename(self.vcf_info['file_ref']))
+            new_vcf = shutil.copy(self.vcf_info['file_ref'], new_vcf_file)
 
             vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': new_vcf, 'make_handle': 1})
 
@@ -375,22 +373,43 @@ class VCFToVariation:
             raise ValueError('Unable to upload VCF to Shock!')
 
         variation_obj = {
-            'numgenotypes': int(len(vcf_info['genotype_ids'])),
-            'numvariants': int(vcf_info['total_variants']),
+            'numgenotypes': int(len(self.vcf_info['genotype_ids'])),
+            'numvariants': int(self.vcf_info['total_variants']),
             'contigs': contigs_info,
             'population': params['sample_attribute_ref'],
             'genome_ref': params['genome_ref'],
-            'assembly_ref': vcf_info['assembly_ref'],
-            'vcf_handle_ref': vcf_shock_file_ref['handle']
+            # TYPE SPEC CHANGE: need to change type spec to assembly_ref instead of assemby_ref
+            'assemby_ref': self.vcf_info['assembly_ref'],
+            'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
+            'vcf_handle': vcf_shock_file_ref['handle']
         }
 
         return variation_obj
 
     def _save_var_obj(self, ctx, params, var):
+        """
+        :param ctx:
+        :param params:
+        :param var:
+        :return:
+            DataFileUtils object_info:
+                objid - the numerical id of the object.
+                name - the name of the object.
+                type - the type of the object.
+                save_date - the save date of the object.
+                ver - the version of the object.
+                saved_by - the user that saved or copied the object.
+                wsid - the id of the workspace containing the object.
+                workspace - the name of the workspace containing the object.
+                chsum - the md5 checksum of the object.
+                size - the size of the object in bytes.
+                meta - arbitrary user-supplied metadata about the object.
+        """
+
         print('Saving Variation to workspace...\n')
         sys.stdout.flush()
 
-        if 'variation_object_name' not in params or params['variation_object_name'] is None or params['variation_object_name'] == '':
+        if not params['variation_object_name']:
             var_obj_name = 'Variation_'+str(uuid.uuid4())
 
         if var:
@@ -399,7 +418,6 @@ class VCFToVariation:
             else:
                 var_obj_name = params['variation_object_name']
 
-            """
             var_obj_info = self.dfu.save_objects({
                 'id': self.dfu.ws_name_to_id(params['workspace_name']),
                 'objects': [{
@@ -408,15 +426,8 @@ class VCFToVariation:
                     'name': var_obj_name
                 }]
             })[0]
-            """
-            # varjson = json.loads(var)
 
-            with open(os.path.join(self.scratch, 'var-data.json'), 'w') as f:
-                json.dump(var, f,indent=4)
-
-            pp(var)
-
-            return '1/2/3'
+            return var_obj_info
         else:
             raise ValueError('Variation object blank, cannot not save to workspace!')
 
@@ -425,17 +436,17 @@ class VCFToVariation:
         # VCF file validation
         file_valid_result = self.validate_vcf(ctx, params)
         # VCF file parsing
-        vcf_info = self._parse_vcf_data(ctx, params)
+        self.vcf_info = self._parse_vcf_data(ctx, params)
         # Validate vcf chromosome ids against assembly chromosome ids
-        self._validate_assembly_ids(ctx, params, vcf_info)
+        self._validate_assembly_ids(ctx, params)
         # Validate vcf genotypes against sample meta data ids
-        self._validate_sample_ids(ctx, params, vcf_info)
+        self._validate_sample_ids(ctx, params)
 
         # Variation object construction
         # construct contigs_info
-        contigs_info = self._construct_contig_info(ctx, params, vcf_info)
+        contigs_info = self._construct_contig_info(ctx, params)
         # construct variation
-        var = self._construct_variation(ctx, params, contigs_info, vcf_info)
+        var = self._construct_variation(ctx, params, contigs_info)
 
         # Save variation object to workspace
         var_wksp_obj = self._save_var_obj(ctx, params, var)

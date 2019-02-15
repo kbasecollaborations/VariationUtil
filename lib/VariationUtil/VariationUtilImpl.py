@@ -101,7 +101,6 @@ class VariationUtil:
         report = report_client.create_extended_report({
             'message': upload_message,
             'direct_html': upload_message,
-            'direct_html_link_index': 0,
             'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
             'report_object_name': 'variation_utils_report_'+str(uuid.uuid4()),
             'workspace_name': params['workspace_name']

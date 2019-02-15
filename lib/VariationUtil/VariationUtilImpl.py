@@ -91,16 +91,21 @@ class VariationUtil:
         var_obj = vtv.import_vcf(ctx, params)
         var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])
 
+        upload_message = "Variation object created."
+        upload_message += "\nObject #"+str(var_obj[0][0])
+        upload_message += "\nObject name: "+ str(var_obj[0][1])
+        upload_message += "\nGenotypes in variation: "+str(var_obj[1]['numgenotypes'])
+        upload_message += "\nVariants in VCF file: "+str(var_obj[1]['numvariants'])
+
         report_params = {
             'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
-            'message': "Variation object created.\nObject #"+str(var_obj[0][0])+"\nObject name: "+ var_obj[0][1] +
-                       "\nGenotypes in variation: "+str(var_obj[1]['numgenotypes']) +
-                       "\nVariants in VCF file: "+str(var_obj[1]['numvariants']),
+            'message': upload_message,
             'workspace_name': params['workspace_name'],
             'report_object_name': 'variation_utils_report_'+str(uuid.uuid4())
         }
-        report_call = KBaseReport(self.callback_url)
-        report = report_call.create_extended_report(report_params)
+
+        report_client = KBaseReport(self.callback_url)
+        report = report_client.create_extended_report(report_params)
 
         output = {
             'obj_ref': var_obj_ref,

@@ -100,7 +100,7 @@ class VariationUtil:
         report_params = {
             'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
             'message': upload_message,
-            'direct_html': None,
+            'direct_html': upload_message,
             'report_object_name': 'variation_utils_report_' + str(uuid.uuid4()),
             'workspace_name': params['workspace_name']
         }

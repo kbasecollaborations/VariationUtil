@@ -108,8 +108,7 @@ class VariationUtil:
 
         output = {
             'report_name': report['name'],
-            'report_ref': report['ref'],
-            'workspace_name': params['workspace_name']
+            'report_ref': report['ref']
         }
 
         #END save_variation_from_vcf

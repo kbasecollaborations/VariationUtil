@@ -111,7 +111,7 @@ class VariationUtil:
         output = {
             'report_name': report['name'],
             'report_ref': report['ref'],
-            'variation_output': var_obj_ref
+            'object_ref': var_obj_ref
         }
 
         #END save_variation_from_vcf

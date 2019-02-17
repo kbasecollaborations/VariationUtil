@@ -54,7 +54,7 @@ class VariationToVCF:
             raise ValueError('Cannot write data to fasta; invalid WS type (' + ws_type +
                              ').  Supported types is KBaseGwasData.Variations')
 
-        return {'path': output_vcf_file_path, 'variation_name': output_filename}
+        return {'path': output_vcf_file_path, 'variation_name': obj_name}
 
     def process_vcf(self, output_vcf_file_path, data):
         self.dfu.shock_to_file({

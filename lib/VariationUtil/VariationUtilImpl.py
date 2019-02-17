@@ -166,7 +166,7 @@ class VariationUtil:
         #BEGIN get_variation_as_vcf
 
         vtv = VariationToVCF(self.callback_url, self.shared_folder)
-        file = vtv.variation_as_vcf(ctx, params)
+        file = vtv.variation_to_vcf(ctx, params)
 
         #END get_variation_as_vcf
 

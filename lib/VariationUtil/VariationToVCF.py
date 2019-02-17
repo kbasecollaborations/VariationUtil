@@ -46,7 +46,7 @@ class VariationToVCF:
 
         # TODO: validate newly created vcf with vcf-validator
 
-        output_vcf_file_path = os.path.join(self.scratch, output_file_name)
+        output_vcf_file_path = os.path.join(self.scratch, output_filename)
 
         if 'KBaseGwasData.Variations' in ws_type:
             self.process_vcf(output_vcf_file_path, variation_obj['data'])

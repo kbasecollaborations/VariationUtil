@@ -51,7 +51,7 @@ class VariationToVCF:
         if 'KBaseGwasData.Variations' in ws_type:
             self.process_vcf(output_vcf_file_path, variation_obj['data'])
         else:
-            raise ValueError('Cannot write data to fasta; invalid WS type (' + ws_type +
+            raise ValueError('Cannot write data to VCF; invalid WS type (' + ws_type +
                              ').  Supported types is KBaseGwasData.Variations')
 
         return {'path': output_vcf_file_path, 'variation_name': obj_name}

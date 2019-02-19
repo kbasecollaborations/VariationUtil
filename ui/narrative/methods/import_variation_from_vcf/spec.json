@@ -36,13 +36,14 @@
         },
         {
             "id": "variation_object_name",
-            "optional": true,
-            "advanced": true,
+            "optional": false,
+            "advanced": false,
             "allow_multiple": false,
             "default_values": [ "" ],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [ ]
+                "valid_ws_types" : [ "KBaseGwasData.GwasVariations" ],
+                "is_output_name" : true
             }
         },
 		{        

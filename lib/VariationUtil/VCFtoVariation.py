@@ -25,7 +25,7 @@ class VCFToVariation:
     def __init__(self, callback_url, scratch):
         self.scratch = scratch
         self.dfu = DataFileUtil(callback_url)
-        #self.wsc = Workspace(callback_url)
+        # TODO: replace this with config['workspace_url']
         self.wsc = Workspace("https://appdev.kbase.us/services/ws")
 
     def _parse_vcf_data(self, ctx, params):
@@ -249,7 +249,7 @@ class VCFToVariation:
 
         if not os.path.exists(vcf_local_file_path):
             raise OSError('Staging input file does not exists, or is not readable')
-        
+
         # TODO: use data file utils here, upload vcf to shock, use dfu.
         if is_gz_file(vcf_local_file_path):
             # /staging is read only, therefore have to copy before uncompressing

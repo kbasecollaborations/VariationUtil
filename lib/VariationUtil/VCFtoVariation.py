@@ -29,6 +29,7 @@ class VCFToVariation:
         self.wsc = Workspace("https://appdev.kbase.us/services/ws")
 
     def _parse_vcf_data(self, ctx, params):
+        # TODO: remove this and find a better solution
         try:
             if ctx['test_env']:
                 # in the testing environment, vcf_staging_file_path set to local

@@ -45,7 +45,7 @@ class VariationUtilTest(unittest.TestCase):
         cls.serviceImpl = VariationUtil(cls.cfg)
         cls.scratch = cls.cfg['scratch']
         cls.callback_url = os.environ['SDK_CALLBACK_URL']
-        cls.VCFtoVar = VCFToVariation(cls.callback_url, cls.scratch)
+        cls.VCFtoVar = VCFToVariation(cls.cfg)
         cls.vcf_test_dir = '/kb/module/test/sample_data/vcf'
 
     @classmethod

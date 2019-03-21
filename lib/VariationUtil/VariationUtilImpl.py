@@ -42,6 +42,7 @@ class VariationUtil:
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
+        self.config = config
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
@@ -78,15 +79,12 @@ class VariationUtil:
         # return variables are: report
         #BEGIN save_variation_from_vcf
 
-        print('save_variation_from_vcf -- parameters:')
-        pp(params)
-
-        # this try/except is accomodate for KBase UI namespace issues
+        # this try/except is accommodate for KBase UI namespace issues
         # it does not like when files are renamed
         try:
-            vtv = VCFToVariation(self.callback_url, self.shared_folder)
+            vtv = VCFToVariation(self.config)
         except TypeError:
-            vtv = VCFToVariation.VCFToVariation(self.callback_url, self.shared_folder)
+            vtv = VCFToVariation.VCFToVariation(self.config)
 
         var_obj = vtv.import_vcf(ctx, params)
         var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])

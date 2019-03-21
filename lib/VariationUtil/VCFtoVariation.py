@@ -22,11 +22,12 @@ def is_gz_file(filepath):
         return binascii.hexlify(test_f.read(2)) == b'1f8b'
 
 class VCFToVariation:
-    def __init__(self, callback_url, scratch):
-        self.scratch = scratch
-        self.dfu = DataFileUtil(callback_url)
-        # TODO: replace this with config['workspace_url']
-        self.wsc = Workspace("https://appdev.kbase.us/services/ws")
+    def __init__(self, config):
+        self.scratch = config['scratch']
+        self.ws_url = config['workspace-url']
+        self.callback_url = os.environ['SDK_CALLBACK_URL']
+        self.dfu = DataFileUtil(self.callback_url)
+        self.wsc = Workspace(self.ws_url)
 
     def _parse_vcf_data(self, ctx, params):
         # TODO: remove this and find a better solution

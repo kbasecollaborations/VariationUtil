@@ -7,8 +7,8 @@ from pprint import pprint as pp
 
 from installed_clients.KBaseReportClient import KBaseReport
 
-from VariationUtil.VariationToVCF import VariationToVCF
-from VariationUtil.VCFToVariation import VCFToVariation
+from .VariationToVCF import VariationToVCF
+from .VCFToVariation import VCFToVariation
 
 #END_HEADER
 

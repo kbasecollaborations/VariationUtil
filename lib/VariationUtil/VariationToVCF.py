@@ -8,11 +8,11 @@ class VariationToVCF:
         self.scratch = scratch
         self.dfu = DataFileUtil(callback_url)
 
-    def export_as_vcf(self, ctx, params):
+    def export_as_vcf(self, params):
         if 'input_var_ref' not in params:
             raise ValueError('Cannot export Variation- no input_var_ref field defined.')
 
-        file = self.variation_to_vcf(ctx, {'variation_ref': params['input_var_ref']})
+        file = self.variation_to_vcf({'variation_ref': params['input_var_ref']})
 
         export_dir = os.path.join(self.scratch, file['variation_name'])
         os.makedirs(export_dir)
@@ -29,7 +29,7 @@ class VariationToVCF:
 
         return {'shock_id': dfupkg['shock_id']}
 
-    def variation_to_vcf(self, ctx, params):
+    def variation_to_vcf(self, params):
         self.validate_params(params)
 
         print('downloading ws object data: '+params["variation_ref"])
@@ -58,7 +58,6 @@ class VariationToVCF:
 
     def process_vcf(self, output_vcf_file_path, data):
         self.dfu.shock_to_file({
-            # TODO: does shock work with vcf_handle_ref? how does handle service work with vcf
             'handle_id': data['vcf_handle_ref'],
             'file_path': output_vcf_file_path,
         })

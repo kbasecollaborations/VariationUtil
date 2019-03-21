@@ -1,7 +1,7 @@
 #
 # define display information
 #
-name: Variation Util
+name: Import Variation
 
 tooltip: |
     Import SNP variation data

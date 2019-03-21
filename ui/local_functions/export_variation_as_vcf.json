@@ -1,0 +1,16 @@
+{
+   "name" : "Export variation as VCF",
+   "short_description" : "Export KBase variation object as VCF file.",
+   "long_description" : "Export a VCF file from a KBase variation object to utilize iternally with a module",
+   "tags" : {
+     "categories" : ["Annotation", "SNPs"],
+     "input": {
+       "file_types": [],
+       "kb_types": ["KBaseGwasData.Variations"]
+     },
+     "output": {
+       "file_types": ["vcf"],
+       "kb_types": []
+     }
+   }
+ }

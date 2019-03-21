@@ -29,18 +29,8 @@ class VCFToVariation:
         self.dfu = DataFileUtil(self.callback_url)
         self.wsc = Workspace(self.ws_url)
 
-    def _parse_vcf_data(self, ctx, params):
-        # TODO: remove this and find a better solution
-        try:
-            if ctx['test_env']:
-                # in the testing environment, vcf_staging_file_path set to local
-                # test vcf file
-                vcf_filepath = params['vcf_staging_file_path']
-            else:
-                # otherwise extract the file location from the input ui parameters
-                vcf_filepath = self._stage_input(ctx, params)
-        except KeyError:
-            vcf_filepath = self._stage_input(ctx, params)
+    def _parse_vcf_data(self, params):
+        vcf_filepath = self._stage_input(params)
 
         # file is validated by this point, can assume vcf_filepath is valid
         reader = vcf.Reader(open(vcf_filepath, 'r'))
@@ -98,13 +88,17 @@ class VCFToVariation:
 
     def _chk_if_vcf_ids_in_assembly(self, vcf_chromosomes, assembly_chromosomes):
         check = True
+        chromos_not_in_assembly = []
 
         for chromo in vcf_chromosomes:
             if chromo not in assembly_chromosomes:
                 check = False
-                break
+                chromos_not_in_assembly.append(chromo)
 
-        return check
+        if not chromos_not_in_assembly:
+            return check
+        else:
+            return chromos_not_in_assembly
 
     def _get_vcf_version(self, vcf_filepath):
         with(gzip.open if is_gz_file(vcf_filepath) else open)(vcf_filepath, 'rt') as vcf:
@@ -120,22 +114,14 @@ class VCFToVariation:
 
             return vcf_version
 
-    def validate_vcf(self, ctx, params):
+    def validate_vcf(self, params):
         if 'genome_ref' not in params:
             raise ValueError('Genome reference not in input parameters: \n\n'+params)
         if 'vcf_staging_file_path' not in params:
             raise ValueError('VCF staging file path not in input parameters: \n\n' + params)
 
-        try:
-            if ctx['test_env']:
-                # in the testing environment, vcf_staging_file_path set to local
-                # test vcf file
-                vcf_filepath = params['vcf_staging_file_path']
-            else:
-                # otherwise extract the file location from the input ui parameters
-                vcf_filepath = self._stage_input(ctx, params)
-        except KeyError:
-            vcf_filepath = self._stage_input(ctx, params)
+
+        vcf_filepath = self._stage_input(params)
 
         vcf_version = self._get_vcf_version(vcf_filepath)
 
@@ -243,10 +229,14 @@ class VCFToVariation:
 
         return validation_output_filename
 
-    def _stage_input(self, ctx, params):
+    def _stage_input(self, params):
         # extract file location from input ui parameters
-        staging_dir = '/staging'
-        vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
+        if params['vcf_staging_file_path'].startswith('/kb/module/test/sample_data/vcf/'):
+            # variation utils unit test
+            vcf_local_file_path = params['vcf_staging_file_path']
+        else:
+            staging_dir = '/staging'
+            vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
 
         if not os.path.exists(vcf_local_file_path):
             raise OSError('Staging input file does not exists, or is not readable')
@@ -255,13 +245,12 @@ class VCFToVariation:
         if is_gz_file(vcf_local_file_path):
             # /staging is read only, therefore have to copy before uncompressing
             copy = shutil.copy(vcf_local_file_path, os.path.join(self.scratch,params['vcf_staging_file_path']))
-            # TODO: alter DFU to accept option output dir?
             unpack = self.dfu.unpack_file({'file_path': copy})
             return unpack['file_path']
         else:
             return vcf_local_file_path
 
-    def _validate_assembly_ids(self, ctx, params):
+    def _validate_assembly_ids(self, params):
         # All chromosome ids from the vcf should be in assembly
         # but not all assembly chromosome ids should be in vcf
 
@@ -281,12 +270,15 @@ class VCFToVariation:
         assembly_chromosomes = assembly_chromosome_ids_call[0]['data']['contigs'].keys()
         vcf_chromosomes = self.vcf_info['chromosome_ids']
 
-        if not self._chk_if_vcf_ids_in_assembly(vcf_chromosomes, assembly_chromosomes):
-            raise ValueError('VCF chromosome ids do not correspond to chromosome IDs from the assembly master list')
+        chk_assembly_ids =  self._chk_if_vcf_ids_in_assembly(vcf_chromosomes, assembly_chromosomes)
+
+        if isinstance(chk_assembly_ids, list):
+            failed_ids = ' '.join(chk_assembly_ids)
+            raise ValueError(f'VCF chromosome ids: {failed_ids} are not present in assembly.')
 
         return assembly_chromosomes
 
-    def _validate_sample_ids(self, ctx, params):
+    def _validate_sample_ids(self, params):
         # All samples within the VCF file need to be in sample attribute list
         vcf_genotypes = self.vcf_info['genotype_ids']
 
@@ -304,7 +296,7 @@ class VCFToVariation:
 
         return sample_ids
 
-    def _construct_contig_info(self, ctx, params):
+    def _construct_contig_info(self, params):
         """
             KBaseGwasData.Variations type spec
 
@@ -332,7 +324,7 @@ class VCFToVariation:
 
         return contigs
 
-    def _construct_variation(self, ctx, params, contigs_info):
+    def _construct_variation(self, params, contigs_info):
         """
             KBaseGwasData.Variations type spec
              /*
@@ -357,7 +349,6 @@ class VCFToVariation:
                vcf_handle_ref vcf_handle_ref;
              } Variations;
 
-            :param ctx: KBase context reference
             :param params: KBase ui input parameters
             :param population: previoiusly constructed sample population data
             :return: constructed variation object (dictionary)
@@ -388,9 +379,8 @@ class VCFToVariation:
 
         return variation_obj
 
-    def _save_var_obj(self, ctx, params, var):
+    def _save_var_obj(self, params, var):
         """
-        :param ctx:
         :param params:
         :param var:
         :return:
@@ -409,10 +399,6 @@ class VCFToVariation:
         """
 
         print('Saving Variation to workspace...\n')
-        sys.stdout.flush()
-
-        if not params['variation_object_name']:
-            var_obj_name = 'Variation_'+str(uuid.uuid4())
 
         if var:
             if not 'variation_object_name' in params:
@@ -433,24 +419,24 @@ class VCFToVariation:
         else:
             raise ValueError('Variation object blank, cannot not save to workspace!')
 
-    def import_vcf(self, ctx, params):
+    def import_vcf(self, params):
         # VCF validation
         # VCF file validation
-        file_valid_result = self.validate_vcf(ctx, params)
+        file_valid_result = self.validate_vcf(params)
         # VCF file parsing
-        self.vcf_info = self._parse_vcf_data(ctx, params)
+        self.vcf_info = self._parse_vcf_data(params)
         # Validate vcf chromosome ids against assembly chromosome ids
-        self._validate_assembly_ids(ctx, params)
+        self._validate_assembly_ids(params)
         # Validate vcf genotypes against sample meta data ids
-        self._validate_sample_ids(ctx, params)
+        self._validate_sample_ids(params)
 
         # Variation object construction
         # construct contigs_info
-        contigs_info = self._construct_contig_info(ctx, params)
+        contigs_info = self._construct_contig_info(params)
         # construct variation
-        var = self._construct_variation(ctx, params, contigs_info)
+        var = self._construct_variation(params, contigs_info)
 
         # Save variation object to workspace
-        var_wksp_obj = self._save_var_obj(ctx, params, var)
+        var_wksp_obj = self._save_var_obj(params, var)
 
         return [var_wksp_obj, var]

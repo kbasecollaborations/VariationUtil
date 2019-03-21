@@ -2,7 +2,7 @@ module-name:
     VariationUtil
 
 module-description:
-    A KBase module
+    Import genome variation data into KBase.
 
 service-language:
     python

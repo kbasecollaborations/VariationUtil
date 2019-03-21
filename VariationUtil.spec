@@ -63,8 +63,6 @@ module VariationUtil {
     /*
         Save a variation (and trait?) object to Kbase given a reference genome, object output name,
         Variant Call Format (VCF) file, and sample attribute file.
-
-        TODO: Viewer for Variation/Trait object?
     */
 
     funcdef save_variation_from_vcf(save_variation_input params)

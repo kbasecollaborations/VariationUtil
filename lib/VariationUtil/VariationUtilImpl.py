@@ -8,11 +8,8 @@ from pprint import pprint as pp
 from installed_clients.KBaseReportClient import KBaseReport
 
 from VariationUtil.VariationToVCF import VariationToVCF
-try:
-    from VariationUtil.VCFToVariation import VCFToVariation
-except (ImportError, ModuleNotFoundError):
-    # KBase UI has some namespace differences versus kb-sdk test
-    from VariationUtil import VCFtoVariation as VCFToVariation
+from VariationUtil.VCFToVariation import VCFToVariation
+
 #END_HEADER
 
 
@@ -79,14 +76,9 @@ class VariationUtil:
         # return variables are: report
         #BEGIN save_variation_from_vcf
 
-        # this try/except is accommodate for KBase UI namespace issues
-        # it does not like when files are renamed
-        try:
-            vtv = VCFToVariation(self.config)
-        except TypeError:
-            vtv = VCFToVariation.VCFToVariation(self.config)
+        vtv = VCFToVariation(self.config)
 
-        var_obj = vtv.import_vcf(ctx, params)
+        var_obj = vtv.import_vcf(params)
         var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])
 
         upload_message = "Variation object created."
@@ -118,7 +110,7 @@ class VariationUtil:
         # return the results
         return [report]
 
-    def export_variation_as_vcf(self, ctx, params):
+    def export_variation_as_vcf(self, params):
         """
         Export KBase variation object as Variant Call Format (VCF) file
         :param params: instance of type "export_variation_input" (## funcdef
@@ -134,7 +126,7 @@ class VariationUtil:
         #BEGIN export_variation_as_vcf
 
         vtv = VariationToVCF(self.callback_url, self.shared_folder)
-        output = vtv.export_as_vcf(ctx, params)
+        output = vtv.export_as_vcf(params)
 
         #END export_variation_as_vcf
 
@@ -145,7 +137,7 @@ class VariationUtil:
         # return the results
         return [output]
 
-    def get_variation_as_vcf(self, ctx, params):
+    def get_variation_as_vcf(self, params):
         """
         Given a reference to a variation object, and output name: return a Variant Call Format (VCF)
         file path and name.
@@ -164,7 +156,7 @@ class VariationUtil:
         #BEGIN get_variation_as_vcf
 
         vtv = VariationToVCF(self.callback_url, self.shared_folder)
-        file = vtv.variation_to_vcf(ctx, params)
+        file = vtv.variation_to_vcf(params)
 
         #END get_variation_as_vcf
 

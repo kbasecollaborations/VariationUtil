@@ -5,8 +5,8 @@ import unittest
 from configparser import ConfigParser
 
 from VariationUtil.VariationUtilImpl import VariationUtil
-from VariationUtil.VariationToVCF import VariationToVCF
-from VariationUtil.VCFToVariation import VCFToVariation
+from VariationUtil.Util.VariationToVCF import VariationToVCF
+from VariationUtil.Util.VCFToVariation import VCFToVariation
 from VariationUtil.VariationUtilServer import MethodContext
 from VariationUtil.authclient import KBaseAuth as _KBaseAuth
 

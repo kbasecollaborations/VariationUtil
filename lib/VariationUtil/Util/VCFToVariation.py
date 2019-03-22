@@ -72,31 +72,29 @@ class VCFToVariation:
         return vcf_info
 
     def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):
-        check = True
-        gid = None
+        genos_not_found = []
 
         vgenotypes = [x.upper().strip() for x in vcf_genotypes]
         sids = [x.upper().strip() for x in sample_ids]
 
         for geno in vgenotypes:
             if geno not in sids:
-                check = False
-                gid = geno
-                break
+                genos_not_found.append(geno)
 
-        return check, gid
+        if not genos_not_found:
+            return True
+        else:
+            return genos_not_found
 
     def _chk_if_vcf_ids_in_assembly(self, vcf_chromosomes, assembly_chromosomes):
-        check = True
         chromos_not_in_assembly = []
 
         for chromo in vcf_chromosomes:
             if chromo not in assembly_chromosomes:
-                check = False
                 chromos_not_in_assembly.append(chromo)
 
         if not chromos_not_in_assembly:
-            return check
+            return True
         else:
             return chromos_not_in_assembly
 
@@ -289,10 +287,11 @@ class VCFToVariation:
 
         sample_ids = sample_ids_subset[0]['data']['instances'].keys()
 
-        chk, chkerror = self._validate_vcf_to_sample(vcf_genotypes, sample_ids)
+        validate_genotypes = self._validate_vcf_to_sample(vcf_genotypes, sample_ids)
 
-        if not chk:
-            raise ValueError('VCF file genotype id: '+str(chkerror)+' is not listed in the sample meta data')
+        if isinstance(validate_genotypes, list):
+            failed_genos = ' '.join(validate_genotypes)
+            raise ValueError(f'VCF chromosome ids: {failed_genos} are not present in assembly.')
 
         return sample_ids
 

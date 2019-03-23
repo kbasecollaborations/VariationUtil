@@ -1,13 +1,13 @@
 import uuid
 import shutil
 import os
-import sys
 import subprocess
 import logging
 import time
 import binascii
 import vcf
 import gzip
+from pprint import pprint as pp
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
@@ -88,6 +88,8 @@ class VCFToVariation:
 
     def _chk_if_vcf_ids_in_assembly(self, vcf_chromosomes, assembly_chromosomes):
         chromos_not_in_assembly = []
+
+        pp(assembly_chromosomes)
 
         for chromo in vcf_chromosomes:
             if chromo not in assembly_chromosomes:
@@ -272,7 +274,7 @@ class VCFToVariation:
 
         if isinstance(chk_assembly_ids, list):
             failed_ids = ' '.join(chk_assembly_ids)
-            raise ValueError(f'VCF chromosome ids: {failed_ids} are not present in assembly.')
+            raise ValueError(f'VCF contig ids: {failed_ids} are not present in assembly.')
 
         return assembly_chromosomes
 
@@ -291,7 +293,7 @@ class VCFToVariation:
 
         if isinstance(validate_genotypes, list):
             failed_genos = ' '.join(validate_genotypes)
-            raise ValueError(f'VCF chromosome ids: {failed_genos} are not present in assembly.')
+            raise ValueError(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
 
         return sample_ids
 

@@ -274,7 +274,9 @@ class VCFToVariation:
 
         if isinstance(chk_assembly_ids, list):
             failed_ids = ' '.join(chk_assembly_ids)
-            raise ValueError(f'VCF contig ids: {failed_ids} are not present in assembly.')
+            # TODO: move back to value error
+            # raise ValueError(f'VCF contig ids: {failed_ids} are not present in assembly.')
+            print(f'VCF contig ids: {failed_ids} are not present in assembly.')
 
         return assembly_chromosomes
 

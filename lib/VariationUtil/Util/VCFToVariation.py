@@ -244,8 +244,13 @@ class VCFToVariation:
         # TODO: use data file utils here, upload vcf to shock, use dfu.
         if is_gz_file(vcf_local_file_path):
             # /staging is read only, therefore have to copy before uncompressing
-            copy = shutil.copy(vcf_local_file_path, os.path.join(self.scratch,params['vcf_staging_file_path']))
-            unpack = self.dfu.unpack_file({'file_path': copy})
+            if not vcf_local_file_path == os.path.join(self.scratch,params['vcf_staging_file_path']):
+                copy = shutil.copy(vcf_local_file_path, os.path.join(self.scratch,params['vcf_staging_file_path']))
+                unpack = self.dfu.unpack_file({'file_path': copy})
+            else:
+                unpack = {}
+                unpack['file_path'] = os.path.join(self.scratch,params['vcf_staging_file_path'])
+
             return unpack['file_path']
         else:
             return vcf_local_file_path
@@ -274,9 +279,8 @@ class VCFToVariation:
 
         if isinstance(chk_assembly_ids, list):
             failed_ids = ' '.join(chk_assembly_ids)
-            # TODO: move back to value error
-            # raise ValueError(f'VCF contig ids: {failed_ids} are not present in assembly.')
-            print(f'VCF contig ids: {failed_ids} are not present in assembly.')
+            raise ValueError(f'VCF contig ids: {failed_ids} are not present in assembly.')
+            # print(f'VCF contig ids: {failed_ids} are not present in assembly.')
 
         return assembly_chromosomes
 
@@ -296,6 +300,7 @@ class VCFToVariation:
         if isinstance(validate_genotypes, list):
             failed_genos = ' '.join(validate_genotypes)
             raise ValueError(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
+            # print(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
 
         return sample_ids
 

@@ -54,16 +54,16 @@ class VariationUtilTest(unittest.TestCase):
             print('Test workspace was deleted')
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-
-    # TODO: don't actually save the object to a workspace if testing, or remove object in tearDown
     def test_save_variation(self):
-        ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
-                                                             'genome_ref': '24237/5/8',
-                                                             'vcf_staging_file_path' : '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
-                                                             'sample_attribute_ref' : '24237/17/1',
-                                                             'variation_object_name' : 'arabidopsis_variation'})
+        ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
+            'workspace_name': 'rmr:narrative_1559592440406',
+            'genome_ref': '29104/3/1',
+            'vcf_staging_file_path': '/kb/module/test/sample_data/vcf/All_besc_filter_gtonly.vcf',
+            'sample_attribute_ref': '29104/3/1',
+            'variation_object_name': 'All_besc_vcf'
+        })
 
-"""
+    """
     def test_vcf_validator_linux_pass(self):
         file_validation = self.VCFtoVar.validate_vcf(self.ctx, {'workspace_name': 'pranjan77:narrative_1549050842078',
                                                              'genome_ref': '24237/5/8',

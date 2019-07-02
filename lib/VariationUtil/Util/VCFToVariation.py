@@ -279,8 +279,8 @@ class VCFToVariation:
 
         if isinstance(chk_assembly_ids, list):
             failed_ids = ' '.join(chk_assembly_ids)
-            raise ValueError(f'VCF contig ids: {failed_ids} are not present in assembly.')
-            # print(f'VCF contig ids: {failed_ids} are not present in assembly.')
+            # raise ValueError(f'VCF contig ids: {failed_ids} are not present in assembly.')
+            print(f'VCF contig ids: {failed_ids} are not present in assembly.')
 
         return assembly_chromosomes
 
@@ -299,8 +299,8 @@ class VCFToVariation:
 
         if isinstance(validate_genotypes, list):
             failed_genos = ' '.join(validate_genotypes)
-            raise ValueError(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
-            # print(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
+            # raise ValueError(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
+            print(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
 
         return sample_ids
 

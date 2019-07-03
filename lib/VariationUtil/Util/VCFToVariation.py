@@ -7,19 +7,41 @@ import time
 import binascii
 import vcf
 import gzip
+import hashlib
 from pprint import pprint as pp
 
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
 
 logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
+
+
 def log(message, prefix_newline=False):
     """Logging function, provides a hook to suppress or redirect log messages."""
     print(('\n' if prefix_newline else '') + '{0:.2f}'.format(time.time()) + ': ' + str(message))
 
+
 def is_gz_file(filepath):
     with open(filepath, 'rb') as test_f:
         return binascii.hexlify(test_f.read(2)) == b'1f8b'
+
+
+def md5_sum_local_file(fname):
+    md5hash = hashlib.md5()
+    with open(fname, 'rb') as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            md5hash.update(chunk)
+    return md5hash.hexdigest()
+
+
+def gzip_file(path):
+    gzip_path = path + '.gz'
+
+    with open(path, 'rb') as f_in, gzip.open(gzip_path, 'wb') as f_out:
+        f_out.writelines(f_in)
+
+    return gzip_path
+
 
 class VCFToVariation:
     def __init__(self, config):
@@ -231,15 +253,22 @@ class VCFToVariation:
 
     def _stage_input(self, params):
         # extract file location from input ui parameters
-        if params['vcf_staging_file_path'].startswith('/kb/module/test/sample_data/vcf/'):
+        if params['vcf_staging_file_path'].startswith('/kb/module/test/'):
             # variation utils unit test
             vcf_local_file_path = params['vcf_staging_file_path']
+
+            if vcf_local_file_path.endswith('.gz'):
+                with gzip.open(vcf_local_file_path, 'rb') as f_in:
+                    with open(vcf_local_file_path[:-3], 'wb') as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+
+                vcf_local_file_path = vcf_local_file_path[:-3]
         else:
             staging_dir = '/staging'
             vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
 
         if not os.path.exists(vcf_local_file_path):
-            raise OSError('Staging input file does not exists, or is not readable')
+            raise OSError('VCF input path does not exist, or is not readable')
 
         # TODO: use data file utils here, upload vcf to shock, use dfu.
         if is_gz_file(vcf_local_file_path):
@@ -362,13 +391,19 @@ class VCFToVariation:
             :return: constructed variation object (dictionary)
         """
 
-        if self.vcf_info['file_ref'].startswith(self.scratch):
-            vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
-        else:
+        if not self.vcf_info['file_ref'].startswith(self.scratch):
             new_vcf_file = os.path.join(self.scratch, os.path.basename(self.vcf_info['file_ref']))
-            new_vcf = shutil.copy(self.vcf_info['file_ref'], new_vcf_file)
+            self.vcf_info['file_ref'] = shutil.copy(self.vcf_info['file_ref'], new_vcf_file)
 
-            vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': new_vcf, 'make_handle': 1})
+        if not self.vcf_info['file_ref'].endswith('.gz'):
+            self.vcf_info['file_ref'] = gzip_file(self.vcf_info['file_ref'])
+
+        vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
+        local_md5 = md5_sum_local_file(self.vcf_info['file_ref'])
+        shock_md5 = vcf_shock_file_ref['handle']['remote_md5']
+
+        if local_md5 != shock_md5:
+            raise ValueError(f'Local md5 {local_md5} does not match shock md5 {shock_md5}')
 
         if not vcf_shock_file_ref['shock_id']:
             raise ValueError('Unable to upload VCF to Shock!')

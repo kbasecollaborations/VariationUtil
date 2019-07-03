@@ -1,3 +1,5 @@
 test_local
 sdk.cfg
 lib/VariationUtil/VariationUtilImpl.py.bak*
+*.vcf
+*.vcf*

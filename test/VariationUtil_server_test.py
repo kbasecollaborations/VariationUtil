@@ -58,7 +58,7 @@ class VariationUtilTest(unittest.TestCase):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
             'workspace_name': 'rmr:narrative_1559592440406',
             'genome_ref': '29104/3/1',
-            'vcf_staging_file_path': '/kb/module/test/sample_data/vcf/All_besc_filter_gtonly.vcf',
+            'vcf_staging_file_path': '/kb/module/test/All_besc_filter_gtonly.vcf.gz',
             'sample_attribute_ref': '29104/3/1',
             'variation_object_name': 'All_besc_vcf'
         })

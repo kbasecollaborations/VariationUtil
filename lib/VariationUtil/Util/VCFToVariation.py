@@ -264,6 +264,9 @@ class VCFToVariation:
 
                 vcf_local_file_path = vcf_local_file_path[:-3]
         else:
+            self.original_file = shutil.copy(params['vcf_staging_file_path'],
+                                             os.path.join(self.scratch,
+                                             os.path.basename(params['vcf_staging_file_path'])))
             staging_dir = '/staging'
             vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
 
@@ -273,7 +276,7 @@ class VCFToVariation:
         # TODO: use data file utils here, upload vcf to shock, use dfu.
         if is_gz_file(vcf_local_file_path):
             # /staging is read only, therefore have to copy before uncompressing
-            if not vcf_local_file_path == os.path.join(self.scratch,params['vcf_staging_file_path']):
+            if not vcf_local_file_path == os.path.join(self.scratch, params['vcf_staging_file_path']):
                 copy = shutil.copy(vcf_local_file_path, os.path.join(self.scratch,params['vcf_staging_file_path']))
                 unpack = self.dfu.unpack_file({'file_path': copy})
             else:
@@ -398,8 +401,12 @@ class VCFToVariation:
         if not self.vcf_info['file_ref'].endswith('.gz'):
             self.vcf_info['file_ref'] = gzip_file(self.vcf_info['file_ref'])
 
-        vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
-        local_md5 = md5_sum_local_file(self.vcf_info['file_ref'])
+        #vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
+        vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.original_file, 'make_handle': 1})
+
+        #local_md5 = md5_sum_local_file(self.vcf_info['file_ref'])
+        local_md5 = md5_sum_local_file(self.original_file)
+
         shock_md5 = vcf_shock_file_ref['handle']['remote_md5']
 
         if local_md5 != shock_md5:

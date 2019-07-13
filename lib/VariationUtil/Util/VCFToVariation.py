@@ -264,14 +264,14 @@ class VCFToVariation:
 
                 vcf_local_file_path = vcf_local_file_path[:-3]
         else:
-            self.original_file = shutil.copy(params['vcf_staging_file_path'],
-                                             os.path.join(self.scratch,
-                                             os.path.basename(params['vcf_staging_file_path'])))
             staging_dir = '/staging'
             vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
 
         if not os.path.exists(vcf_local_file_path):
             raise OSError('VCF input path does not exist, or is not readable')
+
+        self.original_file = shutil.copy(vcf_local_file_path, os.path.join(self.scratch, 'original_' +
+                                                                           os.path.basename(vcf_local_file_path)))
 
         # TODO: use data file utils here, upload vcf to shock, use dfu.
         if is_gz_file(vcf_local_file_path):

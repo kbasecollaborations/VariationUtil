@@ -42,7 +42,7 @@ class VariationToVCF:
             # TODO: check for file extentsion? add if not there (but maybe not because this call is internal
             output_filename = params['filename']
         else:
-            output_filename = obj_name + '.vcf'
+            output_filename = obj_name + '.vcf.gz'
 
         # TODO: validate newly created vcf with vcf-validator
 
@@ -60,6 +60,7 @@ class VariationToVCF:
         self.dfu.shock_to_file({
             'handle_id': data['vcf_handle_ref'],
             'file_path': output_vcf_file_path,
+            'unpack': 'no'
         })
 
     def validate_params(self, params):

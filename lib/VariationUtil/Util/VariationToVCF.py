@@ -60,7 +60,6 @@ class VariationToVCF:
         self.dfu.shock_to_file({
             'handle_id': data['vcf_handle_ref'],
             'file_path': output_vcf_file_path,
-            'unpack': 'no'
         })
 
     def validate_params(self, params):

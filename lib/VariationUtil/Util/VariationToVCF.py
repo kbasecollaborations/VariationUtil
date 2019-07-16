@@ -8,6 +8,10 @@ class VariationToVCF:
         self.scratch = scratch
         self.dfu = DataFileUtil(callback_url)
 
+    def is_gz_file(filepath):
+        with open(filepath, 'rb') as test_f:
+            return binascii.hexlify(test_f.read(2)) == b'1f8b'
+
     def export_as_vcf(self, params):
         if 'input_var_ref' not in params:
             raise ValueError('Cannot export Variation- no input_var_ref field defined.')
@@ -38,29 +42,21 @@ class VariationToVCF:
         ws_type = variation_obj['info'][2]
         obj_name = variation_obj['info'][1]
 
-        if 'filename' in params:
-            # TODO: check for file extentsion? add if not there (but maybe not because this call is internal
-            output_filename = params['filename']
-        else:
-            output_filename = obj_name + '.vcf.gz'
-
-        # TODO: validate newly created vcf with vcf-validator
-
-        output_vcf_file_path = os.path.join(self.scratch, output_filename)
-
         if 'KBaseGwasData.Variations' in ws_type:
-            self.process_vcf(output_vcf_file_path, variation_obj['data'])
+            dl_path = self.process_vcf(self.scratch, variation_obj['data'])
         else:
             raise ValueError('Cannot write data to VCF; invalid WS type (' + ws_type +
                              ').  Supported types is KBaseGwasData.Variations')
 
-        return {'path': output_vcf_file_path, 'variation_name': obj_name}
+        return {'path': dl_path, 'variation_name': obj_name}
 
     def process_vcf(self, output_vcf_file_path, data):
-        self.dfu.shock_to_file({
+        obj = self.dfu.shock_to_file({
             'handle_id': data['vcf_handle_ref'],
             'file_path': output_vcf_file_path,
         })
+
+        return obj['file_path']
 
     def validate_params(self, params):
         for key in ['variation_ref']:

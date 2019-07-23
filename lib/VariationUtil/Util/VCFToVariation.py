@@ -193,7 +193,7 @@ class VCFToVariation:
             if line.decode("utf-8").strip().startswith('[info]'):
                 validator_output.append(line.decode("utf-8"))
 
-        p.wait()
+        out, err = p.communicate()
 
         validation_output_filename = os.path.join(validation_output_dir, 'vcf_validation.txt')
         file_output_chk = []
@@ -398,9 +398,6 @@ class VCFToVariation:
         if not self.vcf_info['file_ref'].startswith(self.scratch):
             new_vcf_file = os.path.join(self.scratch, os.path.basename(self.vcf_info['file_ref']))
             self.vcf_info['file_ref'] = shutil.copy(self.vcf_info['file_ref'], new_vcf_file)
-
-        if not self.vcf_info['file_ref'].endswith('.gz'):
-            self.vcf_info['file_ref'] = gzip_file(self.vcf_info['file_ref'])
 
         #vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
         vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.original_file, 'make_handle': 1})

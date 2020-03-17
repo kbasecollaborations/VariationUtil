@@ -13,14 +13,14 @@
     },
     "parameters": [ 
         {
-            "id": "genome_ref",
+            "id": "genome_or_assembly_ref",
             "optional": false,
             "advanced": false,
             "allow_multiple": false,
             "default_values": [ "" ],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [ "KBaseGenomes.Genome" ]
+                "valid_ws_types": [ "KBaseGenomes.Genome", "KBaseGenomeAnnotations.Assembly"  ]
             }
         },
         {
@@ -69,8 +69,8 @@
                     "target_property": "workspace_name"
                 },
                 {
-                    "input_parameter": "genome_ref",
-                    "target_property": "genome_ref",
+                    "input_parameter": "genome_or_assembly_ref",
+                    "target_property": "genome_or_assembly_ref",
                     "target_type_transform": "resolved-ref"
                 },
                 {

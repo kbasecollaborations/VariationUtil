@@ -137,8 +137,8 @@ class VCFToVariation:
             return vcf_version
 
     def validate_vcf(self, params):
-        if 'genome_ref' not in params:
-            raise ValueError('Genome reference not in input parameters: \n\n'+params)
+        if 'genome_or_assembly_ref' not in params:
+            raise ValueError('Genome or Assembly reference not in input parameters: \n\n'+params)
         if 'vcf_staging_file_path' not in params:
             raise ValueError('VCF staging file path not in input parameters: \n\n' + params)
 
@@ -292,13 +292,16 @@ class VCFToVariation:
         # All chromosome ids from the vcf should be in assembly
         # but not all assembly chromosome ids should be in vcf
 
+        if ('genome_ref' in params):
+            subset = self.wsc.get_object_subset([{
+                'included': ['/assembly_ref'],
+                'ref': params['genome_or_assembly_ref']
+            }])
 
-        subset = self.wsc.get_object_subset([{
-            'included': ['/assembly_ref'],
-            'ref': params['genome_ref']
-        }])
+            self.vcf_info['assembly_ref'] = subset[0]['data']['assembly_ref']
 
-        self.vcf_info['assembly_ref'] = subset[0]['data']['assembly_ref']
+        if ('assembly_ref' in params):
+            self.vcf_info['assembly_ref'] = params['assembly_ref']
 
         assembly_chromosome_ids_call = self.wsc.get_object_subset([{
             'included': ['/contigs'],
@@ -419,12 +422,14 @@ class VCFToVariation:
             'numvariants': int(self.vcf_info['total_variants']),
             'contigs': contigs_info,
             'population': params['sample_attribute_ref'],
-            'genome_ref': params['genome_ref'],
+
             # TYPE SPEC CHANGE: need to change type spec to assembly_ref instead of assemby_ref
             'assemby_ref': self.vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
             'vcf_handle': vcf_shock_file_ref['handle']
         }
+        if 'genome_ref' in params:
+            variation_obj['genome_ref'] =  params['genome_ref']
 
         return variation_obj
 

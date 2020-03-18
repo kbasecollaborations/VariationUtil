@@ -360,12 +360,22 @@ class VCFToVariation:
                int length; // from assembly
              } contig_info;
         """
+
+        assembly_chromosome_dict = self.wsc.get_object_subset([{
+            'included': ['/contigs'],
+            'ref': self.vcf_info['assembly_ref']
+        }])[0]['data']['contigs']
+
+
         contigs = []
 
         contig_infos = self.vcf_info['contigs']
 
-        for variant in contig_infos:
-            contigs.append(contig_infos[variant])
+
+        for contig_id in contig_infos:
+            length_contig = assembly_chromosome_dict[contig_id].get("length")
+            contig_infos[contig_id]["length"] = length_contig
+            contigs.append(contig_infos[contig_id])
 
         return contigs
 

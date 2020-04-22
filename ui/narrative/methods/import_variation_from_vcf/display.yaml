@@ -1,7 +1,7 @@
 #
 # define display information
 #
-name: Import Variation
+name: Import VCF File as Variation
 
 tooltip: |
     Import SNP variation data
@@ -29,11 +29,11 @@ suggestions:
 # Configure the display and description of parameters
 #
 parameters :
-    genome_ref :
+    genome_or_assembly_ref :
         ui-name : |
-            Genome object reference
+            Genome or Assembly object 
         short-hint : |
-            Object reference format X/Y/Z
+            Genome or Assembly object
     vcf_staging_file_path :
         ui-name : |
             Input VCF staging file
@@ -43,7 +43,7 @@ parameters :
         ui-name : |
             Sample attribute reference
         short-hint : |
-            Object reference format X/Y/Z for sample meta-data object.
+            sample meta-data object.
     variation_object_name :
         ui-name: |
             Output name for variation object

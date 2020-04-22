@@ -24,7 +24,7 @@ module VariationUtil {
         ## funcdef save_variation_from_vcf ##
 
         required input params:
-            genome_ref: KBaseGenomes.Genome object reference
+            genome_or_assembly_ref: KBaseGenomes.Genome or KBaseGenomeAnnotations.Assembly object reference
 	    
 	    	*** variation input data ***
 			vcf_staging_file_path: path to location data associated with samples
@@ -49,7 +49,7 @@ module VariationUtil {
     
     typedef structure {
         string workspace_name;
-        obj_ref genome_ref;
+        obj_ref genome_or_assembly_ref;
         filepath vcf_staging_file_path;
 		string variation_object_name;
 		obj_ref sample_attribute_ref;

@@ -50,7 +50,7 @@ class VCFToVariation:
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.dfu = DataFileUtil(self.callback_url)
         self.wsc = Workspace(self.ws_url)
-        self.shared_folder = "/kb/module/tmp"
+        self.shared_folder = "/kb/module/work/tmp"
 
     def _parse_vcf_data(self, params):
         vcf_filepath = self._stage_input(params)
@@ -387,8 +387,8 @@ class VCFToVariation:
         if not os.path.exists(vcf_filepath):
            print (vcf_filepath + " does not exist")
 
-        output_dir = "/kb/module/work/tmp"
-        #output_dir = self.shared_folder
+        #output_dir = "/kb/module/work/tmp"
+        output_dir = self.shared_folder
         vcf_file = vcf_filepath.split("/")[-1]
 
         zip_cmd = ["bgzip", output_dir + "/" + vcf_file]
@@ -408,8 +408,8 @@ class VCFToVariation:
  
     def _index_vcf(self, bgzip_file):
  
-        output_dir = "/kb/module/work/tmp" 
-        #output_dir = self.shared_folder
+        #output_dir = "/kb/module/work/tmp" 
+        output_dir = self.shared_folder
         bgzip_filepath = output_dir + "/" + bgzip_file
 
         if not os.path.exists(bgzip_filepath):

@@ -50,6 +50,7 @@ class VCFToVariation:
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.dfu = DataFileUtil(self.callback_url)
         self.wsc = Workspace(self.ws_url)
+        self.shared_folder = "/kb/module/work/tmp"
 
     def _parse_vcf_data(self, params):
         vcf_filepath = self._stage_input(params)
@@ -378,8 +379,57 @@ class VCFToVariation:
             contigs.append(contig_infos[contig_id])
 
         return contigs
+   
 
+    def _bgzip_vcf(self, params):
+        vcf_filepath = params["vcf_staging_file_path"]
+
+        if not os.path.exists(vcf_filepath):
+           print (vcf_filepath + " does not exist")
+
+        #output_dir = "/kb/module/work/tmp"
+        output_dir = self.shared_folder
+        vcf_file = vcf_filepath.split("/")[-1]
+
+        zip_cmd = ["bgzip", output_dir + "/" + vcf_file]
+        
+        p = subprocess.Popen(zip_cmd,
+                             cwd=self.scratch,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT,
+                             shell=False)
+
+        out, err = p.communicate()        
+        
+        bgzip_file_path = vcf_file + ".gz"
+          
+        return bgzip_file_path
+  
+ 
+    def _index_vcf(self, bgzip_file):
+ 
+        #output_dir = "/kb/module/work/tmp" 
+        output_dir = self.shared_folder
+        bgzip_filepath = output_dir + "/" + bgzip_file
+
+        if not os.path.exists(bgzip_filepath):
+           print (bgzip_filepath + " does not exist")
+
+        index_cmd = ["tabix", "-p", "vcf", bgzip_filepath]       
+        p = subprocess.Popen(index_cmd,
+                             cwd=self.scratch,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT,
+                             shell=False)
+
+        out, err = p.communicate()
+         
+        index_file_path = bgzip_filepath + ".tbi"
+     
+        return index_file_path
+ 
     def _construct_variation(self, params, contigs_info):
+        
         """
             KBaseGwasData.Variations type spec
              /*
@@ -412,7 +462,11 @@ class VCFToVariation:
         if not self.vcf_info['file_ref'].startswith(self.scratch):
             new_vcf_file = os.path.join(self.scratch, os.path.basename(self.vcf_info['file_ref']))
             self.vcf_info['file_ref'] = shutil.copy(self.vcf_info['file_ref'], new_vcf_file)
-
+       
+        bgzip_file_path = self._bgzip_vcf(params)
+        index_file_path = self._index_vcf(bgzip_file_path)
+        #(index_file_path)
+        #bgzip_file
         #vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
         vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.original_file, 'make_handle': 1})
 
@@ -427,6 +481,20 @@ class VCFToVariation:
         if not vcf_shock_file_ref['shock_id']:
             raise ValueError('Unable to upload VCF to Shock!')
 
+        '''This method''' 
+        vcf_index_shock_file_ref = self.dfu.file_to_shock({'file_path': index_file_path, 'make_handle': 1})
+
+        local_md5 = md5_sum_local_file(index_file_path)
+
+        shock_md5 = vcf_index_shock_file_ref['handle']['remote_md5']
+
+        if local_md5 != shock_md5:
+            raise ValueError(f'Local md5 {local_md5} does not match shock md5 {shock_md5}')
+
+        if not vcf_index_shock_file_ref['shock_id']:
+            raise ValueError('Unable to upload index to Shock!')
+
+        
         variation_obj = {
             'numgenotypes': int(len(self.vcf_info['genotype_ids'])),
             'numvariants': int(self.vcf_info['total_variants']),
@@ -436,7 +504,10 @@ class VCFToVariation:
             # TYPE SPEC CHANGE: need to change type spec to assembly_ref instead of assemby_ref
             'assemby_ref': self.vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
-            'vcf_handle': vcf_shock_file_ref['handle']
+            'vcf_handle' : bgzip_file_path,
+            #'vcf_handle': vcf_shock_file_ref['handle'] + ".gz",
+            'vcf_index_handle_ref': vcf_index_shock_file_ref['handle']['hid'],
+            'vcf_index_handle': vcf_index_shock_file_ref['handle'],
         }
         if 'genome_ref' in params:
             variation_obj['genome_ref'] =  params['genome_ref']

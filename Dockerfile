@@ -18,7 +18,8 @@ RUN apt-get -y update \
 	&& apt-get -y install zlib1g-dev \
 	&& apt-get -y install wget \
 	&& apt-get -y install pkg-config \
-	&& apt-get -y install vim
+	&& apt-get -y install vim \
+        && apt-get -y install tabix 
 
 RUN pip install --upgrade pip \
     && pip install -q pysam \

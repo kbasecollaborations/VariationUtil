@@ -92,7 +92,7 @@ class VariationUtil:
 
 
  
-        vtv = VCFToVariation(self.config)
+        vtv = VCFToVariation(self.config, self.shared_folder)
 
         var_obj = vtv.import_vcf(params)
         var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])

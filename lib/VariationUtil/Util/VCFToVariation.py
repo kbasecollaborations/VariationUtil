@@ -44,13 +44,13 @@ def gzip_file(path):
 
 
 class VCFToVariation:
-    def __init__(self, config):
+    def __init__(self, config, scratch):
         self.scratch = config['scratch']
         self.ws_url = config['workspace-url']
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.dfu = DataFileUtil(self.callback_url)
         self.wsc = Workspace(self.ws_url)
-        self.shared_folder = "/kb/module/work/tmp"
+        self.scratch = scratch
 
     def _parse_vcf_data(self, params):
         vcf_filepath = self._stage_input(params)
@@ -387,11 +387,11 @@ class VCFToVariation:
         if not os.path.exists(vcf_filepath):
            print (vcf_filepath + " does not exist")
 
-        #output_dir = "/kb/module/work/tmp"
-        output_dir = self.shared_folder
-        vcf_file = vcf_filepath.split("/")[-1]
+        vcf_file = vcf_filepath.split("/")[-1] 
 
-        zip_cmd = ["bgzip", output_dir + "/" + vcf_file]
+        vcf_file_path = os.path.join(self.scratch, vcf_file)
+
+        zip_cmd = ["bgzip", vcf_file_path]
         
         p = subprocess.Popen(zip_cmd,
                              cwd=self.scratch,
@@ -408,10 +408,9 @@ class VCFToVariation:
  
     def _index_vcf(self, bgzip_file):
  
-        #output_dir = "/kb/module/work/tmp" 
-        output_dir = self.shared_folder
-        bgzip_filepath = output_dir + "/" + bgzip_file
+        output_dir = self.scratch
 
+        bgzip_filepath = os.path.join(self.scratch, bgzip_file)
         if not os.path.exists(bgzip_filepath):
            print (bgzip_filepath + " does not exist")
 

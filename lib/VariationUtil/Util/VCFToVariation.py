@@ -381,17 +381,12 @@ class VCFToVariation:
         return contigs
    
 
-    def _bgzip_vcf(self, params):
-        vcf_filepath = params["vcf_staging_file_path"]
+    def _bgzip_vcf(self, vcf_filepath):
 
         if not os.path.exists(vcf_filepath):
            print (vcf_filepath + " does not exist")
 
-        vcf_file = vcf_filepath.split("/")[-1] 
-
-        vcf_file_path = os.path.join(self.scratch, vcf_file)
-
-        zip_cmd = ["bgzip", vcf_file_path]
+        zip_cmd = ["bgzip", vcf_filepath]
         
         p = subprocess.Popen(zip_cmd,
                              cwd=self.scratch,
@@ -401,7 +396,8 @@ class VCFToVariation:
 
         out, err = p.communicate()        
         
-        bgzip_file_path = vcf_file + ".gz"
+        bgzip_file_path = vcf_filepath + ".gz"
+        print (bgzip_file_path)
           
         return bgzip_file_path
   
@@ -461,16 +457,14 @@ class VCFToVariation:
         if not self.vcf_info['file_ref'].startswith(self.scratch):
             new_vcf_file = os.path.join(self.scratch, os.path.basename(self.vcf_info['file_ref']))
             self.vcf_info['file_ref'] = shutil.copy(self.vcf_info['file_ref'], new_vcf_file)
-       
-        bgzip_file_path = self._bgzip_vcf(params)
-        index_file_path = self._index_vcf(bgzip_file_path)
-        #(index_file_path)
-        #bgzip_file
-        #vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.vcf_info['file_ref'], 'make_handle': 1})
-        vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': self.original_file, 'make_handle': 1})
+      
 
-        #local_md5 = md5_sum_local_file(self.vcf_info['file_ref'])
-        local_md5 = md5_sum_local_file(self.original_file)
+        vcf_staged_file = self.original_file 
+        bgzip_file_path = self._bgzip_vcf(vcf_staged_file)
+        index_file_path = self._index_vcf(bgzip_file_path)
+        vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': bgzip_file_path, 'make_handle': 1})
+
+        local_md5 = md5_sum_local_file(bgzip_file_path)
 
         shock_md5 = vcf_shock_file_ref['handle']['remote_md5']
 
@@ -503,10 +497,9 @@ class VCFToVariation:
             # TYPE SPEC CHANGE: need to change type spec to assembly_ref instead of assemby_ref
             'assemby_ref': self.vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
-            'vcf_handle' : bgzip_file_path,
-            #'vcf_handle': vcf_shock_file_ref['handle'] + ".gz",
+            'vcf_handle' : vcf_shock_file_ref['handle'],
             'vcf_index_handle_ref': vcf_index_shock_file_ref['handle']['hid'],
-            'vcf_index_handle': vcf_index_shock_file_ref['handle'],
+            'vcf_index_handle': vcf_index_shock_file_ref['handle']
         }
         if 'genome_ref' in params:
             variation_obj['genome_ref'] =  params['genome_ref']

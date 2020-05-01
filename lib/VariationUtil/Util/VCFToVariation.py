@@ -57,6 +57,7 @@ class VCFToVariation:
         self.au = AssemblyUtil(self.callback_url)
         self.gapi = GenericsAPI(self.callback_url)
 
+
     def _parse_vcf_data(self, params):
         vcf_filepath = self._stage_input(params)
 
@@ -311,15 +312,15 @@ class VCFToVariation:
                           with open (sample_attribute_mapping_file, 'w') as attribute_mapping_handle:
                               attribute_mapping_handle.write("Attribute\tAttribute ontology ID\tUnit\tUnit ontology ID")
 
-                              for i in range(10,len(header)):
+                              for i in range(9,len(header)):
                                   attribute_mapping_handle.write("\t"+header[i])
-                              attribute_mapping_handle.write("\n")
+                              #attribute_mapping_handle.write("\n")
 
 
-                              attribute_mapping_handle.write("label\t\t\t\t")
-                              for j in range(10,len(header)):
+                              attribute_mapping_handle.write("label\t\t\t")
+                              for j in range(9,len(header)):
                                   attribute_mapping_handle.write("\t"+header[j])
-                              attribute_mapping_handle.write("\n")
+                              #attribute_mapping_handle.write("\n")
                        except IOError:
                            print("Could not write to file:", sample_attribute_mapping_file)
 
@@ -330,7 +331,7 @@ class VCFToVariation:
         # All chromosome ids from the vcf should be in assembly
         # but not all assembly chromosome ids should be in vcf
 
-        
+
         if ('genome_ref' in params):
             subset = self.wsc.get_object_subset([{
                 'included': ['/assembly_ref'],
@@ -362,18 +363,23 @@ class VCFToVariation:
 
     def _validate_sample_ids(self, params):
         # All samples within the VCF file need to be in sample attribute list
+        #sample_attribute_mapping_file = os.path.join(self.scratch, "sample_attribute.tsv")  # hardcoded for testing
+        #self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
 
-        '''
         params['sample_attribute_ref'] = ''            #hardcoded for testing
 
+        #ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
+        ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
         if not params['sample_attribute_ref']:
            sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
            self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
-           import_params = {'output_ws_id': self.wsc,
+           import_params = {'output_ws_id': ws_id,
                   'input_file_path': sample_attribute_mapping_file,
                   'output_obj_name': 'sample_attribute_mapping_file'}
-           ret = self.gapi.file_to_attribute_mapping(import_params)[0]
-        '''   
+           ret = self.gapi.file_to_attribute_mapping(import_params)
+
+           params['sample_attribute_ref'] = ret['attribute_mapping_ref']
+
 
         vcf_genotypes = self.vcf_info['genotype_ids']
 

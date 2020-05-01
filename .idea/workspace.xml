@@ -4,10 +4,6 @@
     <expand>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
       </path>
       <path>
@@ -16,17 +12,15 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d28286bd-f316-4457-b329-0a0959e8f0c6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependencies.json" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/VariationUtil/Util/VCFToVariation.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/VariationUtil/Util/VCFToVariation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/VariationUtil/VariationUtilImpl.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/VariationUtil/VariationUtilImpl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/VariationUtil_server_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/VariationUtil_server_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/narrative/methods/import_variation_from_vcf/spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/ui/narrative/methods/import_variation_from_vcf/spec.json" afterDir="false" />
-    </list>
+    <list default="true" id="d28286bd-f316-4457-b329-0a0959e8f0c6" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,6 +64,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="866" y="416" width="250" height="271" key="#Notifications" timestamp="1588310748537">
+      <screen x="67" y="27" width="1853" height="1052" />
+    </state>
+    <state x="866" y="416" width="250" height="271" key="#Notifications/67.27.1853.1052@67.27.1853.1052" timestamp="1588310748537" />
     <state x="656" y="251" width="672" height="678" key="search.everywhere.popup" timestamp="1588303080223">
       <screen x="67" y="27" width="1853" height="1052" />
     </state>

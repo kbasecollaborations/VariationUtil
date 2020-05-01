@@ -13,6 +13,7 @@ from pprint import pprint as pp
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
 from installed_clients.AssemblyUtilClient import AssemblyUtil
+from installed_clients.GenericsAPIClient import GenericsAPI
 
 logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
 
@@ -54,6 +55,7 @@ class VCFToVariation:
         self.scratch = scratch
         self.callback_url = callback_url
         self.au = AssemblyUtil(self.callback_url)
+        self.gapi = GenericsAPI(self.callback_url)
 
     def _parse_vcf_data(self, params):
         vcf_filepath = self._stage_input(params)
@@ -292,10 +294,43 @@ class VCFToVariation:
         else:
             return vcf_local_file_path
 
+    def _create_sample_attribute_file(self, vcf_file, sample_attribute_mapping_file):
+        """
+        function for creating sample attribute mapping file.
+        """
+
+        try:
+            with open (vcf_file, 'r') as vcf_handle:
+                Lines = vcf_handle.readlines()
+
+                for line in Lines:
+                    if(line.startswith("#CHROM")):
+                       header = line.lstrip().split("\t")
+
+                       try:
+                          with open (sample_attribute_mapping_file, 'w') as attribute_mapping_handle:
+                              attribute_mapping_handle.write("Attribute\tAttribute ontology ID\tUnit\tUnit ontology ID")
+
+                              for i in range(10,len(header)):
+                                  attribute_mapping_handle.write("\t"+header[i])
+                              attribute_mapping_handle.write("\n")
+
+
+                              attribute_mapping_handle.write("label\t\t\t\t")
+                              for j in range(10,len(header)):
+                                  attribute_mapping_handle.write("\t"+header[j])
+                              attribute_mapping_handle.write("\n")
+                       except IOError:
+                           print("Could not write to file:", sample_attribute_mapping_file)
+
+        except IOError:
+               print("Could not read file:", vcf_file)
+
     def _validate_assembly_ids(self, params):
         # All chromosome ids from the vcf should be in assembly
         # but not all assembly chromosome ids should be in vcf
 
+        
         if ('genome_ref' in params):
             subset = self.wsc.get_object_subset([{
                 'included': ['/assembly_ref'],
@@ -327,6 +362,19 @@ class VCFToVariation:
 
     def _validate_sample_ids(self, params):
         # All samples within the VCF file need to be in sample attribute list
+
+        '''
+        params['sample_attribute_ref'] = ''            #hardcoded for testing
+
+        if not params['sample_attribute_ref']:
+           sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
+           self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
+           import_params = {'output_ws_id': self.wsc,
+                  'input_file_path': sample_attribute_mapping_file,
+                  'output_obj_name': 'sample_attribute_mapping_file'}
+           ret = self.gapi.file_to_attribute_mapping(import_params)[0]
+        '''   
+
         vcf_genotypes = self.vcf_info['genotype_ids']
 
         sample_ids_subset = self.wsc.get_object_subset([{
@@ -453,40 +501,6 @@ class VCFToVariation:
           'ref': assembly_ref
         })
         return file
-
-    def _create_sample_attribute_file(self, vcf_file, sample_attribute_mapping_file):
-        """
-        function for creating sample attribute mapping file.
-        """
-
-        try:
-            with open (vcf_file, 'r') as vcf_handle:
-                Lines = vcf_handle.readlines()
-
-                for line in Lines:
-                    if(line.startswith("#CHROM")):
-                       header = line.lstrip().split("\t")
-
-                       try:
-                          with open (sample_attribute_mapping_file, 'w') as attribute_mapping_handle:
-                              attribute_mapping_handle.write("Attribute\tAttribute ontology ID\tUnit\tUnit ontology ID")
-
-                              for i in range(10,len(header)):
-                                  attribute_mapping_handle.write("\t"+header[i])
-                              attribute_mapping_handle.write("\n")
-
-
-                              attribute_mapping_handle.write("label\t\t\t\t")
-                              for j in range(10,len(header)):
-                                  attribute_mapping_handle.write("\t"+header[j])
-                              attribute_mapping_handle.write("\n")
-                       except IOError:
-                           print("Could not write to file:", sample_attribute_mapping_file)
-
-        except IOError:
-               print("Could not read file:", vcf_file)
-
-
  
     def _construct_variation(self, params, contigs_info):
         
@@ -528,12 +542,6 @@ class VCFToVariation:
 
         bgzip_file_path = self._bgzip_vcf(vcf_staged_file)
         index_file_path = self._index_vcf(bgzip_file_path)
-
-
-        sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #handcoded for testing
-
-        self._create_sample_attribute_file(vcf_staged_file, sample_attribute_mapping_file)
-
 
         assembly_file_path = self._download_assembly(self.vcf_info['assembly_ref'])['path']
 

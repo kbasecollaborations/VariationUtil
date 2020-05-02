@@ -47,15 +47,6 @@ def compare_md5_local_with_shock(fname, shock_file_ref):
     if not shock_file_ref['shock_id']:
         raise ValueError('Unable to upload assembly index to Shock!')
 
-def gzip_file(path):
-    gzip_path = path + '.gz'
-
-    with open(path, 'rb') as f_in, gzip.open(gzip_path, 'wb') as f_out:
-        f_out.writelines(f_in)
-
-    return gzip_path
-
-
 class VCFToVariation:
     def __init__(self, config, scratch, callback_url ):
         self.scratch = config['scratch']

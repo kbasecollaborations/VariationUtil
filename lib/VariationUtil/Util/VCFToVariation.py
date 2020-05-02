@@ -367,18 +367,6 @@ class VCFToVariation:
     def _validate_sample_ids(self, params):
         # All samples within the VCF file need to be in sample attribute list
 
-        if not params['sample_attribute_ref']:
-           sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
-           self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
-
-           ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
-           import_params = {'output_ws_id': ws_id,
-                  'input_file_path': sample_attribute_mapping_file,
-                  'output_obj_name': 'sample_attribute_mapping_file'}
-           ret = self.gapi.file_to_attribute_mapping(import_params)
-
-           params['sample_attribute_ref'] = ret['attribute_mapping_ref']
-
 
         vcf_genotypes = self.vcf_info['genotype_ids']
 
@@ -625,9 +613,25 @@ class VCFToVariation:
         else:
             raise ValueError('Variation object blank, cannot not save to workspace!')
 
+    def _validate_sample_attribute_ref(self, params):
+        #params['sample_attribute_ref'] = ''
+        if not params['sample_attribute_ref']:
+           sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
+           self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
+
+           ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
+           import_params = {'output_ws_id': ws_id,
+                  'input_file_path': sample_attribute_mapping_file,
+                  'output_obj_name': 'sample_attribute_mapping_file'}
+           ret = self.gapi.file_to_attribute_mapping(import_params)
+
+           params['sample_attribute_ref'] = ret['attribute_mapping_ref']
+
+
     def import_vcf(self, params):
         # VCF validation
         # VCF file validation
+        self._validate_sample_attribute_ref(params)
         file_valid_result = self.validate_vcf(params)
         # VCF file parsing
         self.vcf_info = self._parse_vcf_data(params)

@@ -35,6 +35,17 @@ def md5_sum_local_file(fname):
             md5hash.update(chunk)
     return md5hash.hexdigest()
 
+def compare_md5_local_with_shock(fname, shock_file_ref):
+
+    local_md5 = md5_sum_local_file(fname)
+
+    shock_md5 = shock_file_ref['handle']['remote_md5']
+
+    if local_md5 != shock_md5:
+        raise ValueError(f'Local md5 {local_md5} does not match shock md5 {shock_md5}')
+
+    if not shock_file_ref['shock_id']:
+        raise ValueError('Unable to upload assembly index to Shock!')
 
 def gzip_file(path):
     gzip_path = path + '.gz'
@@ -99,6 +110,7 @@ class VCFToVariation:
         }
 
         return vcf_info
+
 
     def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):
         genos_not_found = []
@@ -363,16 +375,12 @@ class VCFToVariation:
 
     def _validate_sample_ids(self, params):
         # All samples within the VCF file need to be in sample attribute list
-        #sample_attribute_mapping_file = os.path.join(self.scratch, "sample_attribute.tsv")  # hardcoded for testing
-        #self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
 
-        params['sample_attribute_ref'] = ''            #hardcoded for testing
-
-        #ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
-        ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
         if not params['sample_attribute_ref']:
            sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
            self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
+
+           ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
            import_params = {'output_ws_id': ws_id,
                   'input_file_path': sample_attribute_mapping_file,
                   'output_obj_name': 'sample_attribute_mapping_file'}
@@ -485,8 +493,6 @@ class VCFToVariation:
            print (assembly_file + " does not exist")
 
         logging.info("indexing assembly file")
-        #print("samtools faidx " + assembly_file)
-        #os.system("samtools faidx " + assembly_file)
 
         assembly_index_cmd = ["samtools", "faidx", assembly_file]
         print(assembly_index_cmd)
@@ -547,49 +553,26 @@ class VCFToVariation:
         vcf_staged_file = self.original_file
 
         bgzip_file_path = self._bgzip_vcf(vcf_staged_file)
+        vcf_shock_file_ref = self.dfu.file_to_shock(
+            {'file_path': bgzip_file_path, 'make_handle': 1}
+        )
+        compare_md5_local_with_shock(bgzip_file_path, vcf_shock_file_ref)
+
+
         index_file_path = self._index_vcf(bgzip_file_path)
+        vcf_index_shock_file_ref = self.dfu.file_to_shock(
+            {'file_path': index_file_path, 'make_handle': 1}
+        )
+        compare_md5_local_with_shock(index_file_path, vcf_index_shock_file_ref)
+
 
         assembly_file_path = self._download_assembly(self.vcf_info['assembly_ref'])['path']
 
         assembly_index_file_path = self._index_assembly(assembly_file_path)
-
-        assembly_index_shock_file_ref = self.dfu.file_to_shock({'file_path': assembly_index_file_path, 'make_handle': 1})
-
-        assembly_local_md5 = md5_sum_local_file(assembly_index_file_path)
-
-        assembly_shock_md5 = assembly_index_shock_file_ref['handle']['remote_md5']
-
-        if assembly_local_md5 != assembly_shock_md5:
-            raise ValueError(f'Local md5 {assembly_local_md5} does not match shock md5 {assembly_shock_md5}')
-
-        if not assembly_index_shock_file_ref['shock_id']:
-            raise ValueError('Unable to upload assembly index to Shock!')
-
-        vcf_shock_file_ref = self.dfu.file_to_shock({'file_path': bgzip_file_path, 'make_handle': 1})
-
-        local_md5 = md5_sum_local_file(bgzip_file_path)
-
-        shock_md5 = vcf_shock_file_ref['handle']['remote_md5']
-
-        if local_md5 != shock_md5:
-            raise ValueError(f'Local md5 {local_md5} does not match shock md5 {shock_md5}')
-
-        if not vcf_shock_file_ref['shock_id']:
-            raise ValueError('Unable to upload VCF to Shock!')
-
-        '''This method''' 
-        vcf_index_shock_file_ref = self.dfu.file_to_shock({'file_path': index_file_path, 'make_handle': 1})
-
-        local_md5 = md5_sum_local_file(index_file_path)
-
-        shock_md5 = vcf_index_shock_file_ref['handle']['remote_md5']
-
-        if local_md5 != shock_md5:
-            raise ValueError(f'Local md5 {local_md5} does not match shock md5 {shock_md5}')
-
-        if not vcf_index_shock_file_ref['shock_id']:
-            raise ValueError('Unable to upload index to Shock!')
-
+        assembly_index_shock_file_ref = self.dfu.file_to_shock(
+            {'file_path': assembly_index_file_path, 'make_handle': 1}
+        )
+        compare_md5_local_with_shock(assembly_index_file_path, assembly_index_shock_file_ref)
         
         variation_obj = {
             'numgenotypes': int(len(self.vcf_info['genotype_ids'])),

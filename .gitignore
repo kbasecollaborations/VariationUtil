@@ -3,3 +3,4 @@ sdk.cfg
 lib/VariationUtil/VariationUtilImpl.py.bak*
 *.vcf
 *.vcf*
+.idea

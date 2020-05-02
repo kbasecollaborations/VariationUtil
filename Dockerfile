@@ -11,15 +11,15 @@ MAINTAINER KBase Developer
 
 # -----------------------------------------
 
-RUN apt-get -y update \
-	&& apt-get -y install gcc \
-	&& apt-get -y install g++ \
-	&& apt-get -y install autoconf \
-	&& apt-get -y install zlib1g-dev \
-	&& apt-get -y install wget \
-	&& apt-get -y install pkg-config \
-	&& apt-get -y install vim \
-        && apt-get -y install tabix 
+RUN apt-get -y update && apt-get -y install gcc \
+	 g++ \
+	 autoconf \
+	 zlib1g-dev \
+	 wget \
+	 pkg-config \
+	 vim \
+     tabix \
+     samtools
 
 RUN pip install --upgrade pip \
     && pip install -q pysam \

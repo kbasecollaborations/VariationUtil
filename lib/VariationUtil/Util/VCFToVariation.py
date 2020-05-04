@@ -614,19 +614,25 @@ class VCFToVariation:
             raise ValueError('Variation object blank, cannot not save to workspace!')
 
     def _validate_sample_attribute_ref(self, params):
-        #params['sample_attribute_ref'] = ''
+
+        #params["sample_attribute_ref"] = ''  #just for testing
         if not params['sample_attribute_ref']:
            sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
            self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
 
+           vcf_sample_attribute_shock_file_ref = self.dfu.file_to_shock(
+               {'file_path': sample_attribute_mapping_file, 'make_handle': 1}
+           )
+           shock_id = vcf_sample_attribute_shock_file_ref['shock_id']
            ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
-           import_params = {'output_ws_id': ws_id,
+           import_params = {
+                  'input_shock_id' : shock_id,
+                  'output_ws_id': ws_id,
                   'input_file_path': sample_attribute_mapping_file,
-                  'output_obj_name': 'sample_attribute_mapping_file'}
+                  'output_obj_name': 'Sample_attribute'}
+
            ret = self.gapi.file_to_attribute_mapping(import_params)
-
            params['sample_attribute_ref'] = ret['attribute_mapping_ref']
-
 
     def import_vcf(self, params):
         # VCF validation

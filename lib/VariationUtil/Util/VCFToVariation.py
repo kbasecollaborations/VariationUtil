@@ -628,7 +628,6 @@ class VCFToVariation:
            import_params = {
                   'input_shock_id' : shock_id,
                   'output_ws_id': ws_id,
-                  'input_file_path': sample_attribute_mapping_file,
                   'output_obj_name': 'Sample_attribute'}
 
            ret = self.gapi.file_to_attribute_mapping(import_params)

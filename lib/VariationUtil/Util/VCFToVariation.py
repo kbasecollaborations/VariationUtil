@@ -615,7 +615,7 @@ class VCFToVariation:
 
     def _validate_sample_attribute_ref(self, params):
 
-        params["sample_attribute_ref"] = ''  #just for testing
+        #params["sample_attribute_ref"] = ''  #just for testing
         if not params['sample_attribute_ref']:
            sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
            self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)

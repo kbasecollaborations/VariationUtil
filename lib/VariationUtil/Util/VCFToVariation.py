@@ -293,16 +293,16 @@ class VCFToVariation:
             else:
                 unpack = {}
                 unpack['file_path'] = os.path.join(self.scratch,params['vcf_staging_file_path'])
-
+            params['vcf_local_file_path'] = unpack['file_path']
             return unpack['file_path']
         else:
+            params['vcf_local_file_path'] = vcf_local_file_path 
             return vcf_local_file_path
 
     def _create_sample_attribute_file(self, vcf_file, sample_attribute_mapping_file):
         """
         function for creating sample attribute mapping file.
         """
-
         try:
             with open (vcf_file, 'r') as vcf_handle:
                 Lines = vcf_handle.readlines()
@@ -615,11 +615,12 @@ class VCFToVariation:
 
     def _validate_sample_attribute_ref(self, params):
 
-        #params["sample_attribute_ref"] = ''  #just for testing
+        params["sample_attribute_ref"] = ''  #just for testing
         if not params['sample_attribute_ref']:
            sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
-           self._create_sample_attribute_file(params['vcf_staging_file_path'], sample_attribute_mapping_file)
-
+           self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)
+          
+           logging.info("Uploading sample attribute file to ref")
            vcf_sample_attribute_shock_file_ref = self.dfu.file_to_shock(
                {'file_path': sample_attribute_mapping_file, 'make_handle': 1}
            )
@@ -636,8 +637,8 @@ class VCFToVariation:
     def import_vcf(self, params):
         # VCF validation
         # VCF file validation
-        self._validate_sample_attribute_ref(params)
         file_valid_result = self.validate_vcf(params)
+        self._validate_sample_attribute_ref(params)
         # VCF file parsing
         self.vcf_info = self._parse_vcf_data(params)
         # Validate vcf chromosome ids against assembly chromosome ids

@@ -15,6 +15,7 @@ from installed_clients.WorkspaceClient import Workspace
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.GenericsAPIClient import GenericsAPI
 
+
 logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
 
 
@@ -23,9 +24,6 @@ def log(message, prefix_newline=False):
     print(('\n' if prefix_newline else '') + '{0:.2f}'.format(time.time()) + ': ' + str(message))
 
 
-def is_gz_file(filepath):
-    with open(filepath, 'rb') as test_f:
-        return binascii.hexlify(test_f.read(2)) == b'1f8b'
 
 
 def md5_sum_local_file(fname):
@@ -59,12 +57,11 @@ class VCFToVariation:
         self.au = AssemblyUtil(self.callback_url)
         self.gapi = GenericsAPI(self.callback_url)
 
-
     def _parse_vcf_data(self, params):
-        vcf_filepath = self._stage_input(params)
+        vcf_filepath = params['vcf_local_file_path']
 
         # file is validated by this point, can assume vcf_filepath is valid
-        reader = vcf.Reader(open(vcf_filepath, 'r'))
+        reader = vcf.Reader(open(vcf_filepath, 'rb'))
 
         version = float(reader.metadata['fileformat'][4:6])
         genotypes = reader.samples
@@ -84,7 +81,7 @@ class VCFToVariation:
                     'contig_id': record.CHROM,
                     'totalvariants': 1,
                     'passvariants': passvar,
-                    'length': int(record.affected_end-record.affected_start),
+                    'length': int(record.affected_end - record.affected_start),
                 }
             else:
                 contigs[record.CHROM]['totalvariants'] += 1
@@ -101,7 +98,6 @@ class VCFToVariation:
         }
 
         return vcf_info
-
 
     def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):
         genos_not_found = []
@@ -131,173 +127,6 @@ class VCFToVariation:
             return True
         else:
             return chromos_not_in_assembly
-
-    def _get_vcf_version(self, vcf_filepath):
-        with(gzip.open if is_gz_file(vcf_filepath) else open)(vcf_filepath, 'rt') as vcf:
-            line = vcf.readline()
-            tokens = line.split('=')
-
-            if not (tokens[0].startswith('##fileformat')):
-                log("Invalid VCF.  ##fileformat line in meta is improperly formatted.")
-                raise ValueError("Invalid VCF.  ##fileformat line in meta is improperly formatted. "
-                                 "Check VCF file specifications: https://samtools.github.io/hts-specs/")
-
-            vcf_version = float(tokens[1][-4:].rstrip())
-
-            return vcf_version
-
-    def validate_vcf(self, params):
-        if 'genome_or_assembly_ref' not in params:
-            raise ValueError('Genome or Assembly reference not in input parameters: \n\n'+params)
-        if 'vcf_staging_file_path' not in params:
-            raise ValueError('VCF staging file path not in input parameters: \n\n' + params)
-
-
-        vcf_filepath = self._stage_input(params)
-
-        vcf_version = self._get_vcf_version(vcf_filepath)
-
-        # setup directorys for validation output
-        validation_output_dir = os.path.join(self.scratch, 'validation_' + str(uuid.uuid4()))
-        os.mkdir(validation_output_dir)
-
-        # vcftools (vcf-validator) supports VCF v4.0-4.2
-        # https://github.com/vcftools/vcftools
-
-        # EBIvariation/vcf-validator (vcf_validator_linux) supports VCF v4.1-4.3
-        # https://github.com/EBIvariation/vcf-validator
-
-        # vcftools is only to validate VCF v4.0
-
-        if vcf_version >= 4.1:
-            print("Using vcf_validator_linux...")
-            validator_cmd = ["vcf_validator_linux"]
-            validator_cmd.append("-i")
-            validator_cmd.append(vcf_filepath)
-            validator_cmd.append("-l")
-            validator_cmd.append('error')
-            print("VCF version "+str(vcf_version)+".")
-        elif vcf_version >= 4.0:
-            print("Using vcftools to validate...")
-            validator_cmd = ["vcf-validator"]
-            validator_cmd.append(vcf_filepath)
-            print("VCF version 4.0.")
-        else:
-            raise ValueError('VCF Version not in file, or fileformat line malformatted, or not version >=4.0. file format line must be the '
-                             'first line of vcf file and in appropriate syntax. Check VCF file specifications: '
-                             'https://samtools.github.io/hts-specs/')
-
-        print("Validator command: {}".format(validator_cmd))
-
-        p = subprocess.Popen(validator_cmd,
-                             cwd=self.scratch,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT,
-                             shell=False)
-
-        validator_output = []
-        while True:
-            line = p.stdout.readline()
-            if not line:
-                break
-            if line.decode("utf-8").strip().startswith('[info]'):
-                validator_output.append(line.decode("utf-8"))
-
-        out, err = p.communicate()
-
-        validation_output_filename = os.path.join(validation_output_dir, 'vcf_validation.txt')
-        file_output_chk = []
-
-        try:
-            if validator_output[0][:6] == '[info]':
-                # validation by vcf_validator_linux
-                validation_output_filename = validator_output[1].split(' ')[6].strip('\n')
-                vo = validator_output[2].split(' ')
-                file_output_chk = ''.join(vo[9:]).strip('\n')
-
-                if not os.path.exists(validation_output_filename):
-                    raise ValueError(validation_output_filename+' does not exist!')
-
-                if not file_output_chk == 'isvalid':
-                    print('\n'.join(validator_output))
-                    raise ValueError('\n'.join(validator_output))
-
-                #TODO: more detailed validation parsing for vcf_validator_linux
-            else:
-                if validator_output:
-                    with open(validation_output_filename, 'w') as f:
-                        for line in validator_output:
-                            f.write(str(line))
-                        f.close()
-                    print('\n'.join(validator_output))
-                    raise ValueError('\n'.join(validator_output))
-                else:
-                    with open(validation_output_filename, 'w') as f:
-                        f.write("vcftools used to validate vcf file:\n"+vcf_filepath+"\n\File is validate as of vcf spec v4.0")
-                        f.close()
-
-                # TODO: more detailed validation parsing for vcftools
-        except IndexError:
-            # if vcf file < v4.1, and valid it will produce index error on line 132
-            if validator_output:
-                with open(validation_output_filename, 'w') as f:
-                    for line in validator_output:
-                        f.write(str(line))
-                    f.close()
-                print('\n'.join(validator_output))
-                raise ValueError('\n'.join(validator_output))
-            else:
-                with open(validation_output_filename, 'w') as f:
-                    f.write("vcftools used to validate vcf file:\n" + vcf_filepath + "\n\File is validate as of vcf spec v4.0")
-                    f.close()
-
-        if not os.path.exists(validation_output_filename):
-            print('Validator did not generate log file!')
-            raise SystemError("Validator did not generate a log file.")
-
-        log("Validator output filepath: {}".format(validation_output_filename))
-
-        log("Return code from validator {}".format(p.returncode))
-
-        return validation_output_filename
-
-    def _stage_input(self, params):
-        # extract file location from input ui parameters
-        if params['vcf_staging_file_path'].startswith('/kb/module/test/'):
-            # variation utils unit test
-            vcf_local_file_path = params['vcf_staging_file_path']
-
-            if vcf_local_file_path.endswith('.gz'):
-                with gzip.open(vcf_local_file_path, 'rb') as f_in:
-                    with open(vcf_local_file_path[:-3], 'wb') as f_out:
-                        shutil.copyfileobj(f_in, f_out)
-
-                vcf_local_file_path = vcf_local_file_path[:-3]
-        else:
-            staging_dir = '/staging'
-            vcf_local_file_path = os.path.join(staging_dir, params['vcf_staging_file_path'])
-
-        if not os.path.exists(vcf_local_file_path):
-            raise OSError('VCF input path does not exist, or is not readable')
-
-        orig_file_path = os.path.join(self.scratch, 'original_' + os.path.basename(vcf_local_file_path))
-        print(f'VCF: {vcf_local_file_path} Orig: {orig_file_path}')
-        self.original_file = shutil.copy(vcf_local_file_path, orig_file_path)
-
-        # TODO: use data file utils here, upload vcf to shock, use dfu.
-        if is_gz_file(vcf_local_file_path):
-            # /staging is read only, therefore have to copy before uncompressing
-            if not vcf_local_file_path == os.path.join(self.scratch, params['vcf_staging_file_path']):
-                copy = shutil.copy(vcf_local_file_path, os.path.join(self.scratch,params['vcf_staging_file_path']))
-                unpack = self.dfu.unpack_file({'file_path': copy})
-            else:
-                unpack = {}
-                unpack['file_path'] = os.path.join(self.scratch,params['vcf_staging_file_path'])
-            params['vcf_local_file_path'] = unpack['file_path']
-            return unpack['file_path']
-        else:
-            params['vcf_local_file_path'] = vcf_local_file_path 
-            return vcf_local_file_path
 
     def _create_sample_attribute_file(self, vcf_file, sample_attribute_mapping_file):
         """
@@ -425,48 +254,6 @@ class VCFToVariation:
         return contigs
    
 
-    def _bgzip_vcf(self, vcf_filepath):
-
-        if not os.path.exists(vcf_filepath):
-           print (vcf_filepath + " does not exist")
-
-        zip_cmd = ["bgzip", vcf_filepath]
-        
-        p = subprocess.Popen(zip_cmd,
-                             cwd=self.scratch,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT,
-                             shell=False)
-
-        out, err = p.communicate()        
-        
-        bgzip_file_path = vcf_filepath + ".gz"
-        print (bgzip_file_path)
-          
-        return bgzip_file_path
-  
- 
-    def _index_vcf(self, bgzip_file):
- 
-        output_dir = self.scratch
-
-        bgzip_filepath = os.path.join(self.scratch, bgzip_file)
-        if not os.path.exists(bgzip_filepath):
-           print (bgzip_filepath + " does not exist")
-
-        index_cmd = ["tabix", "-p", "vcf", bgzip_filepath]       
-        p = subprocess.Popen(index_cmd,
-                             cwd=self.scratch,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT,
-                             shell=False)
-
-        out, err = p.communicate()
-         
-        index_file_path = bgzip_filepath + ".tbi"
-     
-        return index_file_path
-
     def _index_assembly(self, assembly_file):
         if not os.path.exists(assembly_file):
            print (assembly_file + " does not exist")
@@ -491,6 +278,7 @@ class VCFToVariation:
         file = self.au.get_assembly_as_fasta({
           'ref': assembly_ref
         })
+       #file = "/kb/module/work/tmp/Athaliana_TAIR10.assembly.fa"
         return file
  
     def _construct_variation(self, params, contigs_info):
@@ -524,35 +312,24 @@ class VCFToVariation:
             :return: constructed variation object (dictionary)
         """
 
-        if not self.vcf_info['file_ref'].startswith(self.scratch):
-            new_vcf_file = os.path.join(self.scratch, os.path.basename(self.vcf_info['file_ref']))
-            self.vcf_info['file_ref'] = shutil.copy(self.vcf_info['file_ref'], new_vcf_file)
-      
-
-        vcf_staged_file = self.original_file
-
-        bgzip_file_path = self._bgzip_vcf(vcf_staged_file)
+        bgzip_file_path = params['vcf_local_file_path']
         vcf_shock_file_ref = self.dfu.file_to_shock(
             {'file_path': bgzip_file_path, 'make_handle': 1}
         )
         compare_md5_local_with_shock(bgzip_file_path, vcf_shock_file_ref)
 
-
-        index_file_path = self._index_vcf(bgzip_file_path)
+        index_file_path = params['vcf_index_file_path']
         vcf_index_shock_file_ref = self.dfu.file_to_shock(
             {'file_path': index_file_path, 'make_handle': 1}
         )
         compare_md5_local_with_shock(index_file_path, vcf_index_shock_file_ref)
 
-
         assembly_file_path = self._download_assembly(self.vcf_info['assembly_ref'])['path']
-
         assembly_index_file_path = self._index_assembly(assembly_file_path)
         assembly_index_shock_file_ref = self.dfu.file_to_shock(
             {'file_path': assembly_index_file_path, 'make_handle': 1}
         )
         compare_md5_local_with_shock(assembly_index_file_path, assembly_index_shock_file_ref)
-        
         variation_obj = {
             'numgenotypes': int(len(self.vcf_info['genotype_ids'])),
             'numvariants': int(self.vcf_info['total_variants']),
@@ -637,7 +414,7 @@ class VCFToVariation:
     def import_vcf(self, params):
         # VCF validation
         # VCF file validation
-        file_valid_result = self.validate_vcf(params)
+        #file_valid_result = self.validate_vcf(params)
         self._validate_sample_attribute_ref(params)
         # VCF file parsing
         self.vcf_info = self._parse_vcf_data(params)

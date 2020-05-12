@@ -6,7 +6,7 @@ MAINTAINER KBase Developer
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
-# RUN apt-get update
+RUN apt-get update
 
 
 # -----------------------------------------
@@ -19,7 +19,8 @@ RUN apt-get -y update && apt-get -y install gcc \
 	 pkg-config \
 	 vim \
      tabix \
-     samtools
+     samtools \
+     bcftools
 
 RUN pip install --upgrade pip \
     && pip install -q pysam \
@@ -35,6 +36,7 @@ RUN git clone https://github.com/vcftools/vcftools.git \
 RUN wget https://github.com/EBIvariation/vcf-validator/releases/download/v0.9.1/vcf_validator_linux \
     && chmod 755 vcf_validator_linux \
     && mv vcf_validator_linux /kb/deployment/bin 
+
 
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work

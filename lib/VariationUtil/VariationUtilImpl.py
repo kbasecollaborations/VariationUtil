@@ -7,6 +7,7 @@ from pprint import pprint as pp
 
 from installed_clients.KBaseReportClient import KBaseReport
 
+from VariationUtil.Util.SanitizeVariationFile import SanitizeVariationFile
 from VariationUtil.Util.VariationToVCF import VariationToVCF
 from VariationUtil.Util.VCFToVariation import VCFToVariation
 
@@ -90,9 +91,15 @@ class VariationUtil:
         else:
           raise ValueError(obj_type + ' is not the right input for this method. Valid input include KBaseGenomes.Genome or KBaseGenomeAnnotations.Assembly ' )
 
+        SVF = SanitizeVariationFile(params, self.config)
+        result = SVF.sanitize_vcf()
+        if result is not None:
+            params['vcf_local_file_path'] = result[0]
+            params['vcf_index_file_path'] = result [1]
+        print (result)
 
- 
-        vtv = VCFToVariation(self.config, self.shared_folder, self.callback_url)
+
+        vtv = VCFToVariation(self.config, self.shared_folder, self.callback_url )
 
         var_obj = vtv.import_vcf(params)
         var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])

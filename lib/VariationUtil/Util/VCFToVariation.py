@@ -16,7 +16,11 @@ from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.GenericsAPIClient import GenericsAPI
 
 
-logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
+#logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 
 def log(message, prefix_newline=False):
@@ -57,47 +61,6 @@ class VCFToVariation:
         self.au = AssemblyUtil(self.callback_url)
         self.gapi = GenericsAPI(self.callback_url)
 
-    def _parse_vcf_data(self, params):
-        vcf_filepath = params['vcf_local_file_path']
-
-        # file is validated by this point, can assume vcf_filepath is valid
-        reader = vcf.Reader(open(vcf_filepath, 'rb'))
-
-        version = float(reader.metadata['fileformat'][4:6])
-        genotypes = reader.samples
-        chromosomes = []
-        contigs = {}
-        totalvars = 0
-
-        for record in reader:
-            totalvars += 1
-            if record.CHROM not in chromosomes:
-                chromosomes.append(record.CHROM)
-
-            if record.CHROM not in contigs.keys():
-                passvar = 1 if not record.FILTER else 0
-
-                contigs[record.CHROM] = {
-                    'contig_id': record.CHROM,
-                    'totalvariants': 1,
-                    'passvariants': passvar,
-                    'length': int(record.affected_end - record.affected_start),
-                }
-            else:
-                contigs[record.CHROM]['totalvariants'] += 1
-                if not record.FILTER:
-                    contigs[record.CHROM]['passvariants'] += 1
-
-        vcf_info = {
-            'version': version,
-            'contigs': contigs,
-            'total_variants': totalvars,
-            'genotype_ids': genotypes,
-            'chromosome_ids': chromosomes,
-            'file_ref': vcf_filepath
-        }
-
-        return vcf_info
 
     def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):
         genos_not_found = []
@@ -116,8 +79,6 @@ class VCFToVariation:
 
     def _chk_if_vcf_ids_in_assembly(self, vcf_chromosomes, assembly_chromosomes):
         chromos_not_in_assembly = []
-
-        pp(assembly_chromosomes)
 
         for chromo in vcf_chromosomes:
             if chromo not in assembly_chromosomes:
@@ -256,7 +217,7 @@ class VCFToVariation:
 
     def _index_assembly(self, assembly_file):
         if not os.path.exists(assembly_file):
-           print (assembly_file + " does not exist")
+           logging.info (assembly_file + " does not exist")
 
         logging.info("indexing assembly file")
 
@@ -294,6 +255,7 @@ class VCFToVariation:
                  genome_ref - KBase reference to genome workspace object
                  assembly_ref - KBase reference to assemebly workspace object
                  vcf_handle_ref - VCF handle reference to VCF file
+                 samples
 
                  @optional genome_ref
              */
@@ -312,38 +274,42 @@ class VCFToVariation:
             :return: constructed variation object (dictionary)
         """
 
+        logging.info("Uploading VCF file to shock")
         bgzip_file_path = params['vcf_local_file_path']
         vcf_shock_file_ref = self.dfu.file_to_shock(
             {'file_path': bgzip_file_path, 'make_handle': 1}
         )
-        compare_md5_local_with_shock(bgzip_file_path, vcf_shock_file_ref)
+        #compare_md5_local_with_shock(bgzip_file_path, vcf_shock_file_ref)
 
+        logging.info("Uploading VCF index file to shock")
         index_file_path = params['vcf_index_file_path']
         vcf_index_shock_file_ref = self.dfu.file_to_shock(
             {'file_path': index_file_path, 'make_handle': 1}
         )
-        compare_md5_local_with_shock(index_file_path, vcf_index_shock_file_ref)
+        #compare_md5_local_with_shock(index_file_path, vcf_index_shock_file_ref)
 
-        assembly_file_path = self._download_assembly(self.vcf_info['assembly_ref'])['path']
-        assembly_index_file_path = self._index_assembly(assembly_file_path)
-        assembly_index_shock_file_ref = self.dfu.file_to_shock(
-            {'file_path': assembly_index_file_path, 'make_handle': 1}
-        )
-        compare_md5_local_with_shock(assembly_index_file_path, assembly_index_shock_file_ref)
+      #  assembly_file_path = self._download_assembly(self.vcf_info['assembly_ref'])['path']
+      #  assembly_index_file_path = self._index_assembly(assembly_file_path)
+      #  assembly_index_shock_file_ref = self.dfu.file_to_shock(
+      #      {'file_path': assembly_index_file_path, 'make_handle': 1}
+      #  )
+        #compare_md5_local_with_shock(assembly_index_file_path, assembly_index_shock_file_ref)
         variation_obj = {
             'numgenotypes': int(len(self.vcf_info['genotype_ids'])),
             'numvariants': int(self.vcf_info['total_variants']),
             'contigs': contigs_info,
             'population': params['sample_attribute_ref'],
+            'samples': self.vcf_info['genotype_ids'],
+            "header": self.vcf_info['header'],
 
-            # TYPE SPEC CHANGE: need to change type spec to assembly_ref instead of assemby_ref
+            # TODO: TYPE SPEC CHANGE: need to change type spec to assembly_ref instead of assemby_ref
             'assemby_ref': self.vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
             'vcf_handle' : vcf_shock_file_ref['handle'],
             'vcf_index_handle_ref': vcf_index_shock_file_ref['handle']['hid'],
             'vcf_index_handle': vcf_index_shock_file_ref['handle'],
-            'assembly_index_handle_ref': assembly_index_shock_file_ref['handle']['hid'],
-            'assembly_index_handle': assembly_index_shock_file_ref['handle']
+       #     'assembly_index_handle_ref': assembly_index_shock_file_ref['handle']['hid'],
+       #     'assembly_index_handle': assembly_index_shock_file_ref['handle']
         }
         if 'genome_ref' in params:
             variation_obj['genome_ref'] =  params['genome_ref']
@@ -369,7 +335,7 @@ class VCFToVariation:
                 meta - arbitrary user-supplied metadata about the object.
         """
 
-        print('Saving Variation to workspace...\n')
+        logging.info('Saving Variation to workspace...\n')
 
         if var:
             if not 'variation_object_name' in params:
@@ -397,7 +363,7 @@ class VCFToVariation:
            sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
            self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)
           
-           logging.info("Uploading sample attribute file to ref")
+           logging.info("Uploading sample attribute file to shock")
            vcf_sample_attribute_shock_file_ref = self.dfu.file_to_shock(
                {'file_path': sample_attribute_mapping_file, 'make_handle': 1}
            )
@@ -411,24 +377,33 @@ class VCFToVariation:
            ret = self.gapi.file_to_attribute_mapping(import_params)
            params['sample_attribute_ref'] = ret['attribute_mapping_ref']
 
-    def import_vcf(self, params):
+    def import_vcf(self, params, vcf_info):
         # VCF validation
         # VCF file validation
         #file_valid_result = self.validate_vcf(params)
+        logging.info("Validating sample attributes")
         self._validate_sample_attribute_ref(params)
         # VCF file parsing
-        self.vcf_info = self._parse_vcf_data(params)
+        logging.info("Parsing vcf started")
+        self.vcf_info = vcf_info
+        logging.info("Comparing assembly ids")
         # Validate vcf chromosome ids against assembly chromosome ids
         self._validate_assembly_ids(params)
+
+        logging.info("Validating sample ids")
         # Validate vcf genotypes against sample meta data ids
         self._validate_sample_ids(params)
 
         # Variation object construction
-        # construct contigs_info
+        # construct contigs_infoa
+        logging.info("Creating contig info")
         contigs_info = self._construct_contig_info(params)
+
+        logging.info("Adding chromoosome length")
         # construct variation
         var = self._construct_variation(params, contigs_info)
 
+        logging.info("Saving variation object to workspace")
         # Save variation object to workspace
         var_wksp_obj = self._save_var_obj(params, var)
 

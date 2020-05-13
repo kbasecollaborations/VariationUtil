@@ -55,7 +55,7 @@ class VariationUtilTest(unittest.TestCase):
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
 
-
+    #@unittest.skip('x')
     def test_save_variation_genome_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
             'workspace_name': 'pranjan77:narrative_1584473922605',
@@ -66,6 +66,7 @@ class VariationUtilTest(unittest.TestCase):
         })
 
 
+    @unittest.skip('x')
     def test_save_variation_assembly_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
             'workspace_name': 'pranjan77:narrative_1584473922605',

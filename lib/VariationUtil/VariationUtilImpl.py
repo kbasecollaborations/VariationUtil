@@ -7,7 +7,7 @@ from pprint import pprint as pp
 
 from installed_clients.KBaseReportClient import KBaseReport
 
-from VariationUtil.Util.SanitizeVariationFile import SanitizeVariationFile
+from VariationUtil.Util.VCFUtils import VCFUtils
 from VariationUtil.Util.VariationToVCF import VariationToVCF
 from VariationUtil.Util.VCFToVariation import VCFToVariation
 
@@ -91,17 +91,22 @@ class VariationUtil:
         else:
           raise ValueError(obj_type + ' is not the right input for this method. Valid input include KBaseGenomes.Genome or KBaseGenomeAnnotations.Assembly ' )
 
-        SVF = SanitizeVariationFile(params, self.config)
-        result = SVF.sanitize_vcf()
+        logging.info ("Now sanitizing VCF")
+        VCU = VCFUtils(params, self.config)
+        result = VCU.sanitize_vcf()
         if result is not None:
             params['vcf_local_file_path'] = result[0]
             params['vcf_index_file_path'] = result [1]
-        print (result)
+            logging.info ("Sanitized variation vcf info :" + str(result[0]))
+            logging.info ("Sanitized variation index info :" + str(result[1]))
+        else:
+            raise ValueError ("No result obtained after sanitization step")
 
+        logging.info ("Now parsing vcf to get vcf info")
+        vcf_info = VCU.parse_vcf_data(result[0])
 
         vtv = VCFToVariation(self.config, self.shared_folder, self.callback_url )
-
-        var_obj = vtv.import_vcf(params)
+        var_obj = vtv.import_vcf(params, vcf_info)
         var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])
 
         upload_message = "Variation object created."

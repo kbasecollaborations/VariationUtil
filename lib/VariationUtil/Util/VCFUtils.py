@@ -6,9 +6,18 @@ import subprocess
 import uuid
 import os
 import re
+import logging
+from collections import Counter
+
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 
-class SanitizeVariationFile:
+
+
+class VCFUtils:
     def __init__(self, params, config):
         self.params = params
         self.scratch = config['scratch']
@@ -84,17 +93,17 @@ class SanitizeVariationFile:
 
 
     def run_command(self, command):
-        print ("    Running command " + command)
+        logging.info ("Running command " + command)
         cmdProcess = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         for line in cmdProcess.stdout:
-            print(line.decode("utf-8").rstrip())
+            logging.info(line.decode("utf-8").rstrip())
             cmdProcess.wait()
-            print('return code: ' + str(cmdProcess.returncode))
+            logging.info('return code: ' + str(cmdProcess.returncode))
             if cmdProcess.returncode != 0:
                 raise ValueError('Error in running command with return code: ' + command +
                                  str(cmdProcess.returncode) + '\n')
 
-        print ("    command " + command + " ran successfully")
+        logging.info("command " + command + " ran successfully")
         return "success"
 
     def stage_vcf_file (self, filepath, filetype, session_directory, filename):
@@ -150,7 +159,7 @@ class SanitizeVariationFile:
                             sample_new = pattern1.sub("", sample)
                             if sample_new != sample:
                                 changed_headers += 1
-                                print("Replacing old " + sample + " to " + sample_new)
+                                logging.info("Replacing old " + sample + " to " + sample_new)
                                 new_header.append(sample_new)
                             else:
                                 new_header.append(sample)
@@ -172,8 +181,100 @@ class SanitizeVariationFile:
         else:
             return
 
+    def _parse_header(self, record, category):
+        '''
+        parses vcf header which looks like the following
 
+        ##INFO=<ID=NS,Number=1,Type=Integer,Description="Number of Samples With Data">
+        ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+        ##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency">
+        ##INFO=<ID=AA,Number=1,Type=String,Description="Ancestral Allele">
+        ##INFO=<ID=DB,Number=0,Type=Flag,Description="dbSNP membership, build 129">
+        ##INFO=<ID=H2,Number=0,Type=Flag,Description="HapMap2 membership">
+        ##FILTER=<ID=q10,Description="Quality below 10">
+        ##FILTER=<ID=s50,Description="Less than 50% of samples have data">
+        ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+        ##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+        ##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">
+        ##FORMAT=<ID=HQ,Number=2,Type=Integer,Description="Haplotype Quality">
+        '''
+        #TODO: Improve code
+        returninfo = {"Category": category}
+        info = re.sub(".*<", "", record)
+        info = info.replace(">", "")
+        infolist = info.replace('"', '').rstrip().split(",")
+        for fields in infolist:
+            data = fields.split("=")
+            key = data.pop(0)
+            val = "=".join (data)
+            val = val.replace("\"", "")
+            returninfo[key] = val
+        return returninfo
 
+    def parse_vcf_data(self, vcf_filepath):
+        # TODO: Take care of vcf local file path
+        # TODO: Attach chromosome length in main code
+        #
+        #vcf_filepath = params['vcf_local_file_path']
+        reader = gzip.open(vcf_filepath, "rt")
+        # version = get_version(vcf_filepath)
+        # genotypes = get_genotypes(vcf_filepath)
+        version = ""
+        genotypes = ""
+        #
+        #TODO: Take care of length
+        # 'length': int(record.affected_end - record.affected_start),
+        #  Remove passvariants
+        counter = 0
+        chromosomes = []
+        contigs = {}
+        header = list()
+        totalvars = 0
+
+        for record in reader:
+            if record[0] == "#":
+                if record.startswith("##fileformat"):
+                    version = record.replace("##fileformat=", "").rstrip()
+                if record.startswith("##INFO=<"):
+                    info = self._parse_header(record, "INFO")
+                    header.append(info)
+                if record.startswith("##FORMAT=<"):
+                    info = self._parse_header(record, "FORMAT")
+                    header.append(info)
+                if record.startswith("##FILTER=<"):
+                    info = self._parse_header(record, "FILTER")
+                    header.append(info)
+
+                if (record.startswith("#CHROM")):
+                    # This is the chrome line
+                    record = record.rstrip()
+                    values = record.split("\t")
+                    genotypes = values[9:]
+                continue
+            counter = counter + 1
+            values = record.split("\t")
+            totalvars += 1
+            CHROM, POS = values[0], values[1]
+            if CHROM not in chromosomes:
+                chromosomes.append(CHROM)
+                contigs[CHROM] = {
+                    'contig_id': CHROM,
+                    'totalvariants': 1,
+                    'passvariants': 0,
+                }
+            else:
+                contigs[CHROM]['totalvariants'] += 1
+        vcf_info = {
+            'version': version,
+            'contigs': contigs,
+            'total_variants': totalvars,
+            'genotype_ids': genotypes,
+            'chromosome_ids': chromosomes,
+            'file_ref': vcf_filepath,
+            'header': header
+        }
+
+        return vcf_info
 
     def sanitize_vcf(self):
 
@@ -188,25 +289,25 @@ class SanitizeVariationFile:
         # Quicly guess filetype (Just read first 100,000 lines) and fail if
         # file is not valid vcf. This is needed for really large files with millions
         # of rows.
-        print ("\n###Guessing VCF file type and compression###")
+        logging.info ("Guessing VCF file type and compression")
         filetype = self.looks_like_vcf_file(effective_staging_path)
-        print ("    Guessed file type as " + filetype)
+        logging.info ("Input file type is " + filetype)
 
         # Create bgzip compressed VCF variation and index
         # bgzip compressed variation can be used with large number of
         # tools that work with vcf files. Default index is .tbi
-        print ("\n###Compressing VCF file using bgzip###")
+        logging.info ("Compressing VCF file using bgzip")
         bgzip_filename = "variation.vcf.gz"
         bgzip_filepath = self.stage_vcf_file (effective_staging_path, filetype,
                                               session_directory, bgzip_filename  )
-        print ("    Created compressed file" + bgzip_filepath)
+        logging.info ("Created compressed file" + bgzip_filepath)
 
-        print ("\n###Creating index for compressed vcf###")
+        logging.info ("Creating index for compressed vcf")
         bgzip_index_filepath = self.index_vcf_file (bgzip_filepath)
-        print ("    Created index " + bgzip_index_filepath)
+        logging.info ("Created index " + bgzip_index_filepath)
 
         # Check if the column header in the VCF file has characters like / fix them
-        print ("\nChecking if headers in VCF need to be fixed")
+        logging.info ("Checking if headers in VCF need to be fixed")
 
         reheader_result = self.check_and_fix_headers(bgzip_filepath)
         if not reheader_result:
@@ -224,9 +325,12 @@ if __name__ == '__main__':
     config ={
         "scratch":"/kb/module/work"
     }
-    vv = SanitizeVariationFile (params, config)
-    final_vcf, final_index = vv.import_vcf()
-
+    vv = VCFUtils (params, config)
+    final_vcf, final_index = vv.sanitize_vcf()
+    vcf_info = vv.parse_vcf_data(final_vcf)
+    filename = "/kb/module/work/vcf_info.json"
+    with open(filename, "w") as f:
+        f.write(vcf_info)
     print (final_vcf)
     print (final_index)
 

@@ -156,24 +156,22 @@ class VCFToVariation:
 
     def _validate_sample_ids(self, params):
         # All samples within the VCF file need to be in sample attribute list
-
+        # Sample attribute ref is not mandatory anymore
+        if not params['sample_attribute_ref']:
+            logging.info("Sample metadata was not provided")
+            return
 
         vcf_genotypes = self.vcf_info['genotype_ids']
-
         sample_ids_subset = self.wsc.get_object_subset([{
             'included': ['/instances'],
             'ref': params['sample_attribute_ref']
         }])
-
         sample_ids = sample_ids_subset[0]['data']['instances'].keys()
-
         validate_genotypes = self._validate_vcf_to_sample(vcf_genotypes, sample_ids)
-
         if isinstance(validate_genotypes, list):
             failed_genos = ' '.join(validate_genotypes)
             print(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
             raise ValueError(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
-
         return sample_ids
 
     def _construct_contig_info(self, params):
@@ -263,7 +261,7 @@ class VCFToVariation:
                int numgenotypes;
                int numvariants;
                list<contig_info> contigs;
-               attribute_ref population; // KBaseExperiments.AttributeMapping
+               attribute_ref samples; // KBaseExperiments.AttributeMapping
                genome_ref genome_ref; // KBaseGenomes.Genome
                assembly_ref assemby_ref; // KBaseGenomeAnnotations.Assembly
                vcf_handle_ref vcf_handle_ref;
@@ -298,7 +296,7 @@ class VCFToVariation:
             'numgenotypes': int(len(self.vcf_info['genotype_ids'])),
             'numvariants': int(self.vcf_info['total_variants']),
             'contigs': contigs_info,
-            'population': params['sample_attribute_ref'],
+            'sample_attribute_ref': params['sample_attribute_ref'],
             'samples': self.vcf_info['genotype_ids'],
             "header": self.vcf_info['header'],
 
@@ -308,8 +306,6 @@ class VCFToVariation:
             'vcf_handle' : vcf_shock_file_ref['handle'],
             'vcf_index_handle_ref': vcf_index_shock_file_ref['handle']['hid'],
             'vcf_index_handle': vcf_index_shock_file_ref['handle'],
-       #     'assembly_index_handle_ref': assembly_index_shock_file_ref['handle']['hid'],
-       #     'assembly_index_handle': assembly_index_shock_file_ref['handle']
         }
         if 'genome_ref' in params:
             variation_obj['genome_ref'] =  params['genome_ref']
@@ -357,25 +353,34 @@ class VCFToVariation:
             raise ValueError('Variation object blank, cannot not save to workspace!')
 
     def _validate_sample_attribute_ref(self, params):
+        '''
+        The purpose of this method was to create sample_attribute_ref automatically from sample names
+        This method is not used as attribute mapping is not mandatory anympre
+        :param params:
+        :return:
+        '''
 
         #params["sample_attribute_ref"] = ''  #just for testing
         if not params['sample_attribute_ref']:
-           sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
-           self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)
+            logging.info("Sample metadata was not provided")
+            #NOTE: Revive  this code if we make sample attribute mandatory
+           #sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
+           #self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)
           
-           logging.info("Uploading sample attribute file to shock")
-           vcf_sample_attribute_shock_file_ref = self.dfu.file_to_shock(
-               {'file_path': sample_attribute_mapping_file, 'make_handle': 1}
-           )
-           shock_id = vcf_sample_attribute_shock_file_ref['shock_id']
-           ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
-           import_params = {
-                  'input_shock_id' : shock_id,
-                  'output_ws_id': ws_id,
-                  'output_obj_name': 'Sample_attribute'}
+           #logging.info("Uploading sample attribute file to shock")
+           #vcf_sample_attribute_shock_file_ref = self.dfu.file_to_shock(
+           #    {'file_path': sample_attribute_mapping_file, 'make_handle': 1}
+           #)
+           #shock_id = vcf_sample_attribute_shock_file_ref['shock_id']
+           #ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
+           #import_params = {
+           #       'input_shock_id' : shock_id,
+           #       'output_ws_id': ws_id,
+           #       'output_obj_name': 'Sample_attribute'}
 
-           ret = self.gapi.file_to_attribute_mapping(import_params)
-           params['sample_attribute_ref'] = ret['attribute_mapping_ref']
+           #ret = self.gapi.file_to_attribute_mapping(import_params)
+           #params['sample_attribute_ref'] = ret['attribute_mapping_ref']
+            return
 
     def import_vcf(self, params, vcf_info):
         # VCF validation

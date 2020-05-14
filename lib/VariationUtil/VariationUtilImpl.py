@@ -46,8 +46,7 @@ class VariationUtil:
      
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
-        logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-                            level=logging.INFO)
+        logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
         #END_CONSTRUCTOR
         pass
 

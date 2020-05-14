@@ -16,11 +16,11 @@ from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.GenericsAPIClient import GenericsAPI
 
 
-#logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
+#logging.basicConfig(
+#    format='%(asctime)s %(levelname)-8s %(message)s',
+#    level=logging.INFO,
+#    datefmt='%Y-%m-%d %H:%M:%S')
 
 
 def log(message, prefix_newline=False):

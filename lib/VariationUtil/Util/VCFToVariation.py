@@ -18,12 +18,12 @@ from installed_clients.GenericsAPIClient import GenericsAPI
 
 #logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
 logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-                    level=logging.DEBUG)
+                    level=logging.INFO)
 
 
 #logging.basicConfig(
 #    format='%(asctime)s %(levelname)-8s %(message)s',
-#    level=logging.DEBUG,
+#    level=logging.info,
 #    datefmt='%Y-%m-%d %H:%M:%S')
 
 
@@ -162,7 +162,7 @@ class VCFToVariation:
         # All samples within the VCF file need to be in sample attribute list
         # Sample attribute ref is not mandatory anymore
         if 'sample_attribute_ref' not in params:
-            logging.DEBUG("Sample metadata was not provided")
+            logging.info("Sample metadata was not provided")
             return
 
         vcf_genotypes = self.vcf_info['genotype_ids']
@@ -219,9 +219,9 @@ class VCFToVariation:
 
     def _index_assembly(self, assembly_file):
         if not os.path.exists(assembly_file):
-           logging.DEBUG (assembly_file + " does not exist")
+           logging.info (assembly_file + " does not exist")
 
-        logging.DEBUG("indexing assembly file")
+        logging.info("indexing assembly file")
 
         assembly_index_cmd = ["samtools", "faidx", assembly_file]
         print(assembly_index_cmd)
@@ -233,7 +233,7 @@ class VCFToVariation:
 
         out, err = p.communicate()
 
-        logging.DEBUG("indexing of assembly file done!")
+        logging.info("indexing of assembly file done!")
 
         return assembly_file + ".fai"
 
@@ -276,14 +276,14 @@ class VCFToVariation:
             :return: constructed variation object (dictionary)
         """
 
-        logging.DEBUG("Uploading VCF file to shock")
+        logging.info("Uploading VCF file to shock")
         bgzip_file_path = params['vcf_local_file_path']
         vcf_shock_file_ref = self.dfu.file_to_shock(
             {'file_path': bgzip_file_path, 'make_handle': 1}
         )
         #compare_md5_local_with_shock(bgzip_file_path, vcf_shock_file_ref)
 
-        logging.DEBUG("Uploading VCF index file to shock")
+        logging.info("Uploading VCF index file to shock")
         index_file_path = params['vcf_index_file_path']
         vcf_index_shock_file_ref = self.dfu.file_to_shock(
             {'file_path': index_file_path, 'make_handle': 1}
@@ -333,7 +333,7 @@ class VCFToVariation:
                 meta - arbitrary user-supplied metadata about the object.
         """
 
-        logging.DEBUG('Saving Variation to workspace...\n')
+        logging.info('Saving Variation to workspace...\n')
 
         if var:
             if not 'variation_object_name' in params:
@@ -364,12 +364,12 @@ class VCFToVariation:
 
         #params["sample_attribute_ref"] = ''  #just for testing
         if 'sample_attribute_ref' not in params:
-            logging.DEBUG("Sample metadata was not provided")
+            logging.info("Sample metadata was not provided")
             #NOTE: Revive  this code if we make sample attribute mandatory
            #sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
            #self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)
           
-           #logging.DEBUG("Uploading sample attribute file to shock")
+           #logging.info("Uploading sample attribute file to shock")
            #vcf_sample_attribute_shock_file_ref = self.dfu.file_to_shock(
            #    {'file_path': sample_attribute_mapping_file, 'make_handle': 1}
            #)
@@ -388,29 +388,29 @@ class VCFToVariation:
         # VCF validation
         # VCF file validation
         #file_valid_result = self.validate_vcf(params)
-        logging.DEBUG("Validating sample attributes")
+        logging.info("Validating sample attributes")
         self._validate_sample_attribute_ref(params)
         # VCF file parsing
-        logging.DEBUG("Parsing vcf started")
+        logging.info("Parsing vcf started")
         self.vcf_info = vcf_info
-        logging.DEBUG("Comparing assembly ids")
+        logging.info("Comparing assembly ids")
         # Validate vcf chromosome ids against assembly chromosome ids
         self._validate_assembly_ids(params)
 
-        logging.DEBUG("Validating sample ids")
+        logging.info("Validating sample ids")
         # Validate vcf genotypes against sample meta data ids
         self._validate_sample_ids(params)
 
         # Variation object construction
         # construct contigs_infoa
-        logging.DEBUG("Creating contig info")
+        logging.info("Creating contig info")
         contigs_info = self._construct_contig_info(params)
 
-        logging.DEBUG("Adding chromoosome length")
+        logging.info("Adding chromoosome length")
         # construct variation
         var = self._construct_variation(params, contigs_info)
 
-        logging.DEBUG("Saving variation object to workspace")
+        logging.info("Saving variation object to workspace")
         # Save variation object to workspace
         var_wksp_obj = self._save_var_obj(params, var)
 

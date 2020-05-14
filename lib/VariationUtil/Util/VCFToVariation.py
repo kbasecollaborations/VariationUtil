@@ -263,7 +263,7 @@ class VCFToVariation:
                list<contig_info> contigs;
                attribute_ref samples; // KBaseExperiments.AttributeMapping
                genome_ref genome_ref; // KBaseGenomes.Genome
-               assembly_ref assemby_ref; // KBaseGenomeAnnotations.Assembly
+               assembly_ref assembly_ref; // KBaseGenomeAnnotations.Assembly
                vcf_handle_ref vcf_handle_ref;
              } Variations;
 
@@ -299,9 +299,7 @@ class VCFToVariation:
             'sample_attribute_ref': params['sample_attribute_ref'],
             'samples': self.vcf_info['genotype_ids'],
             "header": self.vcf_info['header'],
-
-            # TODO: TYPE SPEC CHANGE: need to change type spec to assembly_ref instead of assemby_ref
-            'assemby_ref': self.vcf_info['assembly_ref'],
+            'assembly_ref': self.vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
             'vcf_handle' : vcf_shock_file_ref['handle'],
             'vcf_index_handle_ref': vcf_index_shock_file_ref['handle']['hid'],

@@ -296,7 +296,6 @@ class VCFToVariation:
             'numgenotypes': int(len(self.vcf_info['genotype_ids'])),
             'numvariants': int(self.vcf_info['total_variants']),
             'contigs': contigs_info,
-            'sample_attribute_ref': params['sample_attribute_ref'],
             'samples': self.vcf_info['genotype_ids'],
             "header": self.vcf_info['header'],
             'assembly_ref': self.vcf_info['assembly_ref'],
@@ -307,7 +306,8 @@ class VCFToVariation:
         }
         if 'genome_ref' in params:
             variation_obj['genome_ref'] =  params['genome_ref']
-
+        if 'sample_attribute_ref' in params:
+            variation_obj['sample_attribute_ref'] =  params['sample_attribute_ref']
         return variation_obj
 
     def _save_var_obj(self, params, var):

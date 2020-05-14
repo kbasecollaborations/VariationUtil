@@ -47,7 +47,7 @@ class VariationUtil:
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-                            level=logging.INFO)
+                            level=logging.DEBUG)
         #END_CONSTRUCTOR
         pass
 
@@ -91,18 +91,18 @@ class VariationUtil:
         else:
           raise ValueError(obj_type + ' is not the right input for this method. Valid input include KBaseGenomes.Genome or KBaseGenomeAnnotations.Assembly ' )
 
-        logging.info ("Now sanitizing VCF")
+        logging.DEBUG ("Now sanitizing VCF")
         VCU = VCFUtils(params, self.config)
         result = VCU.sanitize_vcf()
         if result is not None:
             params['vcf_local_file_path'] = result[0]
             params['vcf_index_file_path'] = result [1]
-            logging.info ("Sanitized variation vcf info :" + str(result[0]))
-            logging.info ("Sanitized variation index info :" + str(result[1]))
+            logging.DEBUG ("Sanitized variation vcf info :" + str(result[0]))
+            logging.DEBUG ("Sanitized variation index info :" + str(result[1]))
         else:
             raise ValueError ("No result obtained after sanitization step")
 
-        logging.info ("Now parsing vcf to get vcf info")
+        logging.DEBUG ("Now parsing vcf to get vcf info")
         vcf_info = VCU.parse_vcf_data(result[0])
 
         vtv = VCFToVariation(self.config, self.shared_folder, self.callback_url )

@@ -11,12 +11,12 @@ from collections import Counter
 
 #logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
 logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-                    level=logging.INFO)
+                    level=logging.DEBUG)
 
 
 #logging.basicConfig(
 #    format='%(asctime)s %(levelname)-8s %(message)s',
-#    level=logging.INFO,
+#    level=logging.DEBUG,
 #    datefmt='%Y-%m-%d %H:%M:%S')
 
 
@@ -98,17 +98,17 @@ class VCFUtils:
 
 
     def run_command(self, command):
-        logging.info ("Running command " + command)
+        logging.DEBUG ("Running command " + command)
         cmdProcess = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         for line in cmdProcess.stdout:
-            logging.info(line.decode("utf-8").rstrip())
+            logging.DEBUG(line.decode("utf-8").rstrip())
             cmdProcess.wait()
-            logging.info('return code: ' + str(cmdProcess.returncode))
+            logging.DEBUG('return code: ' + str(cmdProcess.returncode))
             if cmdProcess.returncode != 0:
                 raise ValueError('Error in running command with return code: ' + command +
                                  str(cmdProcess.returncode) + '\n')
 
-        logging.info("command " + command + " ran successfully")
+        logging.DEBUG("command " + command + " ran successfully")
         return "success"
 
     def stage_vcf_file (self, filepath, filetype, session_directory, filename):
@@ -164,7 +164,7 @@ class VCFUtils:
                             sample_new = pattern1.sub("", sample)
                             if sample_new != sample:
                                 changed_headers += 1
-                                logging.info("Replacing old " + sample + " to " + sample_new)
+                                logging.DEBUG("Replacing old " + sample + " to " + sample_new)
                                 new_header.append(sample_new)
                             else:
                                 new_header.append(sample)
@@ -294,25 +294,25 @@ class VCFUtils:
         # Quicly guess filetype (Just read first 100,000 lines) and fail if
         # file is not valid vcf. This is needed for really large files with millions
         # of rows.
-        logging.info ("Guessing VCF file type and compression")
+        logging.DEBUG ("Guessing VCF file type and compression")
         filetype = self.looks_like_vcf_file(effective_staging_path)
-        logging.info ("Input file type is " + filetype)
+        logging.DEBUG ("Input file type is " + filetype)
 
         # Create bgzip compressed VCF variation and index
         # bgzip compressed variation can be used with large number of
         # tools that work with vcf files. Default index is .tbi
-        logging.info ("Compressing VCF file using bgzip")
+        logging.DEBUG ("Compressing VCF file using bgzip")
         bgzip_filename = "variation.vcf.gz"
         bgzip_filepath = self.stage_vcf_file (effective_staging_path, filetype,
                                               session_directory, bgzip_filename  )
-        logging.info ("Created compressed file" + bgzip_filepath)
+        logging.DEBUG ("Created compressed file" + bgzip_filepath)
 
-        logging.info ("Creating index for compressed vcf")
+        logging.DEBUG ("Creating index for compressed vcf")
         bgzip_index_filepath = self.index_vcf_file (bgzip_filepath)
-        logging.info ("Created index " + bgzip_index_filepath)
+        logging.DEBUG ("Created index " + bgzip_index_filepath)
 
         # Check if the column header in the VCF file has characters like / fix them
-        logging.info ("Checking if headers in VCF need to be fixed")
+        logging.DEBUG ("Checking if headers in VCF need to be fixed")
 
         reheader_result = self.check_and_fix_headers(bgzip_filepath)
         if not reheader_result:

@@ -61,10 +61,10 @@ class VariationUtilTest(unittest.TestCase):
             'workspace_name': 'pranjan77:narrative_1584473922605',
             'genome_or_assembly_ref': '39465/2/1',
             'vcf_staging_file_path': '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
-            'sample_attribute_ref': '39465/3/1',
             'variation_object_name': 'arabidopsis_test2_vcf'
         })
 
+    #'sample_attribute_ref': '39465/3/1',
 
     @unittest.skip('x')
     def test_save_variation_assembly_ref(self):

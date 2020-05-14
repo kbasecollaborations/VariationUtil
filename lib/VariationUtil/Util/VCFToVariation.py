@@ -16,7 +16,11 @@ from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.GenericsAPIClient import GenericsAPI
 
 
-logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
+#logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
+logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
+                    level=logging.INFO)
+
+
 #logging.basicConfig(
 #    format='%(asctime)s %(levelname)-8s %(message)s',
 #    level=logging.INFO,
@@ -157,7 +161,7 @@ class VCFToVariation:
     def _validate_sample_ids(self, params):
         # All samples within the VCF file need to be in sample attribute list
         # Sample attribute ref is not mandatory anymore
-        if not params['sample_attribute_ref']:
+        if 'sample_attribute_ref' not in params:
             logging.info("Sample metadata was not provided")
             return
 
@@ -359,7 +363,7 @@ class VCFToVariation:
         '''
 
         #params["sample_attribute_ref"] = ''  #just for testing
-        if not params['sample_attribute_ref']:
+        if 'sample_attribute_ref' not in params:
             logging.info("Sample metadata was not provided")
             #NOTE: Revive  this code if we make sample attribute mandatory
            #sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing

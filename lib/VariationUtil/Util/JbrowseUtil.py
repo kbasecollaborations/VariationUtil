@@ -7,6 +7,7 @@ import os
 from collections import Counter
 import subprocess
 import shutil
+import logging
 
 class JbrowseUtil:
     def __init__(self):
@@ -17,16 +18,16 @@ class JbrowseUtil:
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             stdout, stderr = process.communicate()
             if stdout:
-                print("ret> ", process.returncode)
-                print("OK> output ", stdout)
+                logging.info("ret> ", process.returncode)
+                logging.info("OK> output ", stdout)
             if stderr:
-                print("ret> ", process.returncode)
-                print("Error> error ", stderr.strip())
+                logging.info("ret> ", process.returncode)
+                logging.info("Error> error ", stderr.strip())
 
         except OSError as e:
-            print("OSError > ", e.errno)
-            print("OSError > ", e.strerror)
-            print("OSError > ", e.filename)
+            logging.info("OSError > ", e.errno)
+            logging.info("OSError > ", e.strerror)
+            logging.info("OSError > ", e.filename)
 
     def create_refseqs_json_from_assembly(self ):
         '''
@@ -96,7 +97,7 @@ class JbrowseUtil:
         try:
                 with open(bedgraph_file, "w") as fout:
                     for j, k in counts.items():
-                        #print (str(j) + "\t" + str(k))
+                        #logging.info (str(j) + "\t" + str(k))
                         chromosome, bin_num = j.split("\t")
                         bin_start = int(bin_num) * self.binsize
                         bin_end = bin_start + self.binsize
@@ -109,7 +110,7 @@ class JbrowseUtil:
                             fout.write(chromosome + "\t" + str(bin_start) + "\t" + str(chr_length) + "\t" + str(k) + "\n")
 
         except IOError:
-                print("Unable to write " + bedgraph_file, + " file on disk.")
+                logging.info("Unable to write " + bedgraph_file, + " file on disk.")
 
         self.output_bigwig_file = bedgraph_file + "_bigwig.bw"
         sorted_bedgraph_file = bedgraph_file + "_sorted"
@@ -123,7 +124,7 @@ class JbrowseUtil:
         if os.path.exists(self.output_bigwig_file):
             return self.output_bigwig_file
         else:
-            print ("error in generating: " + output_bigwig_file)
+            logging.info ("error in generating: " + output_bigwig_file)
 
 
 
@@ -170,23 +171,37 @@ class JbrowseUtil:
                 {'file_path': self.output_bigwig_file, 'make_handle': 1}
             )
         self.output_bigwig_shock = bigwig_shock_ref['handle']['id']
-        print (self.output_bigwig_shock)
+        logging.info (self.output_bigwig_shock)
         genomic_indexes = list()
         genomic_indexes.append(bigwig_shock_ref['handle'])
 
         jbrowse_src = "/kb/module/deps/jbrowse"
         jbrowse_dest = os.path.join(self.session_dir, "jbrowse")
         destination = shutil.copytree(jbrowse_src, jbrowse_dest)
-        print("After copying file:")
-        print(os.listdir(destination))
+        logging.info("After copying file:")
+        logging.info(os.listdir(destination))
 
         jbrowse_path = os.path.join(self.session_dir, "jbrowse")
         jbrowse_seq_path = os.path.join(self.session_dir, "jbrowse/data/seq")
         jbrowse_data_path = os.path.join(self.session_dir, "jbrowse/data")
         dest = shutil.copy(self.refseqs_json_path, jbrowse_seq_path  )
 
+        logging.info("After copying refseqs json seq path:")
+        logging.info(os.listdir(jbrowse_seq_path))
+
+        logging.info("After copying refseqs json data path:")
+        logging.info(os.listdir(jbrowse_data_path))
+        logging.info("Jbrowse seq path")
+        logging.info(jbrowse_seq_path)
+        with open (self.refseqs_json_path) as f:
+            data = f.read()
+        logging.info ("Refsesa data")
+        logging.info (data)
+
+
+
         #dest = shutil.move(self.output_bigwig_file, jbrowse_data_path + "/vcf.bw")
-        #print (dest)
+        #logging.info (dest)
         tracklist_path = os.path.join(jbrowse_data_path, "trackList.json")
         with open (tracklist_path, "r") as f:
             data = f.read()
@@ -198,7 +213,7 @@ class JbrowseUtil:
         with open (tracklist_path, "w") as f:
             f.write(data)
 
-        print (jbrowse_dest)
+        logging.info (jbrowse_dest)
         jbrowse_report = {}
         jbrowse_report["jbrowse_data_path"] = jbrowse_dest
         jbrowse_report["genomic_indexes"] = genomic_indexes
@@ -224,7 +239,7 @@ if __name__ == "__main__":
 
     vu = JbrowseUtil()
     refseqs_json_path  =  vu.prepare_jbrowse_report(input_params)
-    print (refseqs_json_path)
+    logging.info (refseqs_json_path)
     #create chr length from assembly file
     #---Path to vcf file
     #create bedgraph from vcf file

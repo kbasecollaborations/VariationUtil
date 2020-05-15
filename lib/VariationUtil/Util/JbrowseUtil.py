@@ -182,10 +182,10 @@ class JbrowseUtil:
         logging.info(os.listdir(destination))
 
         jbrowse_path = os.path.join(self.session_dir, "jbrowse")
-        jbrowse_seq_path = os.path.join(self.session_dir, "jbrowse/data/seq")
-        jbrowse_data_path = os.path.join(self.session_dir, "jbrowse/data")
+        jbrowse_seq_path = os.path.join(self.session_dir, "jbrowse", "data", "seq")
+        jbrowse_data_path = os.path.join(self.session_dir, "jbrowse", "data")
         dest = shutil.copy(self.refseqs_json_path, jbrowse_seq_path  )
-
+        logging.info ("dest is " + dest)
         logging.info("After copying refseqs json seq path:")
         logging.info(os.listdir(jbrowse_seq_path))
 

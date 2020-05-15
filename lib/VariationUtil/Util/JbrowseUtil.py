@@ -37,8 +37,8 @@ class JbrowseUtil:
             "label": "Genome Features",
             "key": "GenomeFeatures",
             "storeClass": "JBrowse/Store/SeqFeature/GFF3Tabix",
-            "urlTemplate":"<gff_shock_ref>",
-            "tbiUrlTemplate": "<gff_index_shock_ref>",
+            "urlTemplate":"https://appdev.kbase.us/dynserv/682063b283a644bbcb27ca7a49919b8093608d05.VariationFileServ/shock/<gff_shock_ref>",
+            "tbiUrlTemplate": "https://appdev.kbase.us/dynserv/682063b283a644bbcb27ca7a49919b8093608d05.VariationFileServ/shock/<gff_index_shock_ref>",
             "type": "JBrowse/View/Track/CanvasFeatures"
         },
         '''
@@ -50,9 +50,9 @@ class JbrowseUtil:
 
     def prepare_gff(self, genome_ref):
         gfu = GenomeFileUtil(self.callback_url)
-        #gff_file_info = gfu.genome_to_gff({'genome_ref': genome_ref})
-        #gff_file =  gff_file_info["file_path"]
-        gff_file = "/kb/module/work/Populus_trichocarpa.gff"
+        gff_file_info = gfu.genome_to_gff({'genome_ref': genome_ref})
+        gff_file =  gff_file_info["file_path"]
+        #gff_file = "/kb/module/work/Populus_trichocarpa.gff"
 
         sorted_gff_cmd = "sort -k1,1 -k4,4n " + gff_file + " > " +  gff_file + "_sorted"
         self._run_cmd(sorted_gff_cmd)
@@ -268,12 +268,17 @@ class JbrowseUtil:
         data=data.replace("<vcf_shock_id>", self.vcf_shock_id)
         data=data.replace("<vcf_index_shock_id>", self.vcf_index_shock_id)
         data = data.replace("<output_bigwig_shock>", self.output_bigwig_shock)
-
-        trackdata = data
         if "genome_ref" in input_params:
             gff_track = self.get_gff_track(self.gff_shock, self.gff_index_shock)
-            trackdata += gff_track
-
+ 
+        gff_tracks_obj = json.loads(gff_track)
+        data_j = json.loads(data)
+        tracks = data_j['tracks']
+        tracks.append(gff_track_obj)
+        trackdata = {
+        'formatVersion':1,
+        'tracks':tracks
+        }
         with open (tracklist_path, "w") as f:
             f.write(trackdata)
 

@@ -18,6 +18,19 @@ class report:
 
         pass
 
+    def prepare_gff(self, gff_file):
+        sorted_gff_cmd = "sort -k1,1 -k4,4n " + gff_file + " > " + "sorted_" + gff_file
+        self.run_cmd(sorted_gff_cmd)
+
+        zip_cmd = "bgzip " + "sorted_" + gff_file
+        self.run_cmd(zip_cmd)
+
+        index_gff_cmd = "tabix -p gff " + "sorted_" + gff_file + ".gz"
+        self.run_cmd(index_gff_cmd)
+
+        return {"gff_file_path": "sorted_" + gff_file + ".gz", "index_file_path": "sorted_" + gff_file + ".gz.tbi"}
+
+
     def prepare_report(self, var_data):
         #var_data = var_obj[1]
         jbrowse_input_params = {}
@@ -35,6 +48,8 @@ class report:
 
         if 'genome_ref' in var_data:
             print ("There is genome_data")
+            jbrowse_input_params['genome_ref'] = var_data['genome_ref']
+
 
         jb = JbrowseUtil()
         jbrowse_report = jb.prepare_jbrowse_report(jbrowse_input_params)

@@ -8,6 +8,7 @@ from collections import Counter
 import subprocess
 import shutil
 import logging
+from installed_clients.GenomeFileUtilClient import GenomeFileUtil
 
 class JbrowseUtil:
     def __init__(self):
@@ -28,6 +29,53 @@ class JbrowseUtil:
             logging.info("OSError > ", e.errno)
             logging.info("OSError > ", e.strerror)
             logging.info("OSError > ", e.filename)
+
+    def get_gff_track(self, gff_shock_ref, gff_index_shock_ref):
+
+        gff_track = '''
+        {
+            "label": "Genome Features",
+            "key": "GenomeFeatures",
+            "storeClass": "JBrowse/Store/SeqFeature/GFF3Tabix",
+            "urlTemplate":"<gff_shock_ref>",
+            "tbiUrlTemplate": "<gff_index_shock_ref>",
+            "type": "JBrowse/View/Track/CanvasFeatures"
+        },
+        '''
+        gff_track = gff_track.replace("<gff_shock_ref>", gff_shock_ref)
+        gff_track = gff_track.replace ("<gff_index_shock_ref>", gff_index_shock_ref )
+
+        return gff_track
+
+
+    def prepare_gff(self, genome_ref):
+        gfu = GenomeFileUtil(self.callback_url)
+        #gff_file_info = gfu.genome_to_gff({'genome_ref': genome_ref})
+        #gff_file =  gff_file_info["file_path"]
+        gff_file = "/kb/module/work/Populus_trichocarpa.gff"
+
+        sorted_gff_cmd = "sort -k1,1 -k4,4n " + gff_file + " > " +  gff_file + "_sorted"
+        self._run_cmd(sorted_gff_cmd)
+
+        zip_cmd = "bgzip "  + gff_file + "_sorted"
+        self._run_cmd(zip_cmd)
+
+        index_gff_cmd = "tabix -p gff "   + gff_file + "_sorted.gz"
+        self._run_cmd(index_gff_cmd)
+
+        gff_gz_file_path = gff_file + "_sorted.gz"
+        gff_index_file_path = gff_file + "_sorted.gz.tbi"
+
+        if os.path.exists(gff_gz_file_path):
+            gff_shock_ref = self.dfu.file_to_shock(
+                {'file_path': gff_gz_file_path, 'make_handle': 1}
+        )
+        if os.path.exists(gff_index_file_path):
+            gff_index_shock_ref = self.dfu.file_to_shock(
+                {'file_path': gff_index_file_path, 'make_handle': 1}
+            )
+
+        return {"gff_shock_ref":   gff_shock_ref , "gff_index_shock_ref": gff_index_shock_ref}
 
     def create_refseqs_json_from_assembly(self ):
         '''
@@ -132,7 +180,8 @@ class JbrowseUtil:
 
     def prepare_jbrowse_report(self, input_params):
 
-       # input_params={'ws_url': 'https://appdev.kbase.us/services/ws', 'assembly_ref': '1745/511/24', 'scratch': '/kb/module/work/tmp', 'vcf_filepath': '/kb/module/work/tmp/791434bb-7ed5-435e-8a75-ad757dc1b30a/variation.vcf.gz', 'binsize': 10000, 'bedGraphToBigWig': '/kb/deployment/bin/bedGraphToBigWig', 'vcf_shock_id': 'fb361afb-c2dd-4ae3-9929-031344287270', 'vcf_index_shock_id': 'caad1a17-aeb4-4050-bcae-2d9eaa7d5cc1'}
+        genomic_indexes = list()
+        # input_params={'ws_url': 'https://appdev.kbase.us/services/ws', 'assembly_ref': '1745/511/24', 'scratch': '/kb/module/work/tmp', 'vcf_filepath': '/kb/module/work/tmp/791434bb-7ed5-435e-8a75-ad757dc1b30a/variation.vcf.gz', 'binsize': 10000, 'bedGraphToBigWig': '/kb/deployment/bin/bedGraphToBigWig', 'vcf_shock_id': 'fb361afb-c2dd-4ae3-9929-031344287270', 'vcf_index_shock_id': 'caad1a17-aeb4-4050-bcae-2d9eaa7d5cc1'}
 
        # self.assembly_json_file = input_params['assembly_json_file']
         self.assembly_ref = input_params['assembly_ref']
@@ -140,6 +189,17 @@ class JbrowseUtil:
         self.callback_url = input_params['callback_url']
         self.wsc = Workspace(ws_url)
         self.dfu = input_params['dfu']
+        if 'genome_ref' in input_params:
+            genome_ref = input_params['genome_ref']
+            gff_info= self.prepare_gff(genome_ref)
+            gff_shock_ref_handle = gff_info['gff_shock_ref']['handle']
+            gff_index_shock_ref_handle = gff_info['gff_index_shock_ref']['handle']
+            genomic_indexes.append(gff_shock_ref_handle)
+            genomic_indexes.append(gff_index_shock_ref_handle)
+            self.gff_shock = gff_shock_ref_handle['id']
+            self.gff_index_shock = gff_index_shock_ref_handle['id']
+
+
 
         data = self.wsc.get_object_subset([{
             'included': ['/contigs'],
@@ -172,7 +232,6 @@ class JbrowseUtil:
             )
         self.output_bigwig_shock = bigwig_shock_ref['handle']['id']
         logging.info (self.output_bigwig_shock)
-        genomic_indexes = list()
         genomic_indexes.append(bigwig_shock_ref['handle'])
 
         jbrowse_src = "/kb/module/deps/jbrowse"
@@ -210,8 +269,13 @@ class JbrowseUtil:
         data=data.replace("<vcf_index_shock_id>", self.vcf_index_shock_id)
         data = data.replace("<output_bigwig_shock>", self.output_bigwig_shock)
 
+        trackdata = data
+        if "genome_ref" in input_params:
+            gff_track = self.get_gff_track(self.gff_shock, self.gff_index_shock)
+            trackdata += gff_track
+
         with open (tracklist_path, "w") as f:
-            f.write(data)
+            f.write(trackdata)
 
         logging.info (jbrowse_dest)
         jbrowse_report = {}

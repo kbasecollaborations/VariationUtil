@@ -169,6 +169,9 @@ class VCFToVariation:
         if 'sample_attribute_ref' not in params:
             logging.info("Sample metadata was not provided")
             return
+        if params['sample_attribute_ref'] is None:
+            logging.info("Sample attribute ref is None")
+            return
 
         vcf_genotypes = self.vcf_info['genotype_ids']
         sample_ids_subset = self.wsc.get_object_subset([{
@@ -318,7 +321,8 @@ class VCFToVariation:
         if 'genome_ref' in params:
             variation_obj['genome_ref'] =  params['genome_ref']
         if 'sample_attribute_ref' in params:
-            variation_obj['sample_attribute_ref'] =  params['sample_attribute_ref']
+            if params['sample_attribute_ref'] is not None:
+                variation_obj['sample_attribute_ref'] =  params['sample_attribute_ref']
         return variation_obj
 
     def _save_var_obj(self, params, var):
@@ -372,6 +376,10 @@ class VCFToVariation:
         #params["sample_attribute_ref"] = ''  #just for testing
         if 'sample_attribute_ref' not in params:
             logging.info("Sample metadata was not provided")
+            return
+        if params['sample_attribute_ref'] is None:
+            logging.info ("sample attribute is None")
+            return
             #NOTE: Revive  this code if we make sample attribute mandatory
            #sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")   #hardcoded for testing
            #self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)

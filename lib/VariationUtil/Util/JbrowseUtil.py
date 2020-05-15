@@ -40,7 +40,7 @@ class JbrowseUtil:
             "urlTemplate":"https://appdev.kbase.us/dynserv/682063b283a644bbcb27ca7a49919b8093608d05.VariationFileServ/shock/<gff_shock_ref>",
             "tbiUrlTemplate": "https://appdev.kbase.us/dynserv/682063b283a644bbcb27ca7a49919b8093608d05.VariationFileServ/shock/<gff_index_shock_ref>",
             "type": "JBrowse/View/Track/CanvasFeatures"
-        },
+        }
         '''
         gff_track = gff_track.replace("<gff_shock_ref>", gff_shock_ref)
         gff_track = gff_track.replace ("<gff_index_shock_ref>", gff_index_shock_ref )
@@ -271,7 +271,7 @@ class JbrowseUtil:
         if "genome_ref" in input_params:
             gff_track = self.get_gff_track(self.gff_shock, self.gff_index_shock)
  
-        gff_tracks_obj = json.loads(gff_track)
+        gff_track_obj = json.loads(gff_track)
         data_j = json.loads(data)
         tracks = data_j['tracks']
         tracks.append(gff_track_obj)
@@ -280,7 +280,7 @@ class JbrowseUtil:
         'tracks':tracks
         }
         with open (tracklist_path, "w") as f:
-            f.write(trackdata)
+            f.write(json.dumps(trackdata))
 
         logging.info (jbrowse_dest)
         jbrowse_report = {}

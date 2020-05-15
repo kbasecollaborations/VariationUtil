@@ -352,6 +352,7 @@ class VCFToVariation:
             else:
                 var_obj_name = params['variation_object_name']
 
+            print (var)
             var_obj_info = self.dfu.save_objects({
                 'id': self.dfu.ws_name_to_id(params['workspace_name']),
                 'objects': [{

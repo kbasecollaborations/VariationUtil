@@ -54,14 +54,21 @@ class VariationUtilTest(unittest.TestCase):
             print('Test workspace was deleted')
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-
-    #@unittest.skip('x')
+    @unittest.skip('x')
     def test_save_variation_genome_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
             'workspace_name': 'pranjan77:narrative_1584473922605',
             'genome_or_assembly_ref': '39465/2/1',
             'vcf_staging_file_path': '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
             'variation_object_name': 'arabidopsis_test2_vcf'
+        })
+    #@unittest.skip('x')
+    def test_save_variation_genome_ref(self):
+        ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
+            'workspace_name': 'pranjan77:narrative_1588775971670',
+            'genome_or_assembly_ref': '41225/2/1',
+            'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/small_poplar.vcf.gz',
+            'variation_object_name': 'poplar_test'
         })
 
     #'sample_attribute_ref': '39465/3/1',

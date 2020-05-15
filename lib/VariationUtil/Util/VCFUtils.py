@@ -9,9 +9,10 @@ import re
 import logging
 from collections import Counter
 
+
 #logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
-logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-                    level=logging.INFO)
+#logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
+#                    level=logging.INFO)
 
 
 #logging.basicConfig(

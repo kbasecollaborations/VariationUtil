@@ -37,6 +37,9 @@ RUN wget https://github.com/EBIvariation/vcf-validator/releases/download/v0.9.1/
     && chmod 755 vcf_validator_linux \
     && mv vcf_validator_linux /kb/deployment/bin 
 
+RUN curl -O http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/bedGraphToBigWig \
+         && cp bedGraphToBigWig /kb/deployment/bin \
+         && chmod 755 /kb/deployment/bin/bedGraphToBigWig
 
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work

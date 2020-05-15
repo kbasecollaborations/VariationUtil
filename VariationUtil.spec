@@ -56,6 +56,7 @@ module VariationUtil {
     } save_variation_input;
 
     typedef structure {
+        string variation_ref;
         string report_name;
         string report_ref;
     } save_variation_output;
@@ -119,6 +120,7 @@ module VariationUtil {
 	typedef structure {
 	    filepath path;
 	    string variation_name;
+
 	} get_variation_output;
 
 	/*

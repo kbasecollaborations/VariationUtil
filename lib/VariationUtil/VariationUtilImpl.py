@@ -10,6 +10,8 @@ from installed_clients.KBaseReportClient import KBaseReport
 from VariationUtil.Util.VCFUtils import VCFUtils
 from VariationUtil.Util.VariationToVCF import VariationToVCF
 from VariationUtil.Util.VCFToVariation import VCFToVariation
+from VariationUtil.Util.JbrowseUtil import JbrowseUtil
+from VariationUtil.Util.htmlreportutils import htmlreportutils
 
 from installed_clients.WorkspaceClient import Workspace
 
@@ -46,8 +48,10 @@ class VariationUtil:
      
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
-        logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-                            level=logging.INFO)
+        self.scratch = config['scratch']
+        self.hr = htmlreportutils()
+        #logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
+        #                    level=logging.INFO)
         #END_CONSTRUCTOR
         pass
 
@@ -109,25 +113,36 @@ class VariationUtil:
         var_obj = vtv.import_vcf(params, vcf_info)
         var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])
 
-        upload_message = "Variation object created."
-        upload_message += "\nObject #"+str(var_obj[0][0])
-        upload_message += "\nObject name: "+ str(var_obj[0][1])
-        upload_message += "\nGenotypes in variation: "+str(var_obj[1]['numgenotypes'])
-        upload_message += "\nVariants in VCF file: "+str(var_obj[1]['numvariants'])
+        jbrowse_report = var_obj[2]
+        workspace = params['workspace_name']
+        created_objects = []
+        created_objects.append({"ref": var_obj_ref,
+                                "description": "Variation Object"})
+        report = self.hr.create_html_report(self.callback_url, jbrowse_report['jbrowse_data_path'], workspace, created_objects)
+        report['variation_ref'] = var_obj_ref
+        print (report)
 
-        report_obj = {
-            'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
-            'text_message': upload_message
-        }
 
-        report_client = KBaseReport(self.callback_url)
-        report_create = report_client.create({'report': report_obj, 'workspace_name': params['workspace_name']})
 
-        report = {
-            "report_name": report_create['name'],
-            "report_ref": report_create['ref'],
-            "workspace_name": params["workspace_name"]
-        }
+       # upload_message = "Variation object created."
+       # upload_message += "\nObject #"+str(var_obj[0][0])
+       # upload_message += "\nObject name: "+ str(var_obj[0][1])
+       # upload_message += "\nGenotypes in variation: "+str(var_obj[1]['numgenotypes'])
+       # upload_message += "\nVariants in VCF file: "+str(var_obj[1]['numvariants'])
+
+       # report_obj = {
+       #     'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
+       #     'text_message': upload_message
+       # }
+
+       # report_client = KBaseReport(self.callback_url)
+       # report_create = report_client.create({'report': report_obj, 'workspace_name': params['workspace_name']})
+
+       # report = {
+       #     "report_name": report_create['name'],
+       #     "report_ref": report_create['ref'],
+       #     "workspace_name": params["workspace_name"]
+       # }
 
         #END save_variation_from_vcf
 

@@ -1,0 +1,20 @@
+{
+    "formatVersion": 1,
+    "tracks": [
+        {
+            "label": "Variatiom",
+            "key": "Variation",
+            "storeClass": "JBrowse/Store/SeqFeature/VCFTabix",
+            "urlTemplate": "https://appdev.kbase.us/dynserv/682063b283a644bbcb27ca7a49919b8093608d05.VariationFileServ/shock/<vcf_shock_id>",
+            "tbiUrlTemplate": "https://appdev.kbase.us/dynserv/682063b283a644bbcb27ca7a49919b8093608d05.VariationFileServ/shock/<vcf_index_shock_id>",
+            "type": "JBrowse/View/Track/HTMLVariants"
+        },
+        {
+            "label": "Variation Densityy",
+            "key": "Variation_density",
+            "storeClass": "JBrowse/Store/SeqFeature/BigWig",
+            "urlTemplate":"https://appdev.kbase.us/dynserv/682063b283a644bbcb27ca7a49919b8093608d05.VariationFileServ/shock/<output_bigwig_shock>",
+            "type": "JBrowse/View/Track/Wiggle/XYPlot"
+        }
+    ]
+}

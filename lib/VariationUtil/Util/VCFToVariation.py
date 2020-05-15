@@ -15,10 +15,15 @@ from installed_clients.WorkspaceClient import Workspace
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.GenericsAPIClient import GenericsAPI
 
+from VariationUtil.Util.report import report
+
+
+
+
 
 #logging.basicConfig(format='%(created)s %(levelname)s: %(message)s')
-logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-                    level=logging.INFO)
+#logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
+#                    level=logging.INFO)
 
 
 #logging.basicConfig(
@@ -278,16 +283,18 @@ class VCFToVariation:
 
         logging.info("Uploading VCF file to shock")
         bgzip_file_path = params['vcf_local_file_path']
-        vcf_shock_file_ref = self.dfu.file_to_shock(
-            {'file_path': bgzip_file_path, 'make_handle': 1}
-        )
+        if os.path.exists(bgzip_file_path):
+            vcf_shock_file_ref = self.dfu.file_to_shock(
+                {'file_path': bgzip_file_path, 'make_handle': 1}
+            )
         #compare_md5_local_with_shock(bgzip_file_path, vcf_shock_file_ref)
 
         logging.info("Uploading VCF index file to shock")
         index_file_path = params['vcf_index_file_path']
-        vcf_index_shock_file_ref = self.dfu.file_to_shock(
-            {'file_path': index_file_path, 'make_handle': 1}
-        )
+        if os.path.exists(index_file_path):
+            vcf_index_shock_file_ref = self.dfu.file_to_shock(
+                {'file_path': index_file_path, 'make_handle': 1}
+            )
         #compare_md5_local_with_shock(index_file_path, vcf_index_shock_file_ref)
 
       #  assembly_file_path = self._download_assembly(self.vcf_info['assembly_ref'])['path']
@@ -406,12 +413,30 @@ class VCFToVariation:
         logging.info("Creating contig info")
         contigs_info = self._construct_contig_info(params)
 
+
+
+
+
         logging.info("Adding chromoosome length")
         # construct variation
         var = self._construct_variation(params, contigs_info)
+        print (var)
+
+        #Building things for jbrowse report
+        params['ws_url'] = self.ws_url
+        params['scratch'] = self.scratch
+        params['callback_url'] = self.callback_url
+        rp = report(params)
+        jbrowse_report = rp.prepare_report(var)
+
+        var['genomic_indexes'] = jbrowse_report['genomic_indexes']
+
+
+
+
 
         logging.info("Saving variation object to workspace")
         # Save variation object to workspace
         var_wksp_obj = self._save_var_obj(params, var)
 
-        return [var_wksp_obj, var]
+        return [var_wksp_obj, var, jbrowse_report]

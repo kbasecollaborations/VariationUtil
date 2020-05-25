@@ -5,14 +5,10 @@ import os
 import uuid
 from pprint import pprint as pp
 
-from installed_clients.KBaseReportClient import KBaseReport
-
 from VariationUtil.Util.VCFUtils import VCFUtils
 from VariationUtil.Util.VariationToVCF import VariationToVCF
 from VariationUtil.Util.VCFToVariation import VCFToVariation
-from VariationUtil.Util.JbrowseUtil import JbrowseUtil
 from VariationUtil.Util.htmlreportutils import htmlreportutils
-
 from installed_clients.WorkspaceClient import Workspace
 
 #END_HEADER

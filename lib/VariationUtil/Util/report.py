@@ -1,5 +1,4 @@
 from VariationUtil.Util.JbrowseUtil import JbrowseUtil
-from VariationUtil.Util.htmlreportutils import htmlreportutils
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
 

@@ -350,31 +350,13 @@ class VCFToVariation:
         :return:
         """
 
-        # params["sample_attribute_ref"] = ''  #just for testing
         if 'sample_attribute_ref' not in params:
             logging.info("Sample metadata was not provided")
             return
         if params['sample_attribute_ref'] is None:
             logging.info("sample attribute is None")
             return
-            # NOTE: Revive  this code if we make sample attribute mandatory
-            # #hardcoded for testing
-            # sample_attribute_mapping_file = os.path.join(self.scratch ,"sample_attribute.tsv")
-            # self._create_sample_attribute_file(params['vcf_local_file_path'], sample_attribute_mapping_file)
-            # logging.info("Uploading sample attribute file to shock")
-            # vcf_sample_attribute_shock_file_ref = self.dfu.file_to_shock(
-            #    {'file_path': sample_attribute_mapping_file, 'make_handle': 1}
-            # )
-            # shock_id = vcf_sample_attribute_shock_file_ref['shock_id']
-            # ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
-            # import_params = {
-            #       'input_shock_id' : shock_id,
-            #       'output_ws_id': ws_id,
-            #       'output_obj_name': 'Sample_attribute'}
-
-            # ret = self.gapi.file_to_attribute_mapping(import_params)
-            # params['sample_attribute_ref'] = ret['attribute_mapping_ref']
-            return
+        return
 
     def import_vcf(self, params, vcf_info):
         # VCF validation

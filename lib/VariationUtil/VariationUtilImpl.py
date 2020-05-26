@@ -2,15 +2,12 @@
 #BEGIN_HEADER
 import logging
 import os
-import uuid
-from pprint import pprint as pp
 
+from VariationUtil.Util.VCFToVariation import VCFToVariation
 from VariationUtil.Util.VCFUtils import VCFUtils
 from VariationUtil.Util.VariationToVCF import VariationToVCF
-from VariationUtil.Util.VCFToVariation import VCFToVariation
 from VariationUtil.Util.htmlreportutils import htmlreportutils
 from installed_clients.WorkspaceClient import Workspace
-
 #END_HEADER
 
 
@@ -41,17 +38,15 @@ class VariationUtil:
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
         self.config = config
-     
+
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.shared_folder = config['scratch']
         self.scratch = config['scratch']
         self.hr = htmlreportutils()
-        #logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
-        #                    level=logging.INFO)
-        #END_CONSTRUCTOR
+        self.ws_url = config['workspace-url']
+        self.wsc = Workspace(self.ws_url)
         pass
-
-
+        #END_CONSTRUCTOR
     def save_variation_from_vcf(self, ctx, params):
         """
         Save a variation (and trait?) object to Kbase given a reference genome, object output name,
@@ -80,66 +75,56 @@ class VariationUtil:
         # ctx is the context object
         # return variables are: report
         #BEGIN save_variation_from_vcf
+
+        # 1) Find whether the input is a genome or assembly
+
         genome_or_assembly_ref = params['genome_or_assembly_ref']
-        ws_url = self.config['workspace-url']
-        wsc = Workspace(ws_url)
-        obj_type = wsc.get_object_info3({'objects': [{'ref': genome_or_assembly_ref}]})['infos'][0][2]
+        obj_type = self.wsc.get_object_info3({'objects':
+                                                  [{'ref': genome_or_assembly_ref}]})['infos'][0][2]
         if ('KBaseGenomes.Genome' in obj_type):
             params['genome_ref'] = genome_or_assembly_ref
         elif ('KBaseGenomeAnnotations.Assembly' in obj_type):
             params['assembly_ref'] = genome_or_assembly_ref
         else:
-          raise ValueError(obj_type + ' is not the right input for this method. Valid input include KBaseGenomes.Genome or KBaseGenomeAnnotations.Assembly ' )
+            raise ValueError(obj_type + ' is not the right input for this method. '
+                                      + 'Valid input include KBaseGenomes.Genome or '
+                                      + 'KBaseGenomeAnnotations.Assembly ')
 
-        logging.info ("Now sanitizing VCF")
+        # 2)  Validate VCF, sanitize vcf, build VCF index
+        logging.info("Now sanitizing VCF")
+
         VCU = VCFUtils(params, self.config)
         result = VCU.sanitize_vcf()
+
         if result is not None:
             params['vcf_local_file_path'] = result[0]
-            params['vcf_index_file_path'] = result [1]
-            logging.info ("Sanitized variation vcf info :" + str(result[0]))
-            logging.info ("Sanitized variation index info :" + str(result[1]))
+            params['vcf_index_file_path'] = result[1]
+            logging.info("Sanitized variation vcf info :" + str(result[0]))
+            logging.info("Sanitized variation index info :" + str(result[1]))
         else:
-            raise ValueError ("No result obtained after sanitization step")
+            raise ValueError("No result obtained after sanitization step")
 
-        logging.info ("Now parsing vcf to get vcf info")
+        # 3) parse vcf to get VCF info
+        logging.info("Now parsing vcf to get vcf info")
         vcf_info = VCU.parse_vcf_data(result[0])
 
-        vtv = VCFToVariation(self.config, self.shared_folder, self.callback_url )
+        # 4) Create variation object
+        vtv = VCFToVariation(self.config, self.shared_folder, self.callback_url)
         var_obj = vtv.import_vcf(params, vcf_info)
-        var_obj_ref = str(var_obj[0][6])+"/"+str(var_obj[0][0])+"/"+str(var_obj[0][4])
+        var_obj_ref = str(var_obj[0][6]) + "/" + str(var_obj[0][0]) + "/" + str(var_obj[0][4])
 
+        # 5) Build jbrowse html report
         jbrowse_report = var_obj[2]
         workspace = params['workspace_name']
         created_objects = []
         created_objects.append({"ref": var_obj_ref,
                                 "description": "Variation Object"})
-        report = self.hr.create_html_report(self.callback_url, jbrowse_report['jbrowse_data_path'], workspace, created_objects)
+        report = self.hr.create_html_report(self.callback_url,
+                                            jbrowse_report['jbrowse_data_path'],
+                                            workspace,
+                                            created_objects)
         report['variation_ref'] = var_obj_ref
-        print (report)
-
-
-
-       # upload_message = "Variation object created."
-       # upload_message += "\nObject #"+str(var_obj[0][0])
-       # upload_message += "\nObject name: "+ str(var_obj[0][1])
-       # upload_message += "\nGenotypes in variation: "+str(var_obj[1]['numgenotypes'])
-       # upload_message += "\nVariants in VCF file: "+str(var_obj[1]['numvariants'])
-
-       # report_obj = {
-       #     'objects_created': [{'ref': var_obj_ref, 'description': 'Variation object from VCF file.'}],
-       #     'text_message': upload_message
-       # }
-
-       # report_client = KBaseReport(self.callback_url)
-       # report_create = report_client.create({'report': report_obj, 'workspace_name': params['workspace_name']})
-
-       # report = {
-       #     "report_name": report_create['name'],
-       #     "report_ref": report_create['ref'],
-       #     "workspace_name": params["workspace_name"]
-       # }
-
+        print(report)
         #END save_variation_from_vcf
 
         # At some point might do deeper type checking...
@@ -204,6 +189,7 @@ class VariationUtil:
                              'file is not type dict as required.')
         # return the results
         return [file]
+
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

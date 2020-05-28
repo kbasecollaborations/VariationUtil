@@ -268,13 +268,14 @@ class JbrowseUtil:
         data=data.replace("<vcf_shock_id>", self.vcf_shock_id)
         data=data.replace("<vcf_index_shock_id>", self.vcf_index_shock_id)
         data = data.replace("<output_bigwig_shock>", self.output_bigwig_shock)
-        if "genome_ref" in input_params:
-            gff_track = self.get_gff_track(self.gff_shock, self.gff_index_shock)
- 
-        gff_track_obj = json.loads(gff_track)
         data_j = json.loads(data)
         tracks = data_j['tracks']
-        tracks.append(gff_track_obj)
+ 
+        if "genome_ref" in input_params:
+            gff_track = self.get_gff_track(self.gff_shock, self.gff_index_shock)
+            gff_track_obj = json.loads(gff_track)
+            tracks.append(gff_track_obj)
+
         trackdata = {
         'formatVersion':1,
         'tracks':tracks

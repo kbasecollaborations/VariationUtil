@@ -319,7 +319,7 @@ class VCFUtils:
         if not reheader_result:
             final_vcf, final_index = bgzip_filepath, bgzip_index_filepath
         else:
-            final_vcf, final_index = result
+            final_vcf, final_index = reheader_result
         return(final_vcf, final_index)
 
 

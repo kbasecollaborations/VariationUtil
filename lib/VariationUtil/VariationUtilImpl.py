@@ -2,12 +2,15 @@
 #BEGIN_HEADER
 import logging
 import os
-
+import json
 from VariationUtil.Util.VCFToVariation import VCFToVariation
 from VariationUtil.Util.VCFUtils import VCFUtils
 from VariationUtil.Util.VariationToVCF import VariationToVCF
 from VariationUtil.Util.htmlreportutils import htmlreportutils
+from VariationUtil.Util.JbrowseUtil import JbrowseUtil
 from installed_clients.WorkspaceClient import Workspace
+from installed_clients.DataFileUtilClient import DataFileUtil
+
 #END_HEADER
 
 
@@ -31,6 +34,7 @@ class VariationUtil:
     GIT_COMMIT_HASH = "5c21f7b209448d534b4f4c1477d027046eb0247b"
 
     #BEGIN_CLASS_HEADER
+
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -39,12 +43,13 @@ class VariationUtil:
         #BEGIN_CONSTRUCTOR
         self.config = config
 
-        self.callback_url = os.environ['SDK_CALLBACK_URL']
-        self.shared_folder = config['scratch']
+        callback_url = os.environ['SDK_CALLBACK_URL']
         self.scratch = config['scratch']
         self.hr = htmlreportutils()
         self.ws_url = config['workspace-url']
         self.wsc = Workspace(self.ws_url)
+        self.dfu = DataFileUtil(callback_url)
+        self.sw_url = config['srv-wiz-url']
         pass
         #END_CONSTRUCTOR
     def save_variation_from_vcf(self, ctx, params):
@@ -75,52 +80,118 @@ class VariationUtil:
         # ctx is the context object
         # return variables are: report
         #BEGIN save_variation_from_vcf
+        genome_ref = None
+        assembly_ref = None
 
         # 1) Find whether the input is a genome or assembly
+        #    and get genome_ref and assembly_ref
 
         genome_or_assembly_ref = params['genome_or_assembly_ref']
-        obj_type = self.wsc.get_object_info3({'objects':
-                                                  [{'ref': genome_or_assembly_ref}]})['infos'][0][2]
+        obj_type = self.wsc.get_object_info3({
+            'objects':[{
+                'ref': genome_or_assembly_ref
+                      }]})['infos'][0][2]
         if ('KBaseGenomes.Genome' in obj_type):
-            params['genome_ref'] = genome_or_assembly_ref
+            genome_ref = genome_or_assembly_ref
+            subset = self.wsc.get_object_subset([{
+                    'included': ['/assembly_ref'],
+                    'ref': genome_ref
+                }])
+            assembly_ref = subset[0]['data']['assembly_ref']
         elif ('KBaseGenomeAnnotations.Assembly' in obj_type):
-            params['assembly_ref'] = genome_or_assembly_ref
+            assembly_ref = genome_or_assembly_ref
         else:
             raise ValueError(obj_type + ' is not the right input for this method. '
                                       + 'Valid input include KBaseGenomes.Genome or '
                                       + 'KBaseGenomeAnnotations.Assembly ')
 
-        # 2)  Validate VCF, sanitize vcf, build VCF index
-        logging.info("Now sanitizing VCF")
 
-        VCU = VCFUtils(params, self.config)
-        result = VCU.sanitize_vcf()
+        # 2)  Validate VCF, compress, and build VCF index
+        logging.info("Validating VCF, Compressing VCF and Indexing VCF")
+        VCFUtilsConfig = {
+            "scratch": self.scratch
+        }
+        VCFUtilsParams = {
+            'vcf_staging_file_path': params['vcf_staging_file_path']
+        }
+        VCU = VCFUtils(VCFUtilsConfig)
+        vcf_compressed, vcf_index = VCU.validate_compress_and_index_vcf(VCFUtilsParams)
 
-        if result is not None:
-            params['vcf_local_file_path'] = result[0]
-            params['vcf_index_file_path'] = result[1]
-            logging.info("Sanitized variation vcf info :" + str(result[0]))
-            logging.info("Sanitized variation index info :" + str(result[1]))
+        if vcf_index is not None:
+            logging.info("vcf compressed :" + str(vcf_compressed))
+            logging.info("vcf index :" + str(vcf_index))
         else:
-            raise ValueError("No result obtained after sanitization step")
+            raise ValueError("No result obtained after compression and indexing step")
 
-        # 3) parse vcf to get VCF info
-        logging.info("Now parsing vcf to get vcf info")
-        vcf_info = VCU.parse_vcf_data(result[0])
+        # 3) Create json for variation object. In a following step genomic_indexes will be
+        # added to this json before it is saved as Variation object
 
-        # 4) Create variation object
-        vtv = VCFToVariation(self.config, self.shared_folder, self.callback_url)
-        var_obj = vtv.import_vcf(params, vcf_info)
-        var_obj_ref = str(var_obj[0][6]) + "/" + str(var_obj[0][0]) + "/" + str(var_obj[0][4])
+        VCFToVariationConfig = {
+            "ws_url": self.ws_url,
+            "scratch": self.scratch
+        }
+        VCFToVariationParams = {
+            "vcf_compressed": vcf_compressed,
+            "vcf_index": vcf_index,
+            "assembly_ref": assembly_ref
+        }
+        if 'sample_attribute_ref' in params:
+            if params['sample_attribute_ref'] is not None:
+                VCFToVariationParams['sample_attribute_ref'] = params['sample_attribute_ref']
+        if genome_ref is not None:
+            VCFToVariationParams['genome_ref'] = genome_ref
+
+        vtv = VCFToVariation(VCFToVariationConfig)
+        variation_object_data = vtv.generate_variation_object_data(VCFToVariationParams)
+
+
+        # 4)
+        JbrowseConfig = {
+            "ws_url": self.ws_url,
+            "scratch": self.scratch,
+            "sw_url": self.sw_url
+        }
+        jbrowseParams = {
+            "vcf_path": vcf_compressed,
+            "assembly_ref": assembly_ref,
+            "binsize": 10000,
+            "vcf_shock_id": variation_object_data['vcf_handle']['id'],
+            "vcf_index_shock_id":variation_object_data['vcf_index_handle']['id']
+        }
+        if 'genome_ref' in params:
+            JbrowseParams["genome_ref"] = params['genome_ref']
+
+        jb = JbrowseUtil(JbrowseConfig)
+        jbrowse_report = jb.prepare_jbrowse_report(jbrowseParams)
+
+
+        # 5) Now we have the genomic indices and we have all the information needed to save
+        # the variation object
+
+        variation_object_data['genomic_indexes'] = jbrowse_report['genomic_indexes']
+        print (json.dumps(variation_object_data))
+
+        var_obj = self.dfu.save_objects({
+            'id': self.dfu.ws_name_to_id(params['workspace_name']),
+            'objects': [{
+                'type': 'KBaseGwasData.Variations',
+                'data': variation_object_data,
+                'name': params['variation_object_name']
+            }]
+        })[0]
+
+        var_obj_ref = str(var_obj[6]) + "/" + str(var_obj[0]) + "/" + str(var_obj[4])
+        print (var_obj_ref)
+
 
         # 5) Build jbrowse html report
-        jbrowse_report = var_obj[2]
         workspace = params['workspace_name']
         created_objects = []
-        created_objects.append({"ref": var_obj_ref,
-                                "description": "Variation Object"})
-        report = self.hr.create_html_report(self.callback_url,
-                                            jbrowse_report['jbrowse_data_path'],
+        created_objects.append({
+            "ref": var_obj_ref,
+            "description": "Variation Object"
+            })
+        report = self.hr.create_html_report(jbrowse_report['jbrowse_data_path'],
                                             workspace,
                                             created_objects)
         report['variation_ref'] = var_obj_ref

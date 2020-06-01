@@ -10,9 +10,8 @@ from itertools import islice
 
 class VCFUtils:
 
-    def __init__(self, params, config):
-        self.params = params
-        self.scratch = config['scratch']
+    def __init__(self, Config):
+        self.scratch = Config['scratch']
 
     def _mkdir_p(self, path):
         """
@@ -29,7 +28,7 @@ class VCFUtils:
             else:
                 raise
 
-    def guess_effective_staging_path(self, filepath):
+    def guess_effective_staging_path(self, staging_path):
         """
         Handles a bug in narrative staging file path.
         by prepending "/staging"
@@ -38,26 +37,21 @@ class VCFUtils:
         :return: effective_staging_path
         """
         # Guess effective staging file path
-        staging_file_path = self.params["vcf_staging_file_path"]
-        if (staging_file_path.startswith("/kb/module")):
-            effective_staging_filepath = staging_file_path
+        if (staging_path.startswith("/kb/module")):
+            effective_staging_path = staging_path
         else:
-            effective_staging_filepath = os.path.join("/staging",
-                                                      staging_file_path)
+            effective_staging_path = os.path.join("/staging",
+                                                      staging_path)
 
-        if (os.path.exists(effective_staging_filepath)):
-            return (effective_staging_filepath)
+        if (os.path.exists(effective_staging_path)):
+            return (effective_staging_path)
         else:
             raise RuntimeError("File not found at "
-                               + effective_staging_filepath)
+                               + effective_staging_path)
 
     def is_gz_file(self, filepath):
         with open(filepath, 'rb') as test_f:
             return binascii.hexlify(test_f.read(2)) == b'1f8b'
-
-    def is_ascii_file(self, filepath):
-        # TODO: Put proper test for ascii file
-        return True
 
     def looks_like_vcf_file(self, filepath):
         """
@@ -236,130 +230,34 @@ class VCFUtils:
         else:
             return
 
-    def _parse_header(self, record, category):
-        """
-        parses vcf header which looks like the following
-        and get details for the IDs like DP, q10
-        This information is useful in filtering
-        ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
-        ##FILTER=<ID=q10,Description="Quality below 10">
-        ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
-        [
-            {
-            },
-            {
-            },
-            {
-            }
-        ]
-        """
-        # TODO: Improve code
-        returninfo = {"Category": category}
-        info = re.sub(".*<", "", record)
-        info = info.replace(">", "")
-        infolist = info.replace('"', '').rstrip().split(",")
-        for fields in infolist:
-            data = fields.split("=")
-            key = data.pop(0)
-            val = "=".join(data)
-            val = val.replace("\"", "")
-            returninfo[key] = val
-        return returninfo
 
-    def parse_vcf_data(self, vcf_filepath):
-        """
-        parses vcf file including headers and prepares
-        information that will be uploaded to KBase workspace
-        :param vcf_filepath:
-        :return:
-        """
-        # TODO: Attach chromosome length in main code
-        #
-        reader = gzip.open(vcf_filepath, "rt")
-        version = ""
-        genotypes = ""
-        #
-        # TODO: Take care of length
-        # 'length': int(record.affected_end - record.affected_start),
-        #  Remove passvariants
-        counter = 0
-        chromosomes = []
-        contigs = {}
-        header = list()
-        totalvars = 0
 
-        for record in reader:
-
-            # Handle header lines and parse information
-            if record[0] == "#":
-                if record.startswith("##fileformat"):
-                    version = record.replace("##fileformat=", "").rstrip()
-                if record.startswith("##INFO=<"):
-                    info = self._parse_header(record, "INFO")
-                    header.append(info)
-                if record.startswith("##FORMAT=<"):
-                    info = self._parse_header(record, "FORMAT")
-                    header.append(info)
-                if record.startswith("##FILTER=<"):
-                    info = self._parse_header(record, "FILTER")
-                    header.append(info)
-                if (record.startswith("#CHROM")):
-                    # This is the chrome line
-                    record = record.rstrip()
-                    values = record.split("\t")
-                    genotypes = values[9:]
-                continue
-
-            # Handle the actual VCF content and parese information
-            counter = counter + 1
-            CHROM, POS, *r = record.split("\t")
-            totalvars += 1
-            if CHROM not in chromosomes:
-                chromosomes.append(CHROM)
-                contigs[CHROM] = {
-                    'contig_id': CHROM,
-                    'totalvariants': 1,
-                    'passvariants': 0,
-                }
-            else:
-                contigs[CHROM]['totalvariants'] += 1
-        vcf_info = {
-            'version': version,
-            'contigs': contigs,
-            'total_variants': totalvars,
-            'genotype_ids': genotypes,
-            'chromosome_ids': chromosomes,
-            'file_ref': vcf_filepath,
-            'header': header
-        }
-
-        return vcf_info
-
-    def sanitize_vcf(self):
+    def validate_compress_and_index_vcf(self, params):
         """
         Parses VCF file, validates, compresses, indexes
         and returns vcf file and index file path
         :return:
         """
 
-        # Generate a session id to keep all intermediate files
+        staging_path = params['vcf_staging_file_path']
+
+        # 1) Generate a session id to keep all intermediate files
         # in one common folder
         session_id = str(uuid.uuid4())
         session_directory = os.path.join(self.scratch, session_id)
         self._mkdir_p(session_directory)
 
-        # Guess staging file path. Takes care of the path issue in staging
-        staging_path = self.params["vcf_staging_file_path"]
+        # 2) Guess staging file path. Takes care of the path issue in staging
         effective_staging_path = self.guess_effective_staging_path(staging_path)
 
-        # Quickly guess filetype (Just read first 100,000 lines) and fail if
+        # 3) Quickly guess filetype (Just read first 100,000 lines) and fail if
         # file is not valid vcf. This is needed for really large files with millions
         # of rows.
         logging.info("Guessing VCF file type and compression")
         filetype = self.looks_like_vcf_file(effective_staging_path)
         logging.info("Input file type is " + filetype)
 
-        # Create bgzip compressed VCF variation and index
+        # 4) Create bgzip compressed VCF variation
         # bgzip compressed variation can be used with large number of
         # tools that work with vcf files. Default index is .tbi
         logging.info("Compressing VCF file using bgzip")
@@ -368,13 +266,14 @@ class VCFUtils:
                                              filetype,
                                              session_directory,
                                              bgzip_filename)
+        logging.info("compressed vcf is in " + bgzip_filepath)
 
-        logging.info("Created compressed file" + bgzip_filepath)
+        # 5) Create vcf index using tabix
         logging.info("Creating index")
         bgzip_index_filepath = self.index_vcf_file(bgzip_filepath)
         logging.info("Created index " + bgzip_index_filepath)
 
-        # Check if the column header in the VCF file has characters like / fix them
+        # 6) Check if the column header in the VCF file has characters like "/" fix them
         logging.info("Checking if headers in VCF need to be fixed")
         reheader_result = self.check_and_fix_headers(bgzip_filepath)
         if not reheader_result:

@@ -9,18 +9,19 @@ import shutil
 class htmlreportutils:
 
     def __init__(self):
+        callback_url = os.environ['SDK_CALLBACK_URL']
+        self.dfu = DataFileUtil(callback_url)
+        self.report = KBaseReport(callback_url)
         pass
 
-    def create_html_report(self, callback_url, output_dir, workspace_name, objects_created):
+    def create_html_report(self, output_dir, workspace_name, objects_created):
         '''
          function for creating html report
         '''
 
-        dfu = DataFileUtil(callback_url)
         report_name = 'VariationReport' + str(uuid.uuid4())
-        report = KBaseReport(callback_url)
-  
-        report_shock_id = dfu.file_to_shock({'file_path': output_dir,
+
+        report_shock_id = self.dfu.file_to_shock({'file_path': output_dir,
                                             'pack': 'zip'})['shock_id']
 
         html_file = {
@@ -30,7 +31,7 @@ class htmlreportutils:
             'description': 'Variation HTML report'
             }
         
-        report_info = report.create_extended_report({
+        report_info = self.report.create_extended_report({
                         'objects_created': objects_created,
                         'direct_html_link_index': 0,
                         'html_links': [html_file],

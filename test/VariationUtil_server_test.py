@@ -55,15 +55,7 @@ class VariationUtilTest(unittest.TestCase):
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     @unittest.skip('x')
-    def test_save_variation_genome_ref(self):
-        ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
-            'workspace_name': 'pranjan77:narrative_1584473922605',
-            'genome_or_assembly_ref': '39465/2/1',
-            'vcf_staging_file_path': '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
-            'variation_object_name': 'arabidopsis_test2_vcf'
-        })
-    #@unittest.skip('x')
-    def test_save_variation_genome_ref(self):
+    def test_save_variation_genome_ref_2(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
             'workspace_name': 'pranjan77:narrative_1590506298308',
             'genome_or_assembly_ref': '41668/3/1',
@@ -74,17 +66,22 @@ class VariationUtilTest(unittest.TestCase):
 
     #'sample_attribute_ref': '39465/3/1',
 
-    @unittest.skip('x')
+    #@unittest.skip('x')
     def test_save_variation_assembly_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
-            'workspace_name': 'pranjan77:narrative_1584473922605',
-            'genome_or_assembly_ref': '1745/511/24',
-            'vcf_staging_file_path': '/kb/module/test/sample_data/vcf/LFC_arabidopsis.vcf',
-            'sample_attribute_ref': '39465/3/1',
-            'variation_object_name': 'arabidopsis_test3_vcf'
+            'workspace_name': 'pranjan77:narrative_1590506298308',
+            'genome_or_assembly_ref': '41668/2/1',
+            'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/small_poplar.vcf.gz',
+            'variation_object_name': 'small_poplar_assembly'
         })
 
-
+    @unittest.skip('x')
+    def test_get_variation_as_vcf_1(self):
+        ret = self.serviceImpl.get_variation_as_vcf(self.ctx, {
+            'variation_ref': '41668/19/1',
+            'filename':"small_poplar.vcf"
+        })
+        print (ret)
 
 
     """

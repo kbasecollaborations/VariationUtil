@@ -43,12 +43,13 @@ class VariationUtil:
         #BEGIN_CONSTRUCTOR
         self.config = config
 
-        callback_url = os.environ['SDK_CALLBACK_URL']
+        self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.scratch = config['scratch']
+        self.shared_folder = config['scratch']
         self.hr = htmlreportutils()
         self.ws_url = config['workspace-url']
         self.wsc = Workspace(self.ws_url)
-        self.dfu = DataFileUtil(callback_url)
+        self.dfu = DataFileUtil(self.callback_url)
         self.sw_url = config['srv-wiz-url']
         pass
         #END_CONSTRUCTOR
@@ -153,7 +154,6 @@ class VariationUtil:
         }
         jbrowseParams = {
             "vcf_path": vcf_compressed,
-            "genome_ref": genome_ref,
             "assembly_ref": assembly_ref,
             "binsize": 10000,
             "vcf_shock_id": variation_object_data['vcf_handle']['id'],

@@ -324,7 +324,7 @@ class VCFToVariation:
 
         logging.info("Parsing vcf started")
         vcf_info['assembly_ref'] = assembly_ref
-        if genome_ref in params:
+        if 'genome_ref' in params:
             vcf_info['genome_ref'] = genome_ref
 
         logging.info("Comparing assembly ids")
@@ -339,7 +339,7 @@ class VCFToVariation:
         logging.info("Validating sample ids")
         # Validate vcf genotypes against sample meta data ids
         # provided in sample_attribute_ref
-        if  'sample_attribute_ref' in params:
+        if 'sample_attribute_ref' in params:
             result = self._validate_sample_ids(vcf_info, params['sample_attribute_ref'])
             if result:
                 vcf_info['sample_attribute_ref'] = params['sample_attribute_ref']

@@ -153,6 +153,7 @@ class VariationUtil:
         }
         jbrowseParams = {
             "vcf_path": vcf_compressed,
+            "genome_ref": genome_ref,
             "assembly_ref": assembly_ref,
             "binsize": 10000,
             "vcf_shock_id": variation_object_data['vcf_handle']['id'],

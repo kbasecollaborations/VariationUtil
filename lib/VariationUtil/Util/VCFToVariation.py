@@ -62,7 +62,6 @@ class VCFToVariation:
             }
         ]
         """
-        # TODO: Improve code
         returninfo = {"Category": category}
         info = re.sub(".*<", "", record)
         info = info.replace(">", "")

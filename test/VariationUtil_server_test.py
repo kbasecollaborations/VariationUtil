@@ -69,7 +69,7 @@ class VariationUtilTest(unittest.TestCase):
             'genome_or_assembly_ref': '41668/3/1',
             'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/small_poplar.vcf.gz',
             'sample_attribute_ref': None,
-            'variation_object_name': 'poplar_test'
+            'variation_object_name': 'poplar_test2'
         })
 
     #'sample_attribute_ref': '39465/3/1',

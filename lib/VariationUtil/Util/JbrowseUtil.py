@@ -17,10 +17,11 @@ class JbrowseUtil:
     def __init__(self, Config):
         callback_url = os.environ['SDK_CALLBACK_URL']
         ws_url = Config['ws_url']
-        self.sw_url = Config['sw_url']
         self.wsc = Workspace(ws_url)
         self.dfu = DataFileUtil(callback_url)
         self.gfu = GenomeFileUtil(callback_url)
+        #service-wizard url
+        self.sw_url = Config['sw_url']
         scratch = Config['scratch']
         session = str(uuid.uuid4())
         self.session_dir = (os.path.join(scratch, session))
@@ -32,6 +33,7 @@ class JbrowseUtil:
         get the most recent VariationFileServ url from the service wizard.
         sw_url: service wizard url
         '''
+        # TODO Fix the following dev thing to beta or release or future
         json_obj = {
             "method": "ServiceWizard.get_service_status",
             "id": "",
@@ -124,7 +126,6 @@ class JbrowseUtil:
             )
 
         # 6 Create gff track text that will be used for genome features track
-        # TODO: Fix vfs_url issue in all tracks
         gff_track = '''
         {
             "label": "Genome Features",
@@ -182,7 +183,6 @@ class JbrowseUtil:
             chr_length_dict[c_id] = c_length
 
         # 2) Write contig lengths to a file (needed later)
-        # TODO: Make file name random
         if chr_length_data is not None:
             chr_length_path = os.path.join(self.session_dir,
                                             "chr_length.txt")
@@ -238,7 +238,6 @@ class JbrowseUtil:
 
         # 8) Build snp frequency track
         output_bigwig_shock = bigwig_shock_ref['handle']['id']
-        #TODO: Fix url
         snp_frequency_track = '''
         {
             "label": "Variation Densityy", 

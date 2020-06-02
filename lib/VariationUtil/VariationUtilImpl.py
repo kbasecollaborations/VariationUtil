@@ -159,8 +159,8 @@ class VariationUtil:
             "vcf_shock_id": variation_object_data['vcf_handle']['id'],
             "vcf_index_shock_id":variation_object_data['vcf_index_handle']['id']
         }
-        if 'genome_ref' in params:
-            JbrowseParams["genome_ref"] = params['genome_ref']
+        if genome_ref is not None:
+            JbrowseParams["genome_ref"] = genome_ref
 
         jb = JbrowseUtil(JbrowseConfig)
         jbrowse_report = jb.prepare_jbrowse_report(jbrowseParams)

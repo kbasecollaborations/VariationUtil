@@ -45,7 +45,11 @@ class VariationUtilTest(unittest.TestCase):
         cls.serviceImpl = VariationUtil(cls.cfg)
         cls.scratch = cls.cfg['scratch']
         cls.callback_url = os.environ['SDK_CALLBACK_URL']
+<<<<<<< HEAD
 #        cls.VCFtoVar = VCFToVariation(cls.cfg, "/kb/module/work/tmp", cls.callback_url)
+=======
+        cls.VCFtoVar = VCFToVariation(cls.cfg, "/kb/module/work/tmp", cls.callback_url)
+>>>>>>> 75711b970863cc2ea06eea570e166fd5570e2ced
         cls.vcf_test_dir = '/kb/module/test/sample_data/vcf'
 
     @classmethod
@@ -65,8 +69,13 @@ class VariationUtilTest(unittest.TestCase):
     #@unittest.skip('x')
     def test_save_variation_genome_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
+<<<<<<< HEAD
             'workspace_name': 'pranjan77:narrative_1590506298308',
             'genome_or_assembly_ref': '41668/3/1',
+=======
+            'workspace_name': 'pranjan77:narrative_1588775971670',
+            'genome_or_assembly_ref': '41225/2/1',
+>>>>>>> 75711b970863cc2ea06eea570e166fd5570e2ced
             'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/small_poplar.vcf.gz',
             'sample_attribute_ref': None,
             'variation_object_name': 'poplar_test'

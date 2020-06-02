@@ -280,11 +280,7 @@ class VCFUtils:
             final_vcf, final_index = bgzip_filepath, bgzip_index_filepath
         else:
             final_vcf, final_index = reheader_result
-<<<<<<< HEAD
         return (final_vcf, final_index)
-=======
-        return(final_vcf, final_index)
->>>>>>> 75711b970863cc2ea06eea570e166fd5570e2ced
 
 
 if __name__ == '__main__':

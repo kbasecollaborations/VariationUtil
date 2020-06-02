@@ -294,47 +294,8 @@ class JbrowseUtil:
         # 1) Copy the jbrowse source code to build report
         destination = shutil.copytree(jbrowse_src, jbrowse_path)
 
-<<<<<<< HEAD
         # 2) Put tracklist.json in jbrowse data path
         tracklist_path = os.path.join(jbrowse_path, "data", "trackList.json")
-=======
-        jbrowse_path = os.path.join(self.session_dir, "jbrowse")
-        jbrowse_seq_path = os.path.join(self.session_dir, "jbrowse", "data", "seq")
-        jbrowse_data_path = os.path.join(self.session_dir, "jbrowse", "data")
-        dest = shutil.copy(self.refseqs_json_path, jbrowse_seq_path  )
-        logging.info ("dest is " + dest)
-        logging.info("After copying refseqs json seq path:")
-        logging.info(os.listdir(jbrowse_seq_path))
-
-        logging.info("After copying refseqs json data path:")
-        logging.info(os.listdir(jbrowse_data_path))
-        logging.info("Jbrowse seq path")
-        logging.info(jbrowse_seq_path)
-        with open (self.refseqs_json_path) as f:
-            data = f.read()
-        logging.info ("Refsesa data")
-        logging.info (data)
-
-
-
-        #dest = shutil.move(self.output_bigwig_file, jbrowse_data_path + "/vcf.bw")
-        #logging.info (dest)
-        tracklist_path = os.path.join(jbrowse_data_path, "trackList.json")
-        with open (tracklist_path, "r") as f:
-            data = f.read()
-
-        data=data.replace("<vcf_shock_id>", self.vcf_shock_id)
-        data=data.replace("<vcf_index_shock_id>", self.vcf_index_shock_id)
-        data = data.replace("<output_bigwig_shock>", self.output_bigwig_shock)
-        data_j = json.loads(data)
-        tracks = data_j['tracks']
- 
-        if "genome_ref" in input_params:
-            gff_track = self.get_gff_track(self.gff_shock, self.gff_index_shock)
-            gff_track_obj = json.loads(gff_track)
-            tracks.append(gff_track_obj)
-
->>>>>>> 75711b970863cc2ea06eea570e166fd5570e2ced
         trackdata = {
             'formatVersion': 1,
             'tracks': tracklist_items

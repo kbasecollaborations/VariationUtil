@@ -152,7 +152,7 @@ class VariationUtil:
             "scratch": self.scratch,
             "sw_url": self.sw_url
         }
-        jbrowseParams = {
+        JbrowseParams = {
             "vcf_path": vcf_compressed,
             "assembly_ref": assembly_ref,
             "binsize": 10000,
@@ -163,7 +163,7 @@ class VariationUtil:
             JbrowseParams["genome_ref"] = genome_ref
 
         jb = JbrowseUtil(JbrowseConfig)
-        jbrowse_report = jb.prepare_jbrowse_report(jbrowseParams)
+        jbrowse_report = jb.prepare_jbrowse_report(JbrowseParams)
 
 
         # 5) Now we have the genomic indices and we have all the information needed to save

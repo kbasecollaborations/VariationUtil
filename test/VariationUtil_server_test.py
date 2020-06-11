@@ -54,31 +54,31 @@ class VariationUtilTest(unittest.TestCase):
             print('Test workspace was deleted')
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
-    @unittest.skip('x')
-    def test_save_variation_genome_ref_2(self):
+    #@unittest.skip('x')
+    def test_save_variation_genome_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
-            'workspace_name': 'pranjan77:narrative_1590506298308',
+            'workspace_name': 'pranjan77:narrative_1591845629651',
             'genome_or_assembly_ref': '41668/3/1',
             'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/small_poplar.vcf.gz',
             'sample_attribute_ref': None,
-            'variation_object_name': 'poplar_test2'
+            'variation_object_name': 'poplar_g2'
         })
 
     #'sample_attribute_ref': '39465/3/1',
 
-    #@unittest.skip('x')
+    @unittest.skip('x')
     def test_save_variation_assembly_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
-            'workspace_name': 'pranjan77:narrative_1590506298308',
+            'workspace_name': 'pranjan77:narrative_1591843040656',
             'genome_or_assembly_ref': '41668/2/1',
             'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/small_poplar.vcf.gz',
-            'variation_object_name': 'small_poplar_assembly'
+            'variation_object_name': 'poplar_a'
         })
 
-    @unittest.skip('x')
+    #@unittest.skip('x')
     def test_get_variation_as_vcf_1(self):
         ret = self.serviceImpl.get_variation_as_vcf(self.ctx, {
-            'variation_ref': '41668/19/1',
+            'variation_ref': '42434/2/7',
             'filename':"small_poplar.vcf"
         })
         print (ret)

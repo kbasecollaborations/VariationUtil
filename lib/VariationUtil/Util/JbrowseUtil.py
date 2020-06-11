@@ -22,6 +22,7 @@ class JbrowseUtil:
         self.gfu = GenomeFileUtil(callback_url)
         #service-wizard url
         self.sw_url = Config['sw_url']
+        self.shock_url = Config['shock_url']
         scratch = Config['scratch']
         session = str(uuid.uuid4())
         self.session_dir = (os.path.join(scratch, session))
@@ -41,7 +42,8 @@ class JbrowseUtil:
         }
         sw_resp = requests.post(url=sw_url, data=json.dumps(json_obj))
         vfs_resp = sw_resp.json()
-        vfs_url = vfs_resp['result'][0]['url']
+        self.shock_url = self.shock_url.replace("https://", "")
+        vfs_url = vfs_resp['result'][0]['url'] + "/jbrowse_query/" + self.shock_url + "/node"
         return vfs_url
 
     def _run_cmd(self, cmd):
@@ -131,8 +133,8 @@ class JbrowseUtil:
             "label": "Genome Features",
             "key": "GenomeFeatures",
             "storeClass": "JBrowse/Store/SeqFeature/GFF3Tabix",
-            "urlTemplate":"<vfs_url>/shock/<gff_shock_ref>",
-            "tbiUrlTemplate": "<vfs_url>/shock/<gff_index_shock_ref>",
+            "urlTemplate":"<vfs_url>/<gff_shock_ref>",
+            "tbiUrlTemplate": "<vfs_url>/<gff_index_shock_ref>",
             "type": "JBrowse/View/Track/CanvasFeatures"
         }
         '''
@@ -243,7 +245,7 @@ class JbrowseUtil:
             "label": "Variation Densityy", 
             "key": "Variation_density", 
             "storeClass": "JBrowse/Store/SeqFeature/BigWig", 
-            "urlTemplate": "<vfs_url>/shock/<bigwig_shock_id>", 
+            "urlTemplate": "<vfs_url>/<bigwig_shock_id>", 
             "type": "JBrowse/View/Track/Wiggle/XYPlot"
         } 
         '''
@@ -268,8 +270,8 @@ class JbrowseUtil:
                 "label": "Variation", 
                 "key": "Variation", 
                 "storeClass": "JBrowse/Store/SeqFeature/VCFTabix", 
-                "urlTemplate": "<vfs_url>/shock/<vcf_shock_id>", 
-                "tbiUrlTemplate": "<vfs_url>/shock/<vcf_index_shock_id>", 
+                "urlTemplate": "<vfs_url>/<vcf_shock_id>", 
+                "tbiUrlTemplate": "<vfs_url>/<vcf_index_shock_id>", 
                 "type": "JBrowse/View/Track/HTMLVariants"
             }
         '''
@@ -324,6 +326,7 @@ class JbrowseUtil:
         sw_url = self.sw_url
         # Variation file service url for serving jbrowse track files
         vfs_url = self.get_variation_service_url(sw_url)
+
         print(vfs_url)
 
         genomic_indexes = list()

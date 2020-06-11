@@ -50,6 +50,7 @@ class VariationUtil:
         self.ws_url = config['workspace-url']
         self.wsc = Workspace(self.ws_url)
         self.dfu = DataFileUtil(self.callback_url)
+        self.shock_url = config['shock-url']
         self.sw_url = config['srv-wiz-url']
         pass
         #END_CONSTRUCTOR
@@ -150,7 +151,8 @@ class VariationUtil:
         JbrowseConfig = {
             "ws_url": self.ws_url,
             "scratch": self.scratch,
-            "sw_url": self.sw_url
+            "sw_url": self.sw_url,
+            "shock_url":self.shock_url
         }
         JbrowseParams = {
             "vcf_path": vcf_compressed,
@@ -168,8 +170,24 @@ class VariationUtil:
 
         # 5) Now we have the genomic indices and we have all the information needed to save
         # the variation object
+        # TODO: Take out the genomic_indexes field from the object spec
+        #  TODO: Take out the vcf_handle stuff not needed
 
         variation_object_data['genomic_indexes'] = jbrowse_report['genomic_indexes']
+
+        # 6) We need to create a list of all handles needed and build the handles
+        #    part of variation object
+        #handles = list ()
+        #handles.append(variation_object_data['vcf_handle'])
+        #handles.append(variation_object_data['vcf_index_handle'])
+
+        #for g in jbrowse_report['genomic_indexes']:
+        #    handles.append(g)
+
+        #variation_object_data['handles'] = handles
+        #variation_object_data['handle'] = jbrowse_report['genomic_indexes'][0]
+
+
         print (json.dumps(variation_object_data))
 
         var_obj = self.dfu.save_objects({

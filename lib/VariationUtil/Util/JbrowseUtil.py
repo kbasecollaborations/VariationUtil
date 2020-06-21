@@ -282,9 +282,9 @@ class JbrowseUtil:
         # shock handles should be empty list in return when built from shock ids
         return {"shock_handle_list": shock_handles, "track_item": snp_track_dict}
 
-    def build_jbrowse_data_folder(self, jbrowse_data_path):
+    def build_jbrowse_data_folder(self, jbrowse_path):
         shock_handles = list()
-        data_folder_shock_ref = self.dfu.file_to_shock({'file_path': jbrowse_data_path,
+        data_folder_shock_ref = self.dfu.file_to_shock({'file_path': jbrowse_path,
                                             'pack': 'zip', 'make_handle': 1})
         shock_handles.append(data_folder_shock_ref['handle'])
         return {"shock_handle_list": shock_handles}
@@ -318,8 +318,7 @@ class JbrowseUtil:
             f.write(json.dumps(refseqs_data))
 
         #Build jbrowse data folder to support jbrowse widget in narrative
-        jbrowse_data_path = os.path.join(jbrowse_path, "data")
-        res = self.build_jbrowse_data_folder(jbrowse_data_path)
+        res = self.build_jbrowse_data_folder(jbrowse_path)
         data_folder_index = res['shock_handle_list']
         genomic_indexes = genomic_indexes + data_folder_index
 

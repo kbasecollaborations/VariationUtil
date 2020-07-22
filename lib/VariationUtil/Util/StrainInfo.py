@@ -5,24 +5,11 @@ import logging
 
 class StrainInfo:
     def __init__(self, config):
-
-
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.scratch = config['scratch']
         self.token = os.environ['KB_AUTH_TOKEN']
         self.dfu = DataFileUtil(self.callback_url)
-        #self.report_util = kb_GenericsReport(self.callback_url)
-        #self.data_util = DataUtil(config)
         self.sampleservice_util = SampleServiceUtil(config)
-        #self.attr_util = AttributesUtil(config)
-        #self.matrix_util = MatrixUtil(config)
-        #self.taxon_util = TaxonUtil(config)
-        #self.matrix_types = [x.split(".")[1].split('-')[0]
-        #                     for x in self.data_util.list_generic_types()]
-        #self.taxon_wsname = config['taxon-workspace-name']
-        #self.kbse = KBaseSearchEngine(config['search-url'])
-        #self.taxon_cache = dict()
-
 
     def _sampleset_to_strain_info(self, sample_set_ref, vcf_strain_ids):
         '''
@@ -61,14 +48,9 @@ class StrainInfo:
             raise ValueError(f'duplicated strain ids need to be fixed in vcf file - {dup_strains}')
         if missing_strains:
             strains_not_found = ", ". join (missing_strains)
-            raise ValueError (f'Strains in vcf file {strains_not_found}')
+            raise ValueError (f'Missing strains from sample set {strains_not_found}')
 
         return (StrainInfo)
-
-
-
-
-
 
     def _sample_set_to_attribute_mapping(self, axis_ids, sample_set_ref, obj_name, ws_id):
         am_data = self.sampleservice_util.sample_set_to_attribute_mapping(sample_set_ref)
@@ -92,8 +74,7 @@ class StrainInfo:
         sample_attribute_ref = str(info[6]) + "/" + str(info[0]) + "/" + str(info[4])
         return (sample_attribute_ref)
 
-    def add_strain_info(self, params):
-        axis_ids = ["BESC-52","BESC-79", "BESC-22"]
+    def sample_strain_info(self, params):
         vcf_strain_ids = params["vcf_strain_ids"]
         sample_set_ref = params["sample_set_ref"]
         ws_id = params["ws_id"]
@@ -101,8 +82,6 @@ class StrainInfo:
 
         sample_attribute_ref = self._sample_set_to_attribute_mapping(vcf_strain_ids, sample_set_ref, obj_name, ws_id)
         strains = self._sampleset_to_strain_info (sample_set_ref, vcf_strain_ids)
-        print ("xxxx")
-        print (sample_attribute_ref)
         return (sample_attribute_ref, strains)
 
 

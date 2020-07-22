@@ -147,7 +147,7 @@ class VariationUtil:
             "sample_attribute_name": params["sample_attribute_name"]
         }
         si = StrainInfo(StrainInfoConfig)
-        sample_attribute_ref, strains = si.add_strain_info(StrainInfoParams)
+        sample_attribute_ref, strains = si.sample_strain_info(StrainInfoParams)
         print (sample_attribute_ref)
         print (strains)
 

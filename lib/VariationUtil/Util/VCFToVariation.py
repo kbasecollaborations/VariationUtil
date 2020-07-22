@@ -121,8 +121,7 @@ class VCFToVariation:
                 chromosomes.append(CHROM)
                 contigs[CHROM] = {
                     'contig_id': CHROM,
-                    'totalvariants': 1,
-                    'passvariants': 0,
+                    'totalvariants': 1
                 }
             else:
                 contigs[CHROM]['totalvariants'] += 1
@@ -277,7 +276,6 @@ class VCFToVariation:
             'numvariants': int(vcf_info['total_variants']),
             'contigs': vcf_info['contigs_info'],
             "header": vcf_info['header'],
-            "samples":["BESC-52","BESC-79", "BESC-22"],
             'assembly_ref': vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
             'vcf_handle': vcf_shock_file_ref['handle'],

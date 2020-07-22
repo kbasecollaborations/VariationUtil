@@ -164,9 +164,6 @@ class VariationUtil:
             "vcf_index": vcf_index,
             "assembly_ref": assembly_ref
         }
-        if 'sample_attribute_ref' in params:
-            if params['sample_attribute_ref'] is not None:
-                VCFToVariationParams['sample_attribute_ref'] = params['sample_attribute_ref']
         if genome_ref is not None:
             VCFToVariationParams['genome_ref'] = genome_ref
 
@@ -182,6 +179,11 @@ class VariationUtil:
             variation_object_data['strains'] = strains
         else:
             raise ValueError(f'strains not found')
+        if 'sample_set_ref' in params:
+            variation_object_data['sample_set_ref'] = params['sample_set_ref']
+        else:
+            raise ValueError(f'sample_set_ref not found in params')
+
 
         # 4)
         JbrowseConfig = {

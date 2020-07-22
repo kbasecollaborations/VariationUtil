@@ -231,6 +231,16 @@ class VCFUtils:
             return
 
 
+    def get_vcf_strain_ids(self, vcf_filepath):
+        reader = gzip.open(vcf_filepath, "rt")
+        for record in reader:
+            # Handle header lines and parse information
+            if (record.startswith("#CHROM")):
+                # This is the chrome line
+                record = record.rstrip()
+                values = record.split("\t")
+                genotypes = values[9:]
+                return (genotypes)
 
     def validate_compress_and_index_vcf(self, params):
         """
@@ -280,7 +290,9 @@ class VCFUtils:
             final_vcf, final_index = bgzip_filepath, bgzip_index_filepath
         else:
             final_vcf, final_index = reheader_result
-        return (final_vcf, final_index)
+
+        vcf_strain_ids = self.get_vcf_strain_ids(final_vcf)
+        return (final_vcf, final_index, vcf_strain_ids)
 
 
 if __name__ == '__main__':

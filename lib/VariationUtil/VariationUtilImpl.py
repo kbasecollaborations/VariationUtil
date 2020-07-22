@@ -7,6 +7,7 @@ from VariationUtil.Util.VCFToVariation import VCFToVariation
 from VariationUtil.Util.VCFUtils import VCFUtils
 from VariationUtil.Util.VariationToVCF import VariationToVCF
 from VariationUtil.Util.htmlreportutils import htmlreportutils
+from VariationUtil.Util.StrainInfo import StrainInfo
 from VariationUtil.Util.JbrowseUtil import JbrowseUtil
 from installed_clients.WorkspaceClient import Workspace
 from installed_clients.DataFileUtilClient import DataFileUtil
@@ -41,7 +42,13 @@ class VariationUtil:
     # be found
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
+        # TODO: Make sure we need to define config just once
+        # TODO: Change the code tp match this style
         self.config = config
+        self.config['SDK_CALLBACK_URL'] = os.environ['SDK_CALLBACK_URL']
+        self.config['KB_AUTH_TOKEN'] = os.environ['KB_AUTH_TOKEN']
+        self.scratch = config['scratch']
+        self.config['ws_url'] = config['workspace-url']
 
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.scratch = config['scratch']
@@ -82,6 +89,10 @@ class VariationUtil:
         # ctx is the context object
         # return variables are: report
         #BEGIN save_variation_from_vcf
+
+        # Get workspace id
+        ws_id = self.dfu.ws_name_to_id(params['workspace_name'])
+
         genome_ref = None
         assembly_ref = None
 
@@ -117,13 +128,29 @@ class VariationUtil:
             'vcf_staging_file_path': params['vcf_staging_file_path']
         }
         VCU = VCFUtils(VCFUtilsConfig)
-        vcf_compressed, vcf_index = VCU.validate_compress_and_index_vcf(VCFUtilsParams)
+        vcf_compressed, vcf_index, vcf_strain_ids = VCU.validate_compress_and_index_vcf(VCFUtilsParams)
 
         if vcf_index is not None:
             logging.info("vcf compressed :" + str(vcf_compressed))
             logging.info("vcf index :" + str(vcf_index))
+            logging.info("vcf strain ids :" + str(vcf_strain_ids))
         else:
             raise ValueError("No result obtained after compression and indexing step")
+
+        # Get strain info
+        # TODO: Remove hard coded stuff
+        StrainInfoConfig = self.config
+        StrainInfoParams = {
+            "ws_id": ws_id,
+            "vcf_strain_ids": vcf_strain_ids,
+            "sample_set_ref": params["sample_set_ref"],
+            "sample_attribute_name": params["sample_attribute_name"]
+        }
+        si = StrainInfo(StrainInfoConfig)
+        sample_attribute_ref, strains = si.add_strain_info(StrainInfoParams)
+        print (sample_attribute_ref)
+        print (strains)
+
 
         # 3) Create json for variation object. In a following step genomic_indexes will be
         # added to this json before it is saved as Variation object
@@ -146,6 +173,15 @@ class VariationUtil:
         vtv = VCFToVariation(VCFToVariationConfig)
         variation_object_data = vtv.generate_variation_object_data(VCFToVariationParams)
 
+        # Append sample information
+        if sample_attribute_ref:
+            variation_object_data['sample_attribute_ref'] = sample_attribute_ref
+        else:
+            raise ValueError(f'sample attribute ref not found')
+        if strains:
+            variation_object_data['strains'] = strains
+        else:
+            raise ValueError(f'strains not found')
 
         # 4)
         JbrowseConfig = {

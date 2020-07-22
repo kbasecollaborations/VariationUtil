@@ -1,0 +1,2600 @@
+##fileformat=VCFv4.1
+##FILTER=<ID=PASS,Description="All filters passed">
+##samtoolsVersion=0.1.18 (r982:295)
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##SnpEffVersion="2.1b (build 2012-04-20), by Pablo Cingolani"
+##SnpEffCmd="SnpEff  -c /house/groupdirs/jel/snpEff/snpEff.config -v -no-upstream -no-downstream -s poplar-multisample-130128.flt.anno.vcf.snpEff_summary.html ptrichocarpa3 poplar-multisample-130128.flt.vcf.gz "
+##contig=<ID=Chr01>
+##contig=<ID=Chr02>
+##contig=<ID=Chr03>
+##contig=<ID=Chr04>
+##contig=<ID=Chr05>
+##contig=<ID=Chr06>
+##contig=<ID=Chr07>
+##contig=<ID=Chr08>
+##contig=<ID=Chr09>
+##contig=<ID=Chr10>
+##contig=<ID=Chr11>
+##contig=<ID=Chr12>
+##contig=<ID=Chr13>
+##contig=<ID=Chr14>
+##contig=<ID=Chr15>
+##contig=<ID=Chr16>
+##contig=<ID=Chr17>
+##contig=<ID=Chr18>
+##contig=<ID=Chr19>
+##contig=<ID=scaffold_20>
+##contig=<ID=scaffold_21>
+##contig=<ID=scaffold_22>
+##contig=<ID=scaffold_23>
+##contig=<ID=scaffold_24>
+##contig=<ID=scaffold_25>
+##contig=<ID=scaffold_26>
+##contig=<ID=scaffold_27>
+##contig=<ID=scaffold_28>
+##contig=<ID=scaffold_29>
+##contig=<ID=scaffold_30>
+##contig=<ID=scaffold_31>
+##contig=<ID=scaffold_32>
+##contig=<ID=scaffold_33>
+##contig=<ID=scaffold_34>
+##contig=<ID=scaffold_35>
+##contig=<ID=scaffold_36>
+##contig=<ID=scaffold_37>
+##contig=<ID=scaffold_38>
+##contig=<ID=scaffold_39>
+##contig=<ID=scaffold_41>
+##contig=<ID=scaffold_42>
+##contig=<ID=scaffold_45>
+##contig=<ID=scaffold_47>
+##contig=<ID=scaffold_48>
+##contig=<ID=scaffold_49>
+##contig=<ID=scaffold_50>
+##contig=<ID=scaffold_51>
+##contig=<ID=scaffold_52>
+##contig=<ID=scaffold_53>
+##contig=<ID=scaffold_56>
+##contig=<ID=scaffold_57>
+##contig=<ID=scaffold_61>
+##contig=<ID=scaffold_63>
+##contig=<ID=scaffold_64>
+##contig=<ID=scaffold_65>
+##contig=<ID=scaffold_66>
+##contig=<ID=scaffold_67>
+##contig=<ID=scaffold_68>
+##contig=<ID=scaffold_69>
+##contig=<ID=scaffold_71>
+##contig=<ID=scaffold_73>
+##contig=<ID=scaffold_74>
+##contig=<ID=scaffold_75>
+##contig=<ID=scaffold_76>
+##contig=<ID=scaffold_77>
+##contig=<ID=scaffold_78>
+##contig=<ID=scaffold_79>
+##contig=<ID=scaffold_80>
+##contig=<ID=scaffold_81>
+##contig=<ID=scaffold_82>
+##contig=<ID=scaffold_85>
+##contig=<ID=scaffold_86>
+##contig=<ID=scaffold_87>
+##contig=<ID=scaffold_90>
+##contig=<ID=scaffold_92>
+##contig=<ID=scaffold_93>
+##contig=<ID=scaffold_94>
+##contig=<ID=scaffold_95>
+##contig=<ID=scaffold_96>
+##contig=<ID=scaffold_99>
+##contig=<ID=scaffold_102>
+##contig=<ID=scaffold_104>
+##contig=<ID=scaffold_107>
+##contig=<ID=scaffold_109>
+##contig=<ID=scaffold_111>
+##contig=<ID=scaffold_112>
+##contig=<ID=scaffold_114>
+##contig=<ID=scaffold_116>
+##contig=<ID=scaffold_119>
+##contig=<ID=scaffold_121>
+##contig=<ID=scaffold_122>
+##contig=<ID=scaffold_123>
+##contig=<ID=scaffold_124>
+##contig=<ID=scaffold_126>
+##contig=<ID=scaffold_127>
+##contig=<ID=scaffold_128>
+##contig=<ID=scaffold_131>
+##contig=<ID=scaffold_134>
+##contig=<ID=scaffold_135>
+##contig=<ID=scaffold_136>
+##contig=<ID=scaffold_139>
+##contig=<ID=scaffold_141>
+##contig=<ID=scaffold_143>
+##contig=<ID=scaffold_145>
+##contig=<ID=scaffold_146>
+##contig=<ID=scaffold_148>
+##contig=<ID=scaffold_149>
+##contig=<ID=scaffold_150>
+##contig=<ID=scaffold_151>
+##contig=<ID=scaffold_156>
+##contig=<ID=scaffold_158>
+##contig=<ID=scaffold_162>
+##contig=<ID=scaffold_165>
+##contig=<ID=scaffold_168>
+##contig=<ID=scaffold_169>
+##contig=<ID=scaffold_170>
+##contig=<ID=scaffold_172>
+##contig=<ID=scaffold_174>
+##contig=<ID=scaffold_175>
+##contig=<ID=scaffold_178>
+##contig=<ID=scaffold_179>
+##contig=<ID=scaffold_181>
+##contig=<ID=scaffold_183>
+##contig=<ID=scaffold_184>
+##contig=<ID=scaffold_185>
+##contig=<ID=scaffold_186>
+##contig=<ID=scaffold_188>
+##contig=<ID=scaffold_190>
+##contig=<ID=scaffold_194>
+##contig=<ID=scaffold_197>
+##contig=<ID=scaffold_200>
+##contig=<ID=scaffold_201>
+##contig=<ID=scaffold_204>
+##contig=<ID=scaffold_205>
+##contig=<ID=scaffold_207>
+##contig=<ID=scaffold_213>
+##contig=<ID=scaffold_217>
+##contig=<ID=scaffold_218>
+##contig=<ID=scaffold_219>
+##contig=<ID=scaffold_220>
+##contig=<ID=scaffold_221>
+##contig=<ID=scaffold_222>
+##contig=<ID=scaffold_223>
+##contig=<ID=scaffold_224>
+##contig=<ID=scaffold_226>
+##contig=<ID=scaffold_229>
+##contig=<ID=scaffold_230>
+##contig=<ID=scaffold_232>
+##contig=<ID=scaffold_233>
+##contig=<ID=scaffold_237>
+##contig=<ID=scaffold_238>
+##contig=<ID=scaffold_240>
+##contig=<ID=scaffold_241>
+##contig=<ID=scaffold_250>
+##contig=<ID=scaffold_252>
+##contig=<ID=scaffold_254>
+##contig=<ID=scaffold_256>
+##contig=<ID=scaffold_258>
+##contig=<ID=scaffold_259>
+##contig=<ID=scaffold_263>
+##contig=<ID=scaffold_264>
+##contig=<ID=scaffold_265>
+##contig=<ID=scaffold_268>
+##contig=<ID=scaffold_270>
+##contig=<ID=scaffold_273>
+##contig=<ID=scaffold_276>
+##contig=<ID=scaffold_278>
+##contig=<ID=scaffold_283>
+##contig=<ID=scaffold_289>
+##contig=<ID=scaffold_291>
+##contig=<ID=scaffold_294>
+##contig=<ID=scaffold_295>
+##contig=<ID=scaffold_299>
+##contig=<ID=scaffold_301>
+##contig=<ID=scaffold_316>
+##contig=<ID=scaffold_318>
+##contig=<ID=scaffold_321>
+##contig=<ID=scaffold_322>
+##contig=<ID=scaffold_327>
+##contig=<ID=scaffold_331>
+##contig=<ID=scaffold_334>
+##contig=<ID=scaffold_346>
+##contig=<ID=scaffold_357>
+##contig=<ID=scaffold_375>
+##contig=<ID=scaffold_376>
+##contig=<ID=scaffold_381>
+##contig=<ID=scaffold_384>
+##contig=<ID=scaffold_388>
+##contig=<ID=scaffold_391>
+##contig=<ID=scaffold_393>
+##contig=<ID=scaffold_394>
+##contig=<ID=scaffold_397>
+##contig=<ID=scaffold_400>
+##contig=<ID=scaffold_407>
+##contig=<ID=scaffold_408>
+##contig=<ID=scaffold_411>
+##contig=<ID=scaffold_412>
+##contig=<ID=scaffold_420>
+##contig=<ID=scaffold_422>
+##contig=<ID=scaffold_429>
+##contig=<ID=scaffold_434>
+##contig=<ID=scaffold_437>
+##contig=<ID=scaffold_441>
+##contig=<ID=scaffold_442>
+##contig=<ID=scaffold_445>
+##contig=<ID=scaffold_446>
+##contig=<ID=scaffold_447>
+##contig=<ID=scaffold_449>
+##contig=<ID=scaffold_455>
+##contig=<ID=scaffold_456>
+##contig=<ID=scaffold_457>
+##contig=<ID=scaffold_459>
+##contig=<ID=scaffold_462>
+##contig=<ID=scaffold_463>
+##contig=<ID=scaffold_465>
+##contig=<ID=scaffold_466>
+##contig=<ID=scaffold_467>
+##contig=<ID=scaffold_472>
+##contig=<ID=scaffold_473>
+##contig=<ID=scaffold_476>
+##contig=<ID=scaffold_478>
+##contig=<ID=scaffold_479>
+##contig=<ID=scaffold_480>
+##contig=<ID=scaffold_481>
+##contig=<ID=scaffold_483>
+##contig=<ID=scaffold_484>
+##contig=<ID=scaffold_495>
+##contig=<ID=scaffold_497>
+##contig=<ID=scaffold_498>
+##contig=<ID=scaffold_500>
+##contig=<ID=scaffold_502>
+##contig=<ID=scaffold_503>
+##contig=<ID=scaffold_508>
+##contig=<ID=scaffold_514>
+##contig=<ID=scaffold_519>
+##contig=<ID=scaffold_522>
+##contig=<ID=scaffold_525>
+##contig=<ID=scaffold_528>
+##contig=<ID=scaffold_531>
+##contig=<ID=scaffold_533>
+##contig=<ID=scaffold_537>
+##contig=<ID=scaffold_541>
+##contig=<ID=scaffold_545>
+##contig=<ID=scaffold_549>
+##contig=<ID=scaffold_550>
+##contig=<ID=scaffold_555>
+##contig=<ID=scaffold_558>
+##contig=<ID=scaffold_559>
+##contig=<ID=scaffold_560>
+##contig=<ID=scaffold_561>
+##contig=<ID=scaffold_567>
+##contig=<ID=scaffold_570>
+##contig=<ID=scaffold_575>
+##contig=<ID=scaffold_576>
+##contig=<ID=scaffold_578>
+##contig=<ID=scaffold_580>
+##contig=<ID=scaffold_581>
+##contig=<ID=scaffold_584>
+##contig=<ID=scaffold_585>
+##contig=<ID=scaffold_586>
+##contig=<ID=scaffold_589>
+##contig=<ID=scaffold_592>
+##contig=<ID=scaffold_598>
+##contig=<ID=scaffold_601>
+##contig=<ID=scaffold_605>
+##contig=<ID=scaffold_607>
+##contig=<ID=scaffold_608>
+##contig=<ID=scaffold_609>
+##contig=<ID=scaffold_610>
+##contig=<ID=scaffold_611>
+##contig=<ID=scaffold_612>
+##contig=<ID=scaffold_613>
+##contig=<ID=scaffold_615>
+##contig=<ID=scaffold_621>
+##contig=<ID=scaffold_624>
+##contig=<ID=scaffold_627>
+##contig=<ID=scaffold_632>
+##contig=<ID=scaffold_633>
+##contig=<ID=scaffold_644>
+##contig=<ID=scaffold_645>
+##contig=<ID=scaffold_648>
+##contig=<ID=scaffold_650>
+##contig=<ID=scaffold_655>
+##contig=<ID=scaffold_658>
+##contig=<ID=scaffold_662>
+##contig=<ID=scaffold_669>
+##contig=<ID=scaffold_670>
+##contig=<ID=scaffold_671>
+##contig=<ID=scaffold_675>
+##contig=<ID=scaffold_676>
+##contig=<ID=scaffold_678>
+##contig=<ID=scaffold_679>
+##contig=<ID=scaffold_684>
+##contig=<ID=scaffold_691>
+##contig=<ID=scaffold_694>
+##contig=<ID=scaffold_696>
+##contig=<ID=scaffold_697>
+##contig=<ID=scaffold_698>
+##contig=<ID=scaffold_702>
+##contig=<ID=scaffold_703>
+##contig=<ID=scaffold_704>
+##contig=<ID=scaffold_705>
+##contig=<ID=scaffold_711>
+##contig=<ID=scaffold_717>
+##contig=<ID=scaffold_718>
+##contig=<ID=scaffold_721>
+##contig=<ID=scaffold_723>
+##contig=<ID=scaffold_726>
+##contig=<ID=scaffold_728>
+##contig=<ID=scaffold_733>
+##contig=<ID=scaffold_737>
+##contig=<ID=scaffold_742>
+##contig=<ID=scaffold_743>
+##contig=<ID=scaffold_744>
+##contig=<ID=scaffold_746>
+##contig=<ID=scaffold_750>
+##contig=<ID=scaffold_752>
+##contig=<ID=scaffold_754>
+##contig=<ID=scaffold_755>
+##contig=<ID=scaffold_758>
+##contig=<ID=scaffold_762>
+##contig=<ID=scaffold_766>
+##contig=<ID=scaffold_769>
+##contig=<ID=scaffold_771>
+##contig=<ID=scaffold_772>
+##contig=<ID=scaffold_779>
+##contig=<ID=scaffold_782>
+##contig=<ID=scaffold_784>
+##contig=<ID=scaffold_790>
+##contig=<ID=scaffold_791>
+##contig=<ID=scaffold_793>
+##contig=<ID=scaffold_797>
+##contig=<ID=scaffold_800>
+##contig=<ID=scaffold_802>
+##contig=<ID=scaffold_806>
+##contig=<ID=scaffold_811>
+##contig=<ID=scaffold_813>
+##contig=<ID=scaffold_814>
+##contig=<ID=scaffold_816>
+##contig=<ID=scaffold_817>
+##contig=<ID=scaffold_819>
+##contig=<ID=scaffold_821>
+##contig=<ID=scaffold_822>
+##contig=<ID=scaffold_823>
+##contig=<ID=scaffold_824>
+##contig=<ID=scaffold_825>
+##contig=<ID=scaffold_827>
+##contig=<ID=scaffold_828>
+##contig=<ID=scaffold_833>
+##contig=<ID=scaffold_835>
+##contig=<ID=scaffold_838>
+##contig=<ID=scaffold_839>
+##contig=<ID=scaffold_843>
+##contig=<ID=scaffold_845>
+##contig=<ID=scaffold_855>
+##contig=<ID=scaffold_858>
+##contig=<ID=scaffold_861>
+##contig=<ID=scaffold_862>
+##contig=<ID=scaffold_863>
+##contig=<ID=scaffold_865>
+##contig=<ID=scaffold_866>
+##contig=<ID=scaffold_867>
+##contig=<ID=scaffold_871>
+##contig=<ID=scaffold_873>
+##contig=<ID=scaffold_876>
+##contig=<ID=scaffold_877>
+##contig=<ID=scaffold_880>
+##contig=<ID=scaffold_883>
+##contig=<ID=scaffold_888>
+##contig=<ID=scaffold_894>
+##contig=<ID=scaffold_898>
+##contig=<ID=scaffold_899>
+##contig=<ID=scaffold_900>
+##contig=<ID=scaffold_903>
+##contig=<ID=scaffold_905>
+##contig=<ID=scaffold_908>
+##contig=<ID=scaffold_911>
+##contig=<ID=scaffold_912>
+##contig=<ID=scaffold_913>
+##contig=<ID=scaffold_916>
+##contig=<ID=scaffold_918>
+##contig=<ID=scaffold_922>
+##contig=<ID=scaffold_923>
+##contig=<ID=scaffold_925>
+##contig=<ID=scaffold_927>
+##contig=<ID=scaffold_929>
+##contig=<ID=scaffold_933>
+##contig=<ID=scaffold_938>
+##contig=<ID=scaffold_940>
+##contig=<ID=scaffold_943>
+##contig=<ID=scaffold_946>
+##contig=<ID=scaffold_947>
+##contig=<ID=scaffold_948>
+##contig=<ID=scaffold_949>
+##contig=<ID=scaffold_954>
+##contig=<ID=scaffold_960>
+##contig=<ID=scaffold_965>
+##contig=<ID=scaffold_966>
+##contig=<ID=scaffold_970>
+##contig=<ID=scaffold_975>
+##contig=<ID=scaffold_978>
+##contig=<ID=scaffold_982>
+##contig=<ID=scaffold_987>
+##contig=<ID=scaffold_988>
+##contig=<ID=scaffold_990>
+##contig=<ID=scaffold_991>
+##contig=<ID=scaffold_995>
+##contig=<ID=scaffold_996>
+##contig=<ID=scaffold_1001>
+##contig=<ID=scaffold_1005>
+##contig=<ID=scaffold_1012>
+##contig=<ID=scaffold_1014>
+##contig=<ID=scaffold_1018>
+##contig=<ID=scaffold_1021>
+##contig=<ID=scaffold_1033>
+##contig=<ID=scaffold_1036>
+##contig=<ID=scaffold_1038>
+##contig=<ID=scaffold_1040>
+##contig=<ID=scaffold_1043>
+##contig=<ID=scaffold_1047>
+##contig=<ID=scaffold_1057>
+##contig=<ID=scaffold_1058>
+##contig=<ID=scaffold_1062>
+##contig=<ID=scaffold_1070>
+##contig=<ID=scaffold_1076>
+##contig=<ID=scaffold_1084>
+##contig=<ID=scaffold_1089>
+##contig=<ID=scaffold_1090>
+##contig=<ID=scaffold_1096>
+##contig=<ID=scaffold_1102>
+##contig=<ID=scaffold_1103>
+##contig=<ID=scaffold_1106>
+##contig=<ID=scaffold_1114>
+##contig=<ID=scaffold_1117>
+##contig=<ID=scaffold_1123>
+##contig=<ID=scaffold_1129>
+##contig=<ID=scaffold_1132>
+##contig=<ID=scaffold_1133>
+##contig=<ID=scaffold_1134>
+##contig=<ID=scaffold_1136>
+##contig=<ID=scaffold_1140>
+##contig=<ID=scaffold_1144>
+##contig=<ID=scaffold_1145>
+##contig=<ID=scaffold_1150>
+##contig=<ID=scaffold_1153>
+##contig=<ID=scaffold_1158>
+##contig=<ID=scaffold_1162>
+##contig=<ID=scaffold_1163>
+##contig=<ID=scaffold_1170>
+##contig=<ID=scaffold_1171>
+##contig=<ID=scaffold_1173>
+##contig=<ID=scaffold_1179>
+##contig=<ID=scaffold_1180>
+##contig=<ID=scaffold_1181>
+##contig=<ID=scaffold_1183>
+##contig=<ID=scaffold_1184>
+##contig=<ID=scaffold_1193>
+##contig=<ID=scaffold_1195>
+##contig=<ID=scaffold_1196>
+##contig=<ID=scaffold_1197>
+##contig=<ID=scaffold_1198>
+##contig=<ID=scaffold_1199>
+##contig=<ID=scaffold_1200>
+##contig=<ID=scaffold_1203>
+##contig=<ID=scaffold_1204>
+##contig=<ID=scaffold_1205>
+##contig=<ID=scaffold_1208>
+##contig=<ID=scaffold_1211>
+##contig=<ID=scaffold_1213>
+##contig=<ID=scaffold_1214>
+##contig=<ID=scaffold_1228>
+##contig=<ID=scaffold_1233>
+##contig=<ID=scaffold_1236>
+##contig=<ID=scaffold_1238>
+##contig=<ID=scaffold_1241>
+##contig=<ID=scaffold_1243>
+##contig=<ID=scaffold_1244>
+##contig=<ID=scaffold_1247>
+##contig=<ID=scaffold_1250>
+##contig=<ID=scaffold_1264>
+##contig=<ID=scaffold_1265>
+##contig=<ID=scaffold_1269>
+##contig=<ID=scaffold_1271>
+##contig=<ID=scaffold_1272>
+##contig=<ID=scaffold_1275>
+##contig=<ID=scaffold_1280>
+##contig=<ID=scaffold_1282>
+##contig=<ID=scaffold_1284>
+##contig=<ID=scaffold_1286>
+##contig=<ID=scaffold_1291>
+##contig=<ID=scaffold_1292>
+##contig=<ID=scaffold_1295>
+##contig=<ID=scaffold_1296>
+##contig=<ID=scaffold_1299>
+##contig=<ID=scaffold_1301>
+##contig=<ID=scaffold_1304>
+##contig=<ID=scaffold_1309>
+##contig=<ID=scaffold_1311>
+##contig=<ID=scaffold_1312>
+##contig=<ID=scaffold_1315>
+##contig=<ID=scaffold_1316>
+##contig=<ID=scaffold_1324>
+##contig=<ID=scaffold_1325>
+##contig=<ID=scaffold_1326>
+##contig=<ID=scaffold_1331>
+##contig=<ID=scaffold_1334>
+##contig=<ID=scaffold_1337>
+##contig=<ID=scaffold_1340>
+##contig=<ID=scaffold_1341>
+##contig=<ID=scaffold_1344>
+##contig=<ID=scaffold_1352>
+##contig=<ID=scaffold_1353>
+##contig=<ID=scaffold_1363>
+##contig=<ID=scaffold_1366>
+##contig=<ID=scaffold_1370>
+##contig=<ID=scaffold_1372>
+##contig=<ID=scaffold_1377>
+##contig=<ID=scaffold_1378>
+##contig=<ID=scaffold_1382>
+##contig=<ID=scaffold_1383>
+##contig=<ID=scaffold_1390>
+##contig=<ID=scaffold_1391>
+##contig=<ID=scaffold_1396>
+##contig=<ID=scaffold_1397>
+##contig=<ID=scaffold_1398>
+##contig=<ID=scaffold_1399>
+##contig=<ID=scaffold_1402>
+##contig=<ID=scaffold_1403>
+##contig=<ID=scaffold_1405>
+##contig=<ID=scaffold_1412>
+##contig=<ID=scaffold_1415>
+##contig=<ID=scaffold_1417>
+##contig=<ID=scaffold_1418>
+##contig=<ID=scaffold_1419>
+##contig=<ID=scaffold_1422>
+##contig=<ID=scaffold_1423>
+##contig=<ID=scaffold_1425>
+##contig=<ID=scaffold_1426>
+##contig=<ID=scaffold_1429>
+##contig=<ID=scaffold_1430>
+##contig=<ID=scaffold_1434>
+##contig=<ID=scaffold_1435>
+##contig=<ID=scaffold_1437>
+##contig=<ID=scaffold_1438>
+##contig=<ID=scaffold_1441>
+##contig=<ID=scaffold_1443>
+##contig=<ID=scaffold_1446>
+##contig=<ID=scaffold_1447>
+##contig=<ID=scaffold_1451>
+##contig=<ID=scaffold_1458>
+##contig=<ID=scaffold_1459>
+##contig=<ID=scaffold_1462>
+##contig=<ID=scaffold_1463>
+##contig=<ID=scaffold_1464>
+##contig=<ID=scaffold_1467>
+##contig=<ID=scaffold_1470>
+##contig=<ID=scaffold_1474>
+##contig=<ID=scaffold_1475>
+##contig=<ID=scaffold_1477>
+##contig=<ID=scaffold_1478>
+##contig=<ID=scaffold_1479>
+##contig=<ID=scaffold_1480>
+##contig=<ID=scaffold_1484>
+##contig=<ID=scaffold_1485>
+##contig=<ID=scaffold_1488>
+##contig=<ID=scaffold_1491>
+##contig=<ID=scaffold_1496>
+##contig=<ID=scaffold_1497>
+##contig=<ID=scaffold_1502>
+##contig=<ID=scaffold_1506>
+##contig=<ID=scaffold_1508>
+##contig=<ID=scaffold_1509>
+##contig=<ID=scaffold_1514>
+##contig=<ID=scaffold_1515>
+##contig=<ID=scaffold_1517>
+##contig=<ID=scaffold_1520>
+##contig=<ID=scaffold_1521>
+##contig=<ID=scaffold_1525>
+##contig=<ID=scaffold_1527>
+##contig=<ID=scaffold_1530>
+##contig=<ID=scaffold_1534>
+##contig=<ID=scaffold_1540>
+##contig=<ID=scaffold_1541>
+##contig=<ID=scaffold_1542>
+##contig=<ID=scaffold_1543>
+##contig=<ID=scaffold_1546>
+##contig=<ID=scaffold_1548>
+##contig=<ID=scaffold_1551>
+##contig=<ID=scaffold_1553>
+##contig=<ID=scaffold_1555>
+##contig=<ID=scaffold_1557>
+##contig=<ID=scaffold_1558>
+##contig=<ID=scaffold_1561>
+##contig=<ID=scaffold_1563>
+##contig=<ID=scaffold_1568>
+##contig=<ID=scaffold_1571>
+##contig=<ID=scaffold_1578>
+##contig=<ID=scaffold_1580>
+##contig=<ID=scaffold_1581>
+##contig=<ID=scaffold_1585>
+##contig=<ID=scaffold_1586>
+##contig=<ID=scaffold_1591>
+##contig=<ID=scaffold_1592>
+##contig=<ID=scaffold_1594>
+##contig=<ID=scaffold_1595>
+##contig=<ID=scaffold_1598>
+##contig=<ID=scaffold_1601>
+##contig=<ID=scaffold_1613>
+##contig=<ID=scaffold_1615>
+##contig=<ID=scaffold_1621>
+##contig=<ID=scaffold_1622>
+##contig=<ID=scaffold_1629>
+##contig=<ID=scaffold_1630>
+##contig=<ID=scaffold_1631>
+##contig=<ID=scaffold_1632>
+##contig=<ID=scaffold_1633>
+##contig=<ID=scaffold_1634>
+##contig=<ID=scaffold_1638>
+##contig=<ID=scaffold_1642>
+##contig=<ID=scaffold_1644>
+##contig=<ID=scaffold_1647>
+##contig=<ID=scaffold_1649>
+##contig=<ID=scaffold_1654>
+##contig=<ID=scaffold_1655>
+##contig=<ID=scaffold_1658>
+##contig=<ID=scaffold_1661>
+##contig=<ID=scaffold_1670>
+##contig=<ID=scaffold_1671>
+##contig=<ID=scaffold_1675>
+##contig=<ID=scaffold_1676>
+##contig=<ID=scaffold_1677>
+##contig=<ID=scaffold_1678>
+##contig=<ID=scaffold_1679>
+##contig=<ID=scaffold_1683>
+##contig=<ID=scaffold_1686>
+##contig=<ID=scaffold_1687>
+##contig=<ID=scaffold_1689>
+##contig=<ID=scaffold_1692>
+##contig=<ID=scaffold_1700>
+##contig=<ID=scaffold_1702>
+##contig=<ID=scaffold_1705>
+##contig=<ID=scaffold_1708>
+##contig=<ID=scaffold_1710>
+##contig=<ID=scaffold_1712>
+##contig=<ID=scaffold_1714>
+##contig=<ID=scaffold_1718>
+##contig=<ID=scaffold_1720>
+##contig=<ID=scaffold_1722>
+##contig=<ID=scaffold_1726>
+##contig=<ID=scaffold_1729>
+##contig=<ID=scaffold_1731>
+##contig=<ID=scaffold_1736>
+##contig=<ID=scaffold_1737>
+##contig=<ID=scaffold_1738>
+##contig=<ID=scaffold_1739>
+##contig=<ID=scaffold_1747>
+##contig=<ID=scaffold_1748>
+##contig=<ID=scaffold_1750>
+##contig=<ID=scaffold_1751>
+##contig=<ID=scaffold_1753>
+##contig=<ID=scaffold_1764>
+##contig=<ID=scaffold_1766>
+##contig=<ID=scaffold_1769>
+##contig=<ID=scaffold_1774>
+##contig=<ID=scaffold_1778>
+##contig=<ID=scaffold_1780>
+##contig=<ID=scaffold_1781>
+##contig=<ID=scaffold_1782>
+##contig=<ID=scaffold_1784>
+##contig=<ID=scaffold_1792>
+##contig=<ID=scaffold_1793>
+##contig=<ID=scaffold_1797>
+##contig=<ID=scaffold_1802>
+##contig=<ID=scaffold_1809>
+##contig=<ID=scaffold_1811>
+##contig=<ID=scaffold_1812>
+##contig=<ID=scaffold_1813>
+##contig=<ID=scaffold_1816>
+##contig=<ID=scaffold_1818>
+##contig=<ID=scaffold_1820>
+##contig=<ID=scaffold_1822>
+##contig=<ID=scaffold_1823>
+##contig=<ID=scaffold_1826>
+##contig=<ID=scaffold_1827>
+##contig=<ID=scaffold_1830>
+##contig=<ID=scaffold_1833>
+##contig=<ID=scaffold_1834>
+##contig=<ID=scaffold_1839>
+##contig=<ID=scaffold_1840>
+##contig=<ID=scaffold_1842>
+##contig=<ID=scaffold_1843>
+##contig=<ID=scaffold_1844>
+##contig=<ID=scaffold_1847>
+##contig=<ID=scaffold_1851>
+##contig=<ID=scaffold_1855>
+##contig=<ID=scaffold_1857>
+##contig=<ID=scaffold_1858>
+##contig=<ID=scaffold_1860>
+##contig=<ID=scaffold_1861>
+##contig=<ID=scaffold_1862>
+##contig=<ID=scaffold_1864>
+##contig=<ID=scaffold_1865>
+##contig=<ID=scaffold_1866>
+##contig=<ID=scaffold_1867>
+##contig=<ID=scaffold_1868>
+##contig=<ID=scaffold_1872>
+##contig=<ID=scaffold_1879>
+##contig=<ID=scaffold_1888>
+##contig=<ID=scaffold_1890>
+##contig=<ID=scaffold_1892>
+##contig=<ID=scaffold_1893>
+##contig=<ID=scaffold_1895>
+##contig=<ID=scaffold_1897>
+##contig=<ID=scaffold_1899>
+##contig=<ID=scaffold_1901>
+##contig=<ID=scaffold_1904>
+##contig=<ID=scaffold_1908>
+##contig=<ID=scaffold_1910>
+##contig=<ID=scaffold_1911>
+##contig=<ID=scaffold_1912>
+##contig=<ID=scaffold_1914>
+##contig=<ID=scaffold_1920>
+##contig=<ID=scaffold_1921>
+##contig=<ID=scaffold_1922>
+##contig=<ID=scaffold_1928>
+##contig=<ID=scaffold_1929>
+##contig=<ID=scaffold_1930>
+##contig=<ID=scaffold_1934>
+##contig=<ID=scaffold_1935>
+##contig=<ID=scaffold_1936>
+##contig=<ID=scaffold_1937>
+##contig=<ID=scaffold_1938>
+##contig=<ID=scaffold_1941>
+##contig=<ID=scaffold_1942>
+##contig=<ID=scaffold_1943>
+##contig=<ID=scaffold_1948>
+##contig=<ID=scaffold_1952>
+##contig=<ID=scaffold_1956>
+##contig=<ID=scaffold_1957>
+##contig=<ID=scaffold_1963>
+##contig=<ID=scaffold_1969>
+##contig=<ID=scaffold_1970>
+##contig=<ID=scaffold_1975>
+##contig=<ID=scaffold_1978>
+##contig=<ID=scaffold_1979>
+##contig=<ID=scaffold_1981>
+##contig=<ID=scaffold_1982>
+##contig=<ID=scaffold_1984>
+##contig=<ID=scaffold_1985>
+##contig=<ID=scaffold_1987>
+##contig=<ID=scaffold_1991>
+##contig=<ID=scaffold_1993>
+##contig=<ID=scaffold_1998>
+##contig=<ID=scaffold_1999>
+##contig=<ID=scaffold_2000>
+##contig=<ID=scaffold_2003>
+##contig=<ID=scaffold_2004>
+##contig=<ID=scaffold_2006>
+##contig=<ID=scaffold_2009>
+##contig=<ID=scaffold_2011>
+##contig=<ID=scaffold_2014>
+##contig=<ID=scaffold_2016>
+##contig=<ID=scaffold_2020>
+##contig=<ID=scaffold_2021>
+##contig=<ID=scaffold_2022>
+##contig=<ID=scaffold_2023>
+##contig=<ID=scaffold_2024>
+##contig=<ID=scaffold_2025>
+##contig=<ID=scaffold_2029>
+##contig=<ID=scaffold_2031>
+##contig=<ID=scaffold_2035>
+##contig=<ID=scaffold_2036>
+##contig=<ID=scaffold_2038>
+##contig=<ID=scaffold_2039>
+##contig=<ID=scaffold_2041>
+##contig=<ID=scaffold_2044>
+##contig=<ID=scaffold_2045>
+##contig=<ID=scaffold_2046>
+##contig=<ID=scaffold_2048>
+##contig=<ID=scaffold_2049>
+##contig=<ID=scaffold_2052>
+##contig=<ID=scaffold_2053>
+##contig=<ID=scaffold_2055>
+##contig=<ID=scaffold_2056>
+##contig=<ID=scaffold_2059>
+##contig=<ID=scaffold_2063>
+##contig=<ID=scaffold_2064>
+##contig=<ID=scaffold_2066>
+##contig=<ID=scaffold_2067>
+##contig=<ID=scaffold_2068>
+##contig=<ID=scaffold_2070>
+##contig=<ID=scaffold_2073>
+##contig=<ID=scaffold_2075>
+##contig=<ID=scaffold_2078>
+##contig=<ID=scaffold_2079>
+##contig=<ID=scaffold_2083>
+##contig=<ID=scaffold_2087>
+##contig=<ID=scaffold_2088>
+##contig=<ID=scaffold_2089>
+##contig=<ID=scaffold_2095>
+##contig=<ID=scaffold_2097>
+##contig=<ID=scaffold_2099>
+##contig=<ID=scaffold_2100>
+##contig=<ID=scaffold_2101>
+##contig=<ID=scaffold_2102>
+##contig=<ID=scaffold_2109>
+##contig=<ID=scaffold_2110>
+##contig=<ID=scaffold_2112>
+##contig=<ID=scaffold_2116>
+##contig=<ID=scaffold_2118>
+##contig=<ID=scaffold_2130>
+##contig=<ID=scaffold_2133>
+##contig=<ID=scaffold_2134>
+##contig=<ID=scaffold_2135>
+##contig=<ID=scaffold_2139>
+##contig=<ID=scaffold_2141>
+##contig=<ID=scaffold_2146>
+##contig=<ID=scaffold_2147>
+##contig=<ID=scaffold_2149>
+##contig=<ID=scaffold_2151>
+##contig=<ID=scaffold_2153>
+##contig=<ID=scaffold_2159>
+##contig=<ID=scaffold_2160>
+##contig=<ID=scaffold_2161>
+##contig=<ID=scaffold_2162>
+##contig=<ID=scaffold_2166>
+##contig=<ID=scaffold_2169>
+##contig=<ID=scaffold_2171>
+##contig=<ID=scaffold_2173>
+##contig=<ID=scaffold_2175>
+##contig=<ID=scaffold_2178>
+##contig=<ID=scaffold_2183>
+##contig=<ID=scaffold_2185>
+##contig=<ID=scaffold_2186>
+##contig=<ID=scaffold_2189>
+##contig=<ID=scaffold_2190>
+##contig=<ID=scaffold_2191>
+##contig=<ID=scaffold_2193>
+##contig=<ID=scaffold_2194>
+##contig=<ID=scaffold_2197>
+##contig=<ID=scaffold_2202>
+##contig=<ID=scaffold_2204>
+##contig=<ID=scaffold_2206>
+##contig=<ID=scaffold_2207>
+##contig=<ID=scaffold_2208>
+##contig=<ID=scaffold_2209>
+##contig=<ID=scaffold_2210>
+##contig=<ID=scaffold_2212>
+##contig=<ID=scaffold_2213>
+##contig=<ID=scaffold_2215>
+##contig=<ID=scaffold_2220>
+##contig=<ID=scaffold_2221>
+##contig=<ID=scaffold_2222>
+##contig=<ID=scaffold_2223>
+##contig=<ID=scaffold_2229>
+##contig=<ID=scaffold_2232>
+##contig=<ID=scaffold_2233>
+##contig=<ID=scaffold_2234>
+##contig=<ID=scaffold_2235>
+##contig=<ID=scaffold_2236>
+##contig=<ID=scaffold_2237>
+##contig=<ID=scaffold_2239>
+##contig=<ID=scaffold_2240>
+##contig=<ID=scaffold_2243>
+##contig=<ID=scaffold_2244>
+##contig=<ID=scaffold_2246>
+##contig=<ID=scaffold_2247>
+##contig=<ID=scaffold_2248>
+##contig=<ID=scaffold_2249>
+##contig=<ID=scaffold_2250>
+##contig=<ID=scaffold_2253>
+##contig=<ID=scaffold_2258>
+##contig=<ID=scaffold_2259>
+##contig=<ID=scaffold_2261>
+##contig=<ID=scaffold_2262>
+##contig=<ID=scaffold_2264>
+##contig=<ID=scaffold_2266>
+##contig=<ID=scaffold_2268>
+##contig=<ID=scaffold_2269>
+##contig=<ID=scaffold_2273>
+##contig=<ID=scaffold_2279>
+##contig=<ID=scaffold_2280>
+##contig=<ID=scaffold_2285>
+##contig=<ID=scaffold_2289>
+##contig=<ID=scaffold_2291>
+##contig=<ID=scaffold_2295>
+##contig=<ID=scaffold_2298>
+##contig=<ID=scaffold_2300>
+##contig=<ID=scaffold_2303>
+##contig=<ID=scaffold_2306>
+##contig=<ID=scaffold_2309>
+##contig=<ID=scaffold_2310>
+##contig=<ID=scaffold_2311>
+##contig=<ID=scaffold_2312>
+##contig=<ID=scaffold_2313>
+##contig=<ID=scaffold_2314>
+##contig=<ID=scaffold_2315>
+##contig=<ID=scaffold_2316>
+##contig=<ID=scaffold_2317>
+##contig=<ID=scaffold_2320>
+##contig=<ID=scaffold_2322>
+##contig=<ID=scaffold_2323>
+##contig=<ID=scaffold_2324>
+##contig=<ID=scaffold_2325>
+##contig=<ID=scaffold_2327>
+##contig=<ID=scaffold_2328>
+##contig=<ID=scaffold_2329>
+##contig=<ID=scaffold_2330>
+##contig=<ID=scaffold_2331>
+##contig=<ID=scaffold_2332>
+##contig=<ID=scaffold_2335>
+##contig=<ID=scaffold_2336>
+##contig=<ID=scaffold_2337>
+##contig=<ID=scaffold_2338>
+##contig=<ID=scaffold_2339>
+##contig=<ID=scaffold_2340>
+##contig=<ID=scaffold_2342>
+##contig=<ID=scaffold_2344>
+##contig=<ID=scaffold_2345>
+##contig=<ID=scaffold_2348>
+##contig=<ID=scaffold_2349>
+##contig=<ID=scaffold_2357>
+##contig=<ID=scaffold_2360>
+##contig=<ID=scaffold_2362>
+##contig=<ID=scaffold_2364>
+##contig=<ID=scaffold_2367>
+##contig=<ID=scaffold_2368>
+##contig=<ID=scaffold_2370>
+##contig=<ID=scaffold_2372>
+##contig=<ID=scaffold_2374>
+##contig=<ID=scaffold_2376>
+##contig=<ID=scaffold_2377>
+##contig=<ID=scaffold_2378>
+##contig=<ID=scaffold_2379>
+##contig=<ID=scaffold_2381>
+##contig=<ID=scaffold_2383>
+##contig=<ID=scaffold_2384>
+##contig=<ID=scaffold_2385>
+##contig=<ID=scaffold_2387>
+##contig=<ID=scaffold_2390>
+##contig=<ID=scaffold_2394>
+##contig=<ID=scaffold_2396>
+##contig=<ID=scaffold_2397>
+##contig=<ID=scaffold_2410>
+##contig=<ID=scaffold_2412>
+##contig=<ID=scaffold_2413>
+##contig=<ID=scaffold_2414>
+##contig=<ID=scaffold_2418>
+##contig=<ID=scaffold_2422>
+##contig=<ID=scaffold_2424>
+##contig=<ID=scaffold_2428>
+##contig=<ID=scaffold_2431>
+##contig=<ID=scaffold_2432>
+##contig=<ID=scaffold_2434>
+##contig=<ID=scaffold_2439>
+##contig=<ID=scaffold_2444>
+##contig=<ID=scaffold_2446>
+##contig=<ID=scaffold_2447>
+##contig=<ID=scaffold_2449>
+##contig=<ID=scaffold_2453>
+##contig=<ID=scaffold_2454>
+##contig=<ID=scaffold_2458>
+##contig=<ID=scaffold_2459>
+##contig=<ID=scaffold_2460>
+##contig=<ID=scaffold_2462>
+##contig=<ID=scaffold_2463>
+##contig=<ID=scaffold_2465>
+##contig=<ID=scaffold_2468>
+##contig=<ID=scaffold_2469>
+##contig=<ID=scaffold_2471>
+##contig=<ID=scaffold_2474>
+##contig=<ID=scaffold_2475>
+##contig=<ID=scaffold_2476>
+##contig=<ID=scaffold_2478>
+##contig=<ID=scaffold_2479>
+##contig=<ID=scaffold_2481>
+##contig=<ID=scaffold_2483>
+##contig=<ID=scaffold_2486>
+##contig=<ID=scaffold_2487>
+##contig=<ID=scaffold_2489>
+##contig=<ID=scaffold_2491>
+##contig=<ID=scaffold_2493>
+##contig=<ID=scaffold_2495>
+##contig=<ID=scaffold_2498>
+##contig=<ID=scaffold_2499>
+##contig=<ID=scaffold_2500>
+##contig=<ID=scaffold_2502>
+##contig=<ID=scaffold_2503>
+##contig=<ID=scaffold_2504>
+##contig=<ID=scaffold_2508>
+##contig=<ID=scaffold_2510>
+##contig=<ID=scaffold_2511>
+##contig=<ID=scaffold_2512>
+##contig=<ID=scaffold_2517>
+##contig=<ID=scaffold_2522>
+##contig=<ID=scaffold_2523>
+##contig=<ID=scaffold_2525>
+##contig=<ID=scaffold_2527>
+##contig=<ID=scaffold_2528>
+##contig=<ID=scaffold_2530>
+##contig=<ID=scaffold_2531>
+##contig=<ID=scaffold_2532>
+##contig=<ID=scaffold_2533>
+##contig=<ID=scaffold_2535>
+##contig=<ID=scaffold_2536>
+##contig=<ID=scaffold_2538>
+##contig=<ID=scaffold_2540>
+##contig=<ID=scaffold_2543>
+##contig=<ID=scaffold_2548>
+##contig=<ID=scaffold_2549>
+##contig=<ID=scaffold_2551>
+##contig=<ID=scaffold_2552>
+##contig=<ID=scaffold_2553>
+##contig=<ID=scaffold_2554>
+##contig=<ID=scaffold_2557>
+##contig=<ID=scaffold_2560>
+##contig=<ID=scaffold_2561>
+##contig=<ID=scaffold_2562>
+##contig=<ID=scaffold_2564>
+##contig=<ID=scaffold_2565>
+##contig=<ID=scaffold_2566>
+##contig=<ID=scaffold_2568>
+##contig=<ID=scaffold_2570>
+##contig=<ID=scaffold_2571>
+##contig=<ID=scaffold_2574>
+##contig=<ID=scaffold_2575>
+##contig=<ID=scaffold_2576>
+##contig=<ID=scaffold_2578>
+##contig=<ID=scaffold_2581>
+##contig=<ID=scaffold_2584>
+##contig=<ID=scaffold_2586>
+##contig=<ID=scaffold_2590>
+##contig=<ID=scaffold_2595>
+##contig=<ID=scaffold_2596>
+##contig=<ID=scaffold_2600>
+##contig=<ID=scaffold_2601>
+##contig=<ID=scaffold_2603>
+##contig=<ID=scaffold_2606>
+##contig=<ID=scaffold_2609>
+##contig=<ID=scaffold_2610>
+##contig=<ID=scaffold_2615>
+##contig=<ID=scaffold_2616>
+##contig=<ID=scaffold_2617>
+##contig=<ID=scaffold_2618>
+##contig=<ID=scaffold_2619>
+##contig=<ID=scaffold_2620>
+##contig=<ID=scaffold_2621>
+##contig=<ID=scaffold_2623>
+##contig=<ID=scaffold_2624>
+##contig=<ID=scaffold_2627>
+##contig=<ID=scaffold_2630>
+##contig=<ID=scaffold_2632>
+##contig=<ID=scaffold_2637>
+##contig=<ID=scaffold_2638>
+##contig=<ID=scaffold_2640>
+##contig=<ID=scaffold_2642>
+##contig=<ID=scaffold_2645>
+##contig=<ID=scaffold_2646>
+##contig=<ID=scaffold_2653>
+##contig=<ID=scaffold_2654>
+##contig=<ID=scaffold_2658>
+##contig=<ID=scaffold_2660>
+##contig=<ID=scaffold_2662>
+##contig=<ID=scaffold_2664>
+##contig=<ID=scaffold_2667>
+##contig=<ID=scaffold_2670>
+##contig=<ID=scaffold_2671>
+##contig=<ID=scaffold_2674>
+##contig=<ID=scaffold_2676>
+##contig=<ID=scaffold_2677>
+##contig=<ID=scaffold_2678>
+##contig=<ID=scaffold_2682>
+##contig=<ID=scaffold_2685>
+##contig=<ID=scaffold_2688>
+##contig=<ID=scaffold_2689>
+##contig=<ID=scaffold_2690>
+##contig=<ID=scaffold_2695>
+##contig=<ID=scaffold_2698>
+##contig=<ID=scaffold_2700>
+##contig=<ID=scaffold_2703>
+##contig=<ID=scaffold_2705>
+##contig=<ID=scaffold_2706>
+##contig=<ID=scaffold_2709>
+##contig=<ID=scaffold_2711>
+##contig=<ID=scaffold_2714>
+##contig=<ID=scaffold_2716>
+##contig=<ID=scaffold_2719>
+##contig=<ID=scaffold_2721>
+##contig=<ID=scaffold_2723>
+##contig=<ID=scaffold_2724>
+##contig=<ID=scaffold_2726>
+##contig=<ID=scaffold_2728>
+##contig=<ID=scaffold_2733>
+##contig=<ID=scaffold_2735>
+##contig=<ID=scaffold_2736>
+##contig=<ID=scaffold_2741>
+##contig=<ID=scaffold_2742>
+##contig=<ID=scaffold_2744>
+##contig=<ID=scaffold_2747>
+##contig=<ID=scaffold_2748>
+##contig=<ID=scaffold_2750>
+##contig=<ID=scaffold_2751>
+##contig=<ID=scaffold_2752>
+##contig=<ID=scaffold_2754>
+##contig=<ID=scaffold_2755>
+##contig=<ID=scaffold_2756>
+##contig=<ID=scaffold_2758>
+##contig=<ID=scaffold_2760>
+##contig=<ID=scaffold_2762>
+##contig=<ID=scaffold_2764>
+##contig=<ID=scaffold_2765>
+##contig=<ID=scaffold_2767>
+##contig=<ID=scaffold_2770>
+##contig=<ID=scaffold_2772>
+##contig=<ID=scaffold_2773>
+##contig=<ID=scaffold_2774>
+##contig=<ID=scaffold_2775>
+##contig=<ID=scaffold_2776>
+##contig=<ID=scaffold_2777>
+##contig=<ID=scaffold_2779>
+##contig=<ID=scaffold_2781>
+##contig=<ID=scaffold_2782>
+##contig=<ID=scaffold_2785>
+##contig=<ID=scaffold_2786>
+##contig=<ID=scaffold_2788>
+##contig=<ID=scaffold_2789>
+##contig=<ID=scaffold_2800>
+##contig=<ID=scaffold_2804>
+##contig=<ID=scaffold_2806>
+##contig=<ID=scaffold_2807>
+##contig=<ID=scaffold_2809>
+##contig=<ID=scaffold_2812>
+##contig=<ID=scaffold_2813>
+##contig=<ID=scaffold_2814>
+##contig=<ID=scaffold_2816>
+##contig=<ID=scaffold_2820>
+##contig=<ID=scaffold_2821>
+##contig=<ID=scaffold_2824>
+##contig=<ID=scaffold_2825>
+##contig=<ID=scaffold_2826>
+##contig=<ID=scaffold_2828>
+##contig=<ID=scaffold_2829>
+##contig=<ID=scaffold_2832>
+##contig=<ID=scaffold_2835>
+##contig=<ID=scaffold_2837>
+##contig=<ID=scaffold_2838>
+##contig=<ID=scaffold_2841>
+##contig=<ID=scaffold_2842>
+##contig=<ID=scaffold_2844>
+##contig=<ID=scaffold_2851>
+##contig=<ID=scaffold_2853>
+##contig=<ID=scaffold_2855>
+##contig=<ID=scaffold_2857>
+##contig=<ID=scaffold_2859>
+##contig=<ID=scaffold_2862>
+##contig=<ID=scaffold_2864>
+##contig=<ID=scaffold_2868>
+##contig=<ID=scaffold_2870>
+##contig=<ID=scaffold_2874>
+##contig=<ID=scaffold_2876>
+##contig=<ID=scaffold_2879>
+##contig=<ID=scaffold_2881>
+##contig=<ID=scaffold_2883>
+##contig=<ID=scaffold_2885>
+##contig=<ID=scaffold_2889>
+##contig=<ID=scaffold_2890>
+##contig=<ID=scaffold_2891>
+##contig=<ID=scaffold_2893>
+##contig=<ID=scaffold_2907>
+##contig=<ID=scaffold_2908>
+##contig=<ID=scaffold_2909>
+##contig=<ID=scaffold_2910>
+##contig=<ID=scaffold_2911>
+##contig=<ID=scaffold_2912>
+##contig=<ID=scaffold_2913>
+##contig=<ID=scaffold_2914>
+##contig=<ID=scaffold_2915>
+##contig=<ID=scaffold_2916>
+##contig=<ID=scaffold_2919>
+##contig=<ID=scaffold_2921>
+##contig=<ID=scaffold_2922>
+##contig=<ID=scaffold_2923>
+##contig=<ID=scaffold_2924>
+##contig=<ID=scaffold_2925>
+##contig=<ID=scaffold_2930>
+##contig=<ID=scaffold_2932>
+##contig=<ID=scaffold_2933>
+##contig=<ID=scaffold_2934>
+##contig=<ID=scaffold_2936>
+##contig=<ID=scaffold_2939>
+##contig=<ID=scaffold_2943>
+##contig=<ID=scaffold_2947>
+##contig=<ID=scaffold_2948>
+##contig=<ID=scaffold_2949>
+##contig=<ID=scaffold_2950>
+##contig=<ID=scaffold_2951>
+##contig=<ID=scaffold_2955>
+##contig=<ID=scaffold_2957>
+##contig=<ID=scaffold_2960>
+##contig=<ID=scaffold_2962>
+##contig=<ID=scaffold_2965>
+##contig=<ID=scaffold_2967>
+##contig=<ID=scaffold_2968>
+##contig=<ID=scaffold_2971>
+##contig=<ID=scaffold_2974>
+##contig=<ID=scaffold_2975>
+##contig=<ID=scaffold_2977>
+##contig=<ID=scaffold_2979>
+##contig=<ID=scaffold_2981>
+##contig=<ID=scaffold_2987>
+##contig=<ID=scaffold_2992>
+##contig=<ID=scaffold_2998>
+##contig=<ID=scaffold_3001>
+##contig=<ID=scaffold_3002>
+##contig=<ID=scaffold_3003>
+##contig=<ID=scaffold_3005>
+##contig=<ID=scaffold_3006>
+##contig=<ID=scaffold_3007>
+##contig=<ID=scaffold_3008>
+##contig=<ID=scaffold_3011>
+##contig=<ID=scaffold_3013>
+##contig=<ID=scaffold_3014>
+##contig=<ID=scaffold_3015>
+##contig=<ID=scaffold_3019>
+##contig=<ID=scaffold_3020>
+##contig=<ID=scaffold_3021>
+##contig=<ID=scaffold_3024>
+##contig=<ID=scaffold_3025>
+##contig=<ID=scaffold_3026>
+##contig=<ID=scaffold_3030>
+##contig=<ID=scaffold_3031>
+##contig=<ID=scaffold_3032>
+##contig=<ID=scaffold_3039>
+##contig=<ID=scaffold_3040>
+##contig=<ID=scaffold_3041>
+##contig=<ID=scaffold_3042>
+##contig=<ID=scaffold_3044>
+##contig=<ID=scaffold_3046>
+##contig=<ID=scaffold_3049>
+##contig=<ID=scaffold_3050>
+##contig=<ID=scaffold_3053>
+##contig=<ID=scaffold_3054>
+##contig=<ID=scaffold_3055>
+##contig=<ID=scaffold_3056>
+##contig=<ID=scaffold_3058>
+##contig=<ID=scaffold_3059>
+##contig=<ID=scaffold_3061>
+##contig=<ID=scaffold_3064>
+##contig=<ID=scaffold_3068>
+##contig=<ID=scaffold_3074>
+##contig=<ID=scaffold_3076>
+##contig=<ID=scaffold_3079>
+##contig=<ID=scaffold_3081>
+##contig=<ID=scaffold_3087>
+##contig=<ID=scaffold_3088>
+##contig=<ID=scaffold_3090>
+##contig=<ID=scaffold_3092>
+##contig=<ID=scaffold_3096>
+##contig=<ID=scaffold_3097>
+##contig=<ID=scaffold_3100>
+##contig=<ID=scaffold_3101>
+##contig=<ID=scaffold_3102>
+##contig=<ID=scaffold_3103>
+##contig=<ID=scaffold_3107>
+##contig=<ID=scaffold_3109>
+##contig=<ID=scaffold_3112>
+##contig=<ID=scaffold_3115>
+##contig=<ID=scaffold_3116>
+##contig=<ID=scaffold_3117>
+##contig=<ID=scaffold_3119>
+##contig=<ID=scaffold_3123>
+##contig=<ID=scaffold_3124>
+##contig=<ID=scaffold_3126>
+##contig=<ID=scaffold_3127>
+##contig=<ID=scaffold_3129>
+##contig=<ID=scaffold_3134>
+##contig=<ID=scaffold_3135>
+##contig=<ID=scaffold_3136>
+##contig=<ID=scaffold_3142>
+##contig=<ID=scaffold_3147>
+##contig=<ID=scaffold_3149>
+##contig=<ID=scaffold_3156>
+##contig=<ID=scaffold_3157>
+##contig=<ID=scaffold_3160>
+##contig=<ID=scaffold_3164>
+##contig=<ID=scaffold_3168>
+##contig=<ID=scaffold_3171>
+##contig=<ID=scaffold_3177>
+##contig=<ID=scaffold_3179>
+##contig=<ID=scaffold_3183>
+##contig=<ID=scaffold_3186>
+##contig=<ID=scaffold_3188>
+##contig=<ID=scaffold_3189>
+##contig=<ID=scaffold_3190>
+##contig=<ID=scaffold_3191>
+##contig=<ID=scaffold_3194>
+##contig=<ID=scaffold_3195>
+##contig=<ID=scaffold_3202>
+##contig=<ID=scaffold_3205>
+##contig=<ID=scaffold_3206>
+##contig=<ID=scaffold_3210>
+##contig=<ID=scaffold_3212>
+##contig=<ID=scaffold_3213>
+##contig=<ID=scaffold_3214>
+##contig=<ID=scaffold_3221>
+##contig=<ID=scaffold_3222>
+##contig=<ID=scaffold_3223>
+##contig=<ID=scaffold_3226>
+##contig=<ID=scaffold_3227>
+##contig=<ID=scaffold_3228>
+##contig=<ID=scaffold_3230>
+##contig=<ID=scaffold_3231>
+##contig=<ID=scaffold_3236>
+##contig=<ID=scaffold_3239>
+##contig=<ID=scaffold_3245>
+##contig=<ID=scaffold_3246>
+##contig=<ID=scaffold_3250>
+##contig=<ID=scaffold_3251>
+##contig=<ID=scaffold_3252>
+##contig=<ID=scaffold_3254>
+##contig=<ID=scaffold_3255>
+##contig=<ID=scaffold_3257>
+##contig=<ID=scaffold_3259>
+##contig=<ID=scaffold_3262>
+##contig=<ID=scaffold_3263>
+##contig=<ID=scaffold_3264>
+##contig=<ID=scaffold_3268>
+##contig=<ID=scaffold_3269>
+##contig=<ID=scaffold_3271>
+##contig=<ID=scaffold_3272>
+##contig=<ID=scaffold_3275>
+##contig=<ID=scaffold_3276>
+##contig=<ID=scaffold_3279>
+##contig=<ID=scaffold_3282>
+##contig=<ID=scaffold_3283>
+##contig=<ID=scaffold_3285>
+##contig=<ID=scaffold_3289>
+##contig=<ID=scaffold_3290>
+##contig=<ID=scaffold_3292>
+##contig=<ID=scaffold_3294>
+##contig=<ID=scaffold_3296>
+##contig=<ID=scaffold_3298>
+##contig=<ID=scaffold_3300>
+##contig=<ID=scaffold_3301>
+##contig=<ID=scaffold_3302>
+##contig=<ID=scaffold_3304>
+##contig=<ID=scaffold_3305>
+##contig=<ID=scaffold_3306>
+##contig=<ID=scaffold_3312>
+##contig=<ID=scaffold_3316>
+##contig=<ID=scaffold_3320>
+##contig=<ID=scaffold_3324>
+##contig=<ID=scaffold_3325>
+##contig=<ID=scaffold_3326>
+##contig=<ID=scaffold_3328>
+##contig=<ID=scaffold_3332>
+##contig=<ID=scaffold_3335>
+##contig=<ID=scaffold_3336>
+##contig=<ID=scaffold_3338>
+##contig=<ID=scaffold_3340>
+##contig=<ID=scaffold_3342>
+##contig=<ID=scaffold_3344>
+##contig=<ID=scaffold_3345>
+##contig=<ID=scaffold_3346>
+##contig=<ID=scaffold_3348>
+##contig=<ID=scaffold_3352>
+##contig=<ID=scaffold_3353>
+##contig=<ID=scaffold_3354>
+##contig=<ID=scaffold_3356>
+##contig=<ID=scaffold_3357>
+##contig=<ID=scaffold_3360>
+##contig=<ID=scaffold_3362>
+##contig=<ID=scaffold_3363>
+##contig=<ID=scaffold_3364>
+##contig=<ID=scaffold_3367>
+##contig=<ID=scaffold_3368>
+##contig=<ID=scaffold_3370>
+##contig=<ID=scaffold_3372>
+##contig=<ID=scaffold_3374>
+##contig=<ID=scaffold_3378>
+##contig=<ID=scaffold_3379>
+##contig=<ID=scaffold_3381>
+##contig=<ID=scaffold_3382>
+##contig=<ID=scaffold_3383>
+##contig=<ID=scaffold_3384>
+##contig=<ID=scaffold_3386>
+##contig=<ID=scaffold_3387>
+##contig=<ID=scaffold_3388>
+##contig=<ID=scaffold_3389>
+##contig=<ID=scaffold_3391>
+##contig=<ID=scaffold_3393>
+##contig=<ID=scaffold_3397>
+##contig=<ID=scaffold_3398>
+##contig=<ID=scaffold_3403>
+##contig=<ID=scaffold_3406>
+##contig=<ID=scaffold_3411>
+##contig=<ID=scaffold_3412>
+##contig=<ID=scaffold_3413>
+##contig=<ID=scaffold_3416>
+##contig=<ID=scaffold_3420>
+##contig=<ID=scaffold_3422>
+##contig=<ID=scaffold_3423>
+##contig=<ID=scaffold_3425>
+##contig=<ID=scaffold_3426>
+##contig=<ID=scaffold_3427>
+##contig=<ID=scaffold_3430>
+##contig=<ID=scaffold_3431>
+##contig=<ID=scaffold_3432>
+##contig=<ID=scaffold_3433>
+##contig=<ID=scaffold_3436>
+##contig=<ID=scaffold_3437>
+##contig=<ID=scaffold_3442>
+##contig=<ID=scaffold_3445>
+##contig=<ID=scaffold_3446>
+##contig=<ID=scaffold_3448>
+##contig=<ID=scaffold_3452>
+##contig=<ID=scaffold_3453>
+##contig=<ID=scaffold_3455>
+##contig=<ID=scaffold_3459>
+##contig=<ID=scaffold_3463>
+##contig=<ID=scaffold_3464>
+##contig=<ID=scaffold_3472>
+##contig=<ID=scaffold_3474>
+##contig=<ID=scaffold_3478>
+##contig=<ID=scaffold_3479>
+##contig=<ID=scaffold_3489>
+##contig=<ID=scaffold_3505>
+##contig=<ID=scaffold_3513>
+##contig=<ID=scaffold_3523>
+##contig=<ID=scaffold_3528>
+##contig=<ID=scaffold_3537>
+##contig=<ID=scaffold_3547>
+##contig=<ID=scaffold_3549>
+##contig=<ID=scaffold_3550>
+##contig=<ID=scaffold_3584>
+##contig=<ID=scaffold_3595>
+##contig=<ID=scaffold_3648>
+##contig=<ID=scaffold_3664>
+##contig=<ID=scaffold_3681>
+##contig=<ID=scaffold_187>
+##contig=<ID=scaffold_298>
+##contig=<ID=scaffold_300>
+##contig=<ID=scaffold_364>
+##contig=<ID=scaffold_606>
+##contig=<ID=scaffold_724>
+##contig=<ID=scaffold_734>
+##contig=<ID=scaffold_829>
+##contig=<ID=scaffold_989>
+##contig=<ID=scaffold_1000>
+##contig=<ID=scaffold_1069>
+##contig=<ID=scaffold_1141>
+##contig=<ID=scaffold_1151>
+##contig=<ID=scaffold_1239>
+##contig=<ID=scaffold_1260>
+##contig=<ID=scaffold_1336>
+##contig=<ID=scaffold_1500>
+##contig=<ID=scaffold_1516>
+##contig=<ID=scaffold_1549>
+##contig=<ID=scaffold_1570>
+##contig=<ID=scaffold_1648>
+##contig=<ID=scaffold_1682>
+##contig=<ID=scaffold_1752>
+##contig=<ID=scaffold_1756>
+##contig=<ID=scaffold_1786>
+##contig=<ID=scaffold_1789>
+##contig=<ID=scaffold_1791>
+##contig=<ID=scaffold_1831>
+##contig=<ID=scaffold_1849>
+##contig=<ID=scaffold_1856>
+##contig=<ID=scaffold_1884>
+##contig=<ID=scaffold_1886>
+##contig=<ID=scaffold_1887>
+##contig=<ID=scaffold_1924>
+##contig=<ID=scaffold_1933>
+##contig=<ID=scaffold_1951>
+##contig=<ID=scaffold_1965>
+##contig=<ID=scaffold_1983>
+##contig=<ID=scaffold_1988>
+##contig=<ID=scaffold_1992>
+##contig=<ID=scaffold_1995>
+##contig=<ID=scaffold_2002>
+##contig=<ID=scaffold_2007>
+##contig=<ID=scaffold_2015>
+##contig=<ID=scaffold_2033>
+##contig=<ID=scaffold_2042>
+##contig=<ID=scaffold_2047>
+##contig=<ID=scaffold_2051>
+##contig=<ID=scaffold_2060>
+##contig=<ID=scaffold_2074>
+##contig=<ID=scaffold_2077>
+##contig=<ID=scaffold_2084>
+##contig=<ID=scaffold_2086>
+##contig=<ID=scaffold_2107>
+##contig=<ID=scaffold_2124>
+##contig=<ID=scaffold_2136>
+##contig=<ID=scaffold_2137>
+##contig=<ID=scaffold_2157>
+##contig=<ID=scaffold_2170>
+##contig=<ID=scaffold_2181>
+##contig=<ID=scaffold_2187>
+##contig=<ID=scaffold_2205>
+##contig=<ID=scaffold_2211>
+##contig=<ID=scaffold_2216>
+##contig=<ID=scaffold_2241>
+##contig=<ID=scaffold_2254>
+##contig=<ID=scaffold_2260>
+##contig=<ID=scaffold_2263>
+##contig=<ID=scaffold_2275>
+##contig=<ID=scaffold_2281>
+##contig=<ID=scaffold_2308>
+##contig=<ID=scaffold_2341>
+##contig=<ID=scaffold_2343>
+##contig=<ID=scaffold_2351>
+##contig=<ID=scaffold_2363>
+##contig=<ID=scaffold_2371>
+##contig=<ID=scaffold_2380>
+##contig=<ID=scaffold_2403>
+##contig=<ID=scaffold_2409>
+##contig=<ID=scaffold_2411>
+##contig=<ID=scaffold_2417>
+##contig=<ID=scaffold_2435>
+##contig=<ID=scaffold_2438>
+##contig=<ID=scaffold_2451>
+##contig=<ID=scaffold_2466>
+##contig=<ID=scaffold_2482>
+##contig=<ID=scaffold_2485>
+##contig=<ID=scaffold_2518>
+##contig=<ID=scaffold_2521>
+##contig=<ID=scaffold_2526>
+##contig=<ID=scaffold_2541>
+##contig=<ID=scaffold_2555>
+##contig=<ID=scaffold_2556>
+##contig=<ID=scaffold_2558>
+##contig=<ID=scaffold_2577>
+##contig=<ID=scaffold_2579>
+##contig=<ID=scaffold_2594>
+##contig=<ID=scaffold_2598>
+##contig=<ID=scaffold_2604>
+##contig=<ID=scaffold_2607>
+##contig=<ID=scaffold_2625>
+##contig=<ID=scaffold_2652>
+##contig=<ID=scaffold_2657>
+##contig=<ID=scaffold_2665>
+##contig=<ID=scaffold_2673>
+##contig=<ID=scaffold_2675>
+##contig=<ID=scaffold_2680>
+##contig=<ID=scaffold_2692>
+##contig=<ID=scaffold_2704>
+##contig=<ID=scaffold_2722>
+##contig=<ID=scaffold_2730>
+##contig=<ID=scaffold_2731>
+##contig=<ID=scaffold_2739>
+##contig=<ID=scaffold_2740>
+##contig=<ID=scaffold_2753>
+##contig=<ID=scaffold_2757>
+##contig=<ID=scaffold_2783>
+##contig=<ID=scaffold_2794>
+##contig=<ID=scaffold_2796>
+##contig=<ID=scaffold_2803>
+##contig=<ID=scaffold_2817>
+##contig=<ID=scaffold_2822>
+##contig=<ID=scaffold_2823>
+##contig=<ID=scaffold_2839>
+##contig=<ID=scaffold_2852>
+##contig=<ID=scaffold_2865>
+##contig=<ID=scaffold_2867>
+##contig=<ID=scaffold_2869>
+##contig=<ID=scaffold_2871>
+##contig=<ID=scaffold_2873>
+##contig=<ID=scaffold_2878>
+##contig=<ID=scaffold_2880>
+##contig=<ID=scaffold_2882>
+##contig=<ID=scaffold_2886>
+##contig=<ID=scaffold_2899>
+##contig=<ID=scaffold_2902>
+##contig=<ID=scaffold_2903>
+##contig=<ID=scaffold_2904>
+##contig=<ID=scaffold_2905>
+##contig=<ID=scaffold_2906>
+##contig=<ID=scaffold_2937>
+##contig=<ID=scaffold_2940>
+##contig=<ID=scaffold_2945>
+##contig=<ID=scaffold_2982>
+##contig=<ID=scaffold_2986>
+##contig=<ID=scaffold_2989>
+##contig=<ID=scaffold_3084>
+##contig=<ID=scaffold_3113>
+##contig=<ID=scaffold_3166>
+##contig=<ID=scaffold_40>
+##contig=<ID=scaffold_44>
+##contig=<ID=scaffold_58>
+##contig=<ID=scaffold_338>
+##bcftools_viewVersion=1.9+htslib-1.9
+##bcftools_viewCommand=view -r Chr01 -o Chr01_besc.vcf.gz -O z ../917_besc_id.vcf.gz; Date=Tue Sep 25 23:48:24 2018
+##bcftools_filterVersion=1.9+htslib-1.9
+##bcftools_filterCommand=filter -i 'QUAL>990 & MAF[0]>0.05' -o Chr01_filter.vcf.gz -O z /home/kf0/dev_data/917_vcf/original_vcfs/Chr01_besc.vcf.gz; Date=Thu Oct 11 10:58:55 2018
+##bcftools_concatVersion=1.9+htslib-1.9
+##bcftools_concatCommand=concat -f vcf_list.txt -o All_besc_filter.vcf.gz -O z --thread 36; Date=Thu Nov  1 11:46:30 2018
+##bcftools_viewVersion=1.2+htslib-1.2.1
+##bcftools_viewCommand=view --max-alleles 2 All_besc_filter.vcf.gz
+##bcftools_annotateVersion=1.2+htslib-1.2.1
+##bcftools_annotateCommand=annotate -x INFO,FORMAT --output All_besc_max_allele_2_GT_only.vcf All_besc_max_allele_2.vcf.gz
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	BESC-52	BESC-79	BESC-246
+Chr01	52	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	66	.	ACCCCT	ACCCT	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	86	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	203	.	CTTTTTTTTTTT	CTTTTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	224	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	306	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	369	.	C	A	999	PASS	.	GT	1/1	0/0	0/0
+Chr01	663	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	665	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	668	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	740	.	G	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	811	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	844	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	891	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	942	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1059	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1097	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1186	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1371	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1437	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1458	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1487	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1537	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1571	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1720	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	1853	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2066	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2238	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2292	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2296	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2332	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2367	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2387	.	A	G	999	PASS	.	GT	1/1	0/0	1/1
+Chr01	2483	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2547	.	CGCCCCAAGCCC	CGCCCCAAGCCCAAGCCCCAAGCCC	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	2585	.	G	C	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	2772	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2856	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2935	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2944	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2967	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	2991	.	T	C	999	PASS	.	GT	1/1	1/1	0/0
+Chr01	2992	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3048	.	T	G	999	PASS	.	GT	1/1	1/1	0/0
+Chr01	3166	.	C	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	3211	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	3241	.	T	C	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	3280	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3346	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3350	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	3351	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3367	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3373	.	C	T	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	3378	.	T	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	3406	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	3449	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	3454	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	3533	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3573	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3621	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3623	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3643	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3644	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3697	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3745	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3757	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3822	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3867	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3893	.	G	C	999	PASS	.	GT	1/1	0/0	1/1
+Chr01	3942	.	GTTT	GCTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	3949	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4094	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4142	.	C	A	999	PASS	.	GT	1/1	0/0	0/0
+Chr01	4149	.	C	T	999	PASS	.	GT	1/1	0/0	0/0
+Chr01	4260	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4457	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4462	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4511	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4528	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4535	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	4622	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4719	.	A	G	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	4722	.	C	T	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	4775	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4790	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4801	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4863	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4873	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4879	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	4928	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	5044	.	C	T	999	PASS	.	GT	1/1	0/0	0/0
+Chr01	5266	.	ACCCGAACCCCGAA	ACCCGAACCCCGAACCCCGAA	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	5281	.	CCC	CCCGAAGACC	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	5313	.	CTTTTTTTTTT	CTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	5454	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	5498	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	5557	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	5584	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	5805	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6215	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6231	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6243	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6293	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6346	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6357	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6365	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6367	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6401	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6421	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6493	.	CCAATGACC	CCAATGACCATTTTCAATGACC	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6616	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6812	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6861	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	6925	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7023	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7126	.	G	A	999	PASS	.	GT	0/0	0/0	1/1
+Chr01	7182	.	T	TTCA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7183	.	GCAT	GCATCAT	999	PASS	.	GT	1/1	0/0	1/1
+Chr01	7341	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7342	.	T	A	999	PASS	.	GT	0/0	1/1	0/0
+Chr01	7369	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	7412	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7413	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7483	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7501	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7512	.	GACCCTAAACCCTAAACCCAAAACCCTAAACCC	GACCCTAAACCCTAAACCCTAAACCCAAAACCCTAAACCC	999	PASS	.	GT	0/1	0/0	1/1
+Chr01	7545	.	CAA	CAATCTCAAACCCGAAA	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	7645	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	7679	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	7681	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	7799	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7828	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7896	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7901	.	GTTTTTTTTTT	GTTTTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	7928	.	A	G	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	7944	.	C	T	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	7950	.	A	G	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	7971	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8002	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8003	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	8038	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8044	.	TC	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	8058	.	A	G	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	8092	.	T	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	8134	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8213	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8224	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8254	.	TATA	TAAAAATA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8275	.	C	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	8292	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8323	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8378	.	G	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8383	.	TAAAAAA	TAAAAAAA	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8444	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8481	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	8498	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8499	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8504	.	T	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	8556	.	T	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8616	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8660	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8676	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8710	.	A	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	8773	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	8817	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9158	.	A	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9228	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	9232	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	9283	.	CAAAAAAAAAA	CAAAAAAAAA	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9302	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	9321	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9340	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9383	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9429	.	A	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	9538	.	T	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	9602	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9691	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9723	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9816	.	GATGGA	GATGGAATGGA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	9880	.	T	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	9914	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10024	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	10044	.	A	G	999	PASS	.	GT	1/1	0/1	1/1
+Chr01	10046	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10068	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10073	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10117	.	TCGGTTTTTTTTGTTTGATTTTTTTGGTTAATTTTTTTCCGGTTT	TCGGTTT	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	10176	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	10192	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10237	.	G	A	999	PASS	.	GT	0/1	1/1	0/1
+Chr01	10241	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10300	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10368	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10618	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10742	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10835	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	10959	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	11025	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	11028	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	11260	.	A	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	11275	.	A	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	11528	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	11912	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	11986	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12062	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	12095	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	12134	.	GAAAAAAAAA	GAAAAAAAAAA	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	12347	.	A	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	12352	.	CTCGGTCGG	CTCGG	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	12366	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	12464	.	ATGA	ATGAGAACACTGA	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	12513	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	12560	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	12586	.	CA	CAA	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	12592	.	A	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	12629	.	TAAAAAAAAA	TAAAAAAAA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12648	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12658	.	T	C	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	12725	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12730	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12738	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12746	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	12753	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12766	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12794	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12894	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12907	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	12940	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	12970	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	12971	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	13016	.	ACCCCCC	ACCCCC	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	13046	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	13092	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	13207	.	ATTTTTTT	ATTTTTTTT	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13242	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13262	.	G	A	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	13272	.	G	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	13320	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	13336	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13379	.	A	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13394	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13397	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13409	.	G	T	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	13438	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13443	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13511	.	T	C	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	13521	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	13531	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13565	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13570	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	13586	.	C	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13606	.	GTTTT	GTTT	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13626	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13652	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13655	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	13671	.	C	T	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	13718	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13731	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13805	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	13806	.	A	G	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	13830	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13833	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13947	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13973	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	13981	.	CAATAAATGCTA	CA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	14041	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14117	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14155	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14171	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14407	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	14408	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	14415	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14431	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	14434	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14502	.	ATTTTTTTT	ATTTTTTTTT	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	14549	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14631	.	T	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14657	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	14658	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	14670	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	14684	.	TTT	TCTT	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	14732	.	T	C	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	14740	.	TG	TGG	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14760	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14802	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14812	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	14839	.	T	A	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	14856	.	A	G	999	PASS	.	GT	1/1	1/1	0/0
+Chr01	14873	.	T	C	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	14888	.	A	C	999	PASS	.	GT	1/1	0/1	1/1
+Chr01	14903	.	A	T	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	14998	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	15004	.	A	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	15019	.	T	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	15052	.	C	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	15062	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	15073	.	G	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	15100	.	CTTTTCTTTTTT	CTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15138	.	ATTTTTTT	ATTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15186	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	15204	.	CA	CTA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15254	.	G	T	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	15255	.	A	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	15256	.	CTTTTTTTTT	CTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15298	.	TCCCCC	TCCCC	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	15305	.	T	C	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	15347	.	GTTTTTTTTT	GTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15368	.	T	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	15405	.	T	A	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	15513	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	15541	.	C	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	15551	.	A	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	15587	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15675	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15809	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	15837	.	A	G	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	15948	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16013	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16038	.	C	G	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	16045	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16132	.	C	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16142	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16187	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16266	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16315	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16344	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16399	.	ATTTTTTTTTTT	ATTTTTTTTTT	999	PASS	.	GT	0/0	1/1	0/0
+Chr01	16446	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16503	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16550	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16636	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16643	.	A	G	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	16645	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16659	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16727	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16820	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16825	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	16873	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17099	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17362	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17407	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17478	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17510	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17690	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17893	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	17897	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	18010	.	ATTTTTTTCAGTTTT	ATT	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	18037	.	G	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18055	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18101	.	T	G	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	18149	.	G	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	18172	.	GAAAAAAA	GAAAAAAAA	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	18248	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18268	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18289	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	18338	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18391	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	18520	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18570	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18754	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18843	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18844	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	18857	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19111	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19114	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19139	.	TACACACACACACACACACACACACA	TACACACACACACACACACACA	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	19172	.	A	G	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	19187	.	A	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	19207	.	C	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	19212	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19222	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	19295	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	19303	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19358	.	T	C	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	19372	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	19416	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19456	.	CTTTTTTTTT	CTTTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	19470	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	19485	.	T	C	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	19495	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19504	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19522	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	19601	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19606	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	19611	.	T	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	19637	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19712	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	19716	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19745	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19921	.	A	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19974	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	19996	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20053	.	A	C	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	20081	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	20098	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20107	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20118	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	20229	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20250	.	A	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	20264	.	T	C	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	20280	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20285	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20328	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20352	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20396	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20425	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20432	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20443	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20452	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	20509	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20544	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	20613	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20626	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20641	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20644	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20707	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20742	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20781	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20786	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20788	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20821	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20836	.	C	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20872	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	20886	.	GAAAAAAAAA	GAAAAAAAA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20919	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20940	.	CATT	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20966	.	T	C	999	PASS	.	GT	0/0	1/1	0/0
+Chr01	20976	.	G	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20982	.	ATTTTTTTTT	ATTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	20998	.	A	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	21058	.	C	T	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	21059	.	C	G	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	21114	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	21149	.	A	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	21167	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	21176	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21189	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	21192	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21272	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21275	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21287	.	A	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	21314	.	T	G	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	21364	.	G	A	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	21397	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21433	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21494	.	T	C	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	21510	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21514	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21592	.	TAAAAAAA	TAAAAAAAAAAA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21605	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21616	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21626	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21678	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21701	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21724	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21729	.	GTTTTTTTTT	GTTTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21798	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	21817	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21852	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	21864	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21885	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	21900	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	21933	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	21951	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	21957	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	21971	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	22023	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22044	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22062	.	A	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	22095	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22110	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22129	.	T	G	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	22183	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	22210	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22299	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22312	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22315	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22327	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22389	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22443	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22457	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22465	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22503	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22606	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	22631	.	T	C	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	22658	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22732	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22753	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22762	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	22821	.	A	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	22826	.	C	T	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	22854	.	G	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	22869	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23161	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23186	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23191	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23252	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23411	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23513	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23563	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23687	.	ATTTTTTTTTT	ATTTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23698	.	G	T	999	PASS	.	GT	0/0	0/0	1/1
+Chr01	23704	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	23819	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	23864	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	23949	.	GCA	GCACA	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	24035	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	24129	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	24130	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	24363	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	24671	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	24845	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	24859	.	G	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	24987	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	25127	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	25262	.	A	AGG	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	25263	.	A	AGGGC	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	25444	.	G	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	25781	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	25824	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	25885	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	25943	.	T	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	25959	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	26061	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26100	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26205	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	26254	.	AAATTAA	AAA	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26265	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	26299	.	G	C	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	26325	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	26412	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	26417	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26431	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	26433	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26463	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26516	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26541	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26626	.	TTTAAT	TT	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	26696	.	T	C	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	26710	.	A	G	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	26745	.	A	G	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	26752	.	T	C	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	26755	.	T	C	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	26798	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26825	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26827	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	26875	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26926	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	26977	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27028	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27135	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	27164	.	T	G	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	27178	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27223	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27225	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	27260	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27280	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27345	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	27373	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27379	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27382	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	27464	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27664	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27723	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27765	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27768	.	C	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	27901	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	27926	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	27941	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28106	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	28142	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	28204	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	28222	.	TAAAAAAAA	TAAAAAAAAA	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	28231	.	C	CA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	28293	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28331	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	28348	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	28367	.	T	C	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	28374	.	A	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28461	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28545	.	CTTTTTTTTTT	CTTTTTTTTTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	28641	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28650	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	28686	.	C	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28745	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28782	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	28800	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28808	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	28827	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	28831	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29115	.	A	C	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	29132	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	29235	.	TCC	TC	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	29241	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29281	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	29349	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29387	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29430	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	29436	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29511	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29626	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29669	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	29672	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29675	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29758	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29765	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29824	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29916	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29929	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29936	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29960	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	29980	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	29981	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30034	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30056	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	30102	.	A	C	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	30111	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30114	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30186	.	CTGCTCTGAGTCTTATGCTCTG	CTGCTCTG	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	30233	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30343	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30396	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30424	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30527	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	30548	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	30739	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	30756	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30765	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30777	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	30781	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30832	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	30863	.	T	C	999	PASS	.	GT	1/1	0/0	1/1
+Chr01	30891	.	C	T	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	30910	.	G	A	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	30916	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	30968	.	CAA	CA	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	30991	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	31019	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	31071	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	31118	.	A	G	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	31152	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31178	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31182	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31264	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31272	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31276	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31283	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31294	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31314	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31432	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31456	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	31597	.	AT	ATCTT	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	31688	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31689	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31715	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31736	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31751	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31772	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	31893	.	T	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	32050	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	32064	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	32070	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32089	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32105	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32165	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32175	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32291	.	G	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	32362	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	32443	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32489	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	32564	.	C	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	32602	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32757	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32769	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	32848	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32940	.	T	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	32942	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33029	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33084	.	T	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33156	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33182	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33189	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33238	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	33263	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	33313	.	G	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33344	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33510	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33573	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33631	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	33647	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	34002	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	34106	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	34179	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	34232	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	34424	.	C	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	34442	.	C	T	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	34652	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	34791	.	A	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	34988	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	35036	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	35209	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	35308	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	35360	.	AAAGAAGAAGAAGAAGA	ACAAGAAGAAGAAGAAGA	999	PASS	.	GT	0/0	0/0	1/1
+Chr01	35407	.	ATTTTTTTTTT	ATTTTTTTTTTT	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	35523	.	G	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	35658	.	TAAAAAA	TAAAAAAA	999	PASS	.	GT	0/0	0/0	1/1
+Chr01	35895	.	A	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	36213	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	37106	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	37461	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	37909	.	CCTTCTTCT	CCTTCT	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	37954	.	A	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38114	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	38213	.	GTTTTTTTTTTTTTT	GTTTTTTTTTTT	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	38240	.	TACACACA	TACACACACA	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38285	.	ACCCCCCCCC	ACCCCCCCCCC	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	38295	.	TAC	TCAC	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	38357	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	38395	.	T	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	38440	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	38468	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38477	.	A	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38511	.	GAAAACCGAAAAAACCGA	GAAAACCGAAAAAACCGAAAAAACCGA	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	38533	.	AC	ACCGAGAAATC	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	38562	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38585	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38586	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	38633	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	38653	.	T	C	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	38738	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	38760	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	38771	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	38842	.	T	C	999	PASS	.	GT	1/1	0/1	1/1
+Chr01	38850	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	38909	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38974	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	38993	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	39022	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	39035	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	39066	.	TTGT	TT	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	39080	.	TTTAATTAATTAATTAATTAATTAA	TTTAATTAATTAATTAATTAATTAATTAA	999	PASS	.	GT	0/1	1/1	0/0
+Chr01	39117	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	39129	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	39155	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	39169	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	39192	.	AAA	AAATTAA	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	39206	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	39448	.	C	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	39566	.	T	TA	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	39569	.	T	TG	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	39648	.	TG	TTAG	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	39691	.	CTGTTTTTGGGCAATT	C	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	39783	.	A	T	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	39801	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	39866	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	39871	.	ATTTT	ATTTTT	999	PASS	.	GT	1/1	0/1	1/1
+Chr01	39896	.	G	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	39919	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	39988	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	40009	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	40017	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	40037	.	G	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	40288	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	40475	.	A	G	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	40551	.	T	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	40561	.	T	C	999	PASS	.	GT	0/0	0/0	1/1
+Chr01	40574	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	40608	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	40659	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	40707	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	40730	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	40746	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	40791	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	40833	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	40838	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	40862	.	A	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	40864	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	40870	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	40901	.	T	C	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	40911	.	A	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	40934	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	40955	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	40987	.	TCA	TCACTAATTTTATCTAGCTAAAAGATGAAGACA	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	40995	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	40998	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	41068	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41218	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41312	.	G	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41322	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41401	.	A	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	41459	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	41490	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	41492	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	41587	.	T	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41623	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	41688	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	41793	.	A	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41798	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	41799	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	41807	.	ATTTTTTTTTTT	ATTTTTTTTTT	999	PASS	.	GT	1/1	0/1	0/0
+Chr01	41825	.	TATG	TGATG	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41844	.	C	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	41889	.	T	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	41935	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	41936	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	41968	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	41982	.	C	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42005	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42026	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42040	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42063	.	A	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	42087	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42117	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42133	.	G	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42147	.	T	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	42196	.	A	G	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	42232	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	42383	.	T	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	42440	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	42504	.	G	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42724	.	C	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42739	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	42805	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42828	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42830	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42836	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42868	.	C	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42929	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42957	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42984	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	42989	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	43000	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	43052	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	43064	.	G	C	999	PASS	.	GT	1/1	1/1	0/1
+Chr01	43122	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43187	.	TTTATTATTATTATTATTAT	TTTATTATTATTATTATTATTAT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	43225	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43299	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	43331	.	A	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43409	.	A	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	43489	.	GTCTCTCTCTCT	GTCTCTCTCTCTCT	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	43504	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43514	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43525	.	C	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	43620	.	GTTTTTTTTTT	GTTTTTTTTTTT	999	PASS	.	GT	1/1	1/1	0/0
+Chr01	43812	.	TG	TAAGG	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43845	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	43861	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	43865	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	43886	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43889	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	43900	.	C	T	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	43908	.	C	T	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	43932	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	43947	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	43951	.	T	C	999	PASS	.	GT	0/1	0/0	1/1
+Chr01	44029	.	G	A	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	44038	.	A	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	44063	.	A	G	999	PASS	.	GT	0/0	0/1	1/1
+Chr01	44064	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	44135	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	44395	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	44396	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	44483	.	C	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	44749	.	TAAAAAAAAAAAA	TAAAAAAAAAAAAAA	999	PASS	.	GT	0/0	0/0	1/1
+Chr01	44805	.	TAAAAAAAAAAAA	TAAAAAAAAAAA	999	PASS	.	GT	1/1	0/1	1/1
+Chr01	44956	.	CTCAT	CTCATCAT	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	44972	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	45076	.	GAAAAAAAAAAA	GAAAAAAAAAA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	45763	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	45769	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	45793	.	T	C	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	46086	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	46192	.	G	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	46639	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	47220	.	TGT	TGTACGT	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	47244	.	CAA	CAAA	999	PASS	.	GT	1/1	0/1	0/1
+Chr01	47370	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	47442	.	T	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	47587	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	47697	.	T	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	47874	.	AAA	AAACAA	999	PASS	.	GT	0/1	0/0	1/1
+Chr01	47882	.	AA	ANNNA	999	PASS	.	GT	1/1	1/1	1/1
+Chr01	47893	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	47930	.	GAAAAAA	GAAAAA	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	48185	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	48218	.	AGAT	AAGTTGAATTTCATGGTGAT	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	48230	.	ATTT	AGTTT	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	48294	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	48461	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	48514	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	48518	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	48621	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	48843	.	G	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	48848	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	48883	.	A	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	48901	.	G	A	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	48910	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	48949	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	49043	.	T	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49107	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49171	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49188	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49192	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49215	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	49226	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49249	.	G	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49252	.	C	T	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49281	.	T	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	49368	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	49389	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	49395	.	A	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	49408	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	49433	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	49473	.	T	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	49582	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49584	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49598	.	GTTTTTTTTTT	GTTTTTTTTT	999	PASS	.	GT	1/1	0/0	1/1
+Chr01	49652	.	C	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49661	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	49716	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	49874	.	A	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	49910	.	A	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	49916	.	T	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	49918	.	T	C	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	49937	.	TAAGA	TAAAGA	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	49951	.	G	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	49974	.	G	A	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	49978	.	C	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	50054	.	GGAA	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	50059	.	AA	ATTA	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	50068	.	GAAAAAAAAAAA	GAAAAAAAAAA	999	PASS	.	GT	0/0	0/1	0/1
+Chr01	50134	.	A	G	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	50219	.	AATTAATTAGAAAAAGTCCCTAATTAATTCCT	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	50368	.	G	A	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	50437	.	G	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	50499	.	C	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	50600	.	C	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	50669	.	A	ATAG	999	PASS	.	GT	0/0	0/1	0/0
+Chr01	50670	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	50675	.	A	G	999	PASS	.	GT	0/1	0/0	1/1
+Chr01	50698	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	50709	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	50772	.	T	G	999	PASS	.	GT	0/1	0/1	0/1
+Chr01	50783	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	50817	.	G	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	50895	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	50915	.	T	C	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	50917	.	G	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	51019	.	T	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	51072	.	A	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	51182	.	TAAAAAA	TAAAAAAA	999	PASS	.	GT	0/0	0/1	1/1
+Chr01	51207	.	C	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	51248	.	A	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	51266	.	T	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	51540	.	G	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	51583	.	G	A	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	51590	.	T	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	51600	.	T	G	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	51715	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	51729	.	G	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	51820	.	T	A	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	51853	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	51941	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	51996	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	51999	.	T	C	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	52019	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52022	.	G	A	999	PASS	.	GT	0/1	0/0	1/1
+Chr01	52037	.	G	A	999	PASS	.	GT	0/1	0/0	1/1
+Chr01	52043	.	C	T	999	PASS	.	GT	0/1	0/0	0/0
+Chr01	52163	.	G	A	999	PASS	.	GT	1/1	0/1	1/1
+Chr01	52287	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52288	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52466	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52634	.	G	C	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	52647	.	T	C	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52729	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52730	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52811	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52967	.	C	T	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	52985	.	A	G	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	53012	.	T	A	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	53099	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	53117	.	C	T	999	PASS	.	GT	0/1	0/1	0/0
+Chr01	53160	.	A	G	999	PASS	.	GT	0/1	0/0	0/1
+Chr01	53167	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	53213	.	C	T	999	PASS	.	GT	0/0	0/0	0/1
+Chr01	53425	.	A	G	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	53463	.	G	A	999	PASS	.	GT	0/0	0/0	0/0
+Chr01	53505	.	T	C	999	PASS	.	GT	0/1	0/1	1/1
+Chr01	53517	.	T	C	999	PASS	.	GT	0/1	0/1	1/1

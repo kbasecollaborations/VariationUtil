@@ -192,24 +192,6 @@ class VCFToVariation:
 
         return assembly_chromosomes
 
-    def _validate_sample_ids(self, vcf_info, sample_attribute_ref):
-        # All samples within the VCF file need to be in sample attribute list
-        # Sample attribute ref is not mandatory anymore
-
-        vcf_genotypes = vcf_info['genotype_ids']
-        sample_ids_subset = self.wsc.get_object_subset([{
-            'included': ['/instances'],
-            'ref': sample_attribute_ref
-        }])
-        sample_ids = sample_ids_subset[0]['data']['instances'].keys()
-        validate_genotypes = self._validate_vcf_to_sample(vcf_genotypes, sample_ids)
-        if isinstance(validate_genotypes, list):
-            failed_genos = ' '.join(validate_genotypes)
-            print(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
-            raise ValueError(f'VCF genotypes: {failed_genos} are not present in sample attribute mapping.')
-        else:
-            return sample_ids
-
     def _construct_contig_info(self, vcf_info):
         """
            From KBaseGwasData.Variations type spec
@@ -255,7 +237,6 @@ class VCFToVariation:
                  genome_ref - KBase reference to genome workspace object
                  assembly_ref - KBase reference to assemebly workspace object
                  vcf_handle_ref - VCF handle reference to VCF file
-                 samples
 
                  @optional genome_ref
              */
@@ -290,12 +271,13 @@ class VCFToVariation:
             })
         # compare_md5_local_with_shock(index_file_path, vcf_index_shock_file_ref)
 
+        # TODO: remove any reference to samples in this file
         variation_obj_data = {
             'numgenotypes': int(len(vcf_info['genotype_ids'])),
             'numvariants': int(vcf_info['total_variants']),
             'contigs': vcf_info['contigs_info'],
-            'samples': vcf_info['genotype_ids'],
             "header": vcf_info['header'],
+            "samples":["BESC-52","BESC-79", "BESC-22"],
             'assembly_ref': vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
             'vcf_handle': vcf_shock_file_ref['handle'],
@@ -335,14 +317,6 @@ class VCFToVariation:
         if result:
             logging.info("Creating contig info")
             vcf_info['contigs_info'] = self._construct_contig_info(vcf_info)
-
-        logging.info("Validating sample ids")
-        # Validate vcf genotypes against sample meta data ids
-        # provided in sample_attribute_ref
-        if 'sample_attribute_ref' in params:
-            result = self._validate_sample_ids(vcf_info, params['sample_attribute_ref'])
-            if result:
-                vcf_info['sample_attribute_ref'] = params['sample_attribute_ref']
 
         # construct variation
         variation_object_json = self._construct_variation_object_json(vcf_info)

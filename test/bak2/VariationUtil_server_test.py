@@ -60,8 +60,8 @@ class VariationUtilTest(unittest.TestCase):
             'workspace_name': 'pranjan77:narrative_1594999233120',
             'genome_or_assembly_ref': '52584/2/1',
             'sample_set_ref':'52586/7/1',
-            'sample_attribute_name':'abc',
-            'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/test1.vcf',
+            'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/test.vcf',
+            'sample_attribute_ref': None,
             'variation_object_name': 'poplar_g2'
         })
 

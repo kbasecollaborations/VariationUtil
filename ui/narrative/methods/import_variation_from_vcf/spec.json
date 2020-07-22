@@ -46,15 +46,28 @@
                 "is_output_name" : true
             }
         },
-		{        
-            "id": "sample_attribute_ref",
-            "optional": true,
+        {
+            "id": "sample_set_ref",
+            "optional": false,
             "advanced": false,
             "allow_multiple": false,
             "default_values": [ "" ],
             "field_type": "text",
             "text_options": {
-                "valid_ws_types": [ "KBaseExperiments.AttributeMapping" ]
+                "valid_ws_types" : [ "KBaseSets.SampleSet" ]
+            }
+        },
+		{        
+            "id": "sample_attribute_name",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [ "KBaseExperiments.AttributeMapping" ],
+                "is_output_name" : true
+
             }     
         }
     ],
@@ -73,6 +86,12 @@
                     "target_property": "genome_or_assembly_ref",
                     "target_type_transform": "resolved-ref"
                 },
+                                {
+                    "input_parameter": "sample_set_ref",
+                    "target_property": "sample_set_ref",
+                    "target_type_transform": "resolved-ref"
+                },
+
                 {
                     "input_parameter": "vcf_staging_file_path",
                     "target_property": "vcf_staging_file_path"                    
@@ -82,9 +101,8 @@
                     "target_property": "variation_object_name"
                 },
 				{
-                    "input_parameter": "sample_attribute_ref",
-                    "target_property": "sample_attribute_ref",
-                    "target_type_transform": "resolved-ref"
+                    "input_parameter": "sample_attribute_name",
+                    "target_property": "sample_attribute_name"
                 }
             ],
             "output_mapping": [

@@ -39,9 +39,14 @@ parameters :
             Input VCF staging file
         short-hint : |
             The path of your SNP input file. Should be in Variant Call Format (VCF).
-    sample_attribute_ref :
+    sample_set_ref :
         ui-name : |
-            Sample attribute reference
+            Sample set reference
+        short-hint : |
+            sample set reference
+    sample_attribute_name :
+        ui-name : |
+            Sample attribute object name
         short-hint : |
             sample meta-data object.
     variation_object_name :

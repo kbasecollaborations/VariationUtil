@@ -74,6 +74,76 @@ class VCFToVariation:
             returninfo[key] = val
         return returninfo
 
+
+    def parse_annotation(self, info_string):
+        """
+        parses annotation string into a structure
+        [gene_id, transcript_id,
+        :param ann_string:
+        :return:
+        """
+        #
+        # Fields are delimited by ;
+        # annotation field starts with ANN=
+        # Each allele-effect in annotation field is separated by ,
+        annotation_info = list()
+        ANNOT = {
+            "synonymous_variant":1,
+            "missense_variant":1,
+            "frameshift_variant":1,
+            "stop_gained":1,
+            "stop_lost":1
+        }
+
+        info = info_string.split(";")
+
+        ann_string = None
+        for j in info:
+            if j.startswith("ANN="):
+                ann_string = j
+
+        if ann_string is None:
+            return None
+
+
+        # TODO: Add more variant effects that
+        #  may not be affecting the protein coding region
+
+        allele_effect_list = ann_string.split(",")
+        for a in allele_effect_list:
+            eff = a.split("|")
+
+            allele = eff[0].replace("ANN=","")
+            annot = eff[1]
+            if annot not in ANNOT:
+                continue
+            gene_id = eff[3]
+            transcript_id = eff[6]
+            base = eff[9]
+            prot = eff[10]
+            annotation_info.append([allele, annot, gene_id, transcript_id, base, prot])
+
+        if annotation_info:
+            return annotation_info
+        else:
+            return None
+
+
+
+
+
+#        cond2 = "protein_coding" in ann_string
+#        print (ann_string)
+#        if cond1 and cond2:
+#            gene_id = ann_info[3]
+#            transcript_id = ann_info[4]
+#            coding_change = ann_info[9]
+#            protein_change = ann_info[10]
+#            info ={"ann":[gene_id,transcript_id,coding_change,protein_change]}
+#            return info
+#        else:
+#            return None
+
     def parse_vcf_data(self, vcf_filepath):
         """
         parses vcf file including headers and prepares
@@ -86,10 +156,11 @@ class VCFToVariation:
         genotypes = ""
         #
         counter = 0
-        chromosomes = []
+        chromosomes = list()
         contigs = {}
         header = list()
         totalvars = 0
+        variation_details = list()
 
         for record in reader:
 
@@ -113,9 +184,25 @@ class VCFToVariation:
                     genotypes = values[9:]
                 continue
 
-            # Handle the actual VCF content and parese information
+            # Handle the actual VCF content and parse information
             counter = counter + 1
-            CHROM, POS, *r = record.split("\t")
+
+            CHROM, POS, ID, REF, ALT, QUAL , FILTER, INFO,  *r = record.split("\t")
+
+            annotation = self.parse_annotation(INFO)
+
+            alleles = ALT.split(",")
+            variation = {
+                "chrom" : CHROM,
+                "pos": POS,
+                "ref": REF,
+                "alt": alleles
+            }
+
+            if annotation is not None:
+                variation['annot'] = annotation
+
+            variation_details.append(variation)
             totalvars += 1
             if CHROM not in chromosomes:
                 chromosomes.append(CHROM)
@@ -131,6 +218,7 @@ class VCFToVariation:
             'total_variants': totalvars,
             'genotype_ids': genotypes,
             'chromosome_ids': chromosomes,
+            'variation_details': variation_details,
             'file_ref': vcf_filepath,
             'header': header
         }
@@ -276,6 +364,7 @@ class VCFToVariation:
             'numvariants': int(vcf_info['total_variants']),
             'contigs': vcf_info['contigs_info'],
             "header": vcf_info['header'],
+            "variation_details": vcf_info['variation_details'],
             'assembly_ref': vcf_info['assembly_ref'],
             'vcf_handle_ref': vcf_shock_file_ref['handle']['hid'],
             'vcf_handle': vcf_shock_file_ref['handle'],

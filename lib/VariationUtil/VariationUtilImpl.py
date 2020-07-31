@@ -169,7 +169,6 @@ class VariationUtil:
 
         vtv = VCFToVariation(VCFToVariationConfig)
         variation_object_data = vtv.generate_variation_object_data(VCFToVariationParams)
-
         # Append sample information
         if sample_attribute_ref:
             variation_object_data['sample_attribute_ref'] = sample_attribute_ref
@@ -226,7 +225,7 @@ class VariationUtil:
         #variation_object_data['handle'] = jbrowse_report['genomic_indexes'][0]
 
 
-        print (json.dumps(variation_object_data))
+        #print (json.dumps(variation_object_data))
 
         var_obj = self.dfu.save_objects({
             'id': self.dfu.ws_name_to_id(params['workspace_name']),

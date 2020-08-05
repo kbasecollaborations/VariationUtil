@@ -30,9 +30,9 @@ class VariationUtil:
     # state. A method could easily clobber the state set by another while
     # the latter method is running.
     ######################################### noqa
-    VERSION = "0.0.1"
-    GIT_URL = "https://github.com/kbasecollaborations/VariationUtil"
-    GIT_COMMIT_HASH = "5c21f7b209448d534b4f4c1477d027046eb0247b"
+    VERSION = "0.0.4"
+    GIT_URL = ""
+    GIT_COMMIT_HASH = "2a4c2dbc058b702811c967997e7100c834e755d4"
 
     #BEGIN_CLASS_HEADER
 
@@ -61,6 +61,9 @@ class VariationUtil:
         self.sw_url = config['srv-wiz-url']
         pass
         #END_CONSTRUCTOR
+        pass
+
+
     def save_variation_from_vcf(self, ctx, params):
         """
         Save a variation (and trait?) object to Kbase given a reference genome, object output name,
@@ -84,7 +87,8 @@ class VariationUtil:
            "variation_object_name" of String, parameter
            "sample_attribute_ref" of type "obj_ref" (An X/Y/Z style reference)
         :returns: instance of type "save_variation_output" -> structure:
-           parameter "report_name" of String, parameter "report_ref" of String
+           parameter "variation_ref" of String, parameter "report_name" of
+           String, parameter "report_ref" of String
         """
         # ctx is the context object
         # return variables are: report
@@ -137,6 +141,7 @@ class VariationUtil:
         else:
             raise ValueError("No result obtained after compression and indexing step")
 
+
         # Get strain info
         # TODO: Remove hard coded stuff
         StrainInfoConfig = self.config
@@ -183,7 +188,6 @@ class VariationUtil:
         else:
             raise ValueError(f'sample_set_ref not found in params')
 
-
         # 4)
         JbrowseConfig = {
             "ws_url": self.ws_url,
@@ -211,21 +215,6 @@ class VariationUtil:
         #  TODO: Take out the vcf_handle stuff not needed
 
         variation_object_data['genomic_indexes'] = jbrowse_report['genomic_indexes']
-
-        # 6) We need to create a list of all handles needed and build the handles
-        #    part of variation object
-        #handles = list ()
-        #handles.append(variation_object_data['vcf_handle'])
-        #handles.append(variation_object_data['vcf_index_handle'])
-
-        #for g in jbrowse_report['genomic_indexes']:
-        #    handles.append(g)
-
-        #variation_object_data['handles'] = handles
-        #variation_object_data['handle'] = jbrowse_report['genomic_indexes'][0]
-
-
-        #print (json.dumps(variation_object_data))
 
         var_obj = self.dfu.save_objects({
             'id': self.dfu.ws_name_to_id(params['workspace_name']),
@@ -316,7 +305,6 @@ class VariationUtil:
                              'file is not type dict as required.')
         # return the results
         return [file]
-
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",

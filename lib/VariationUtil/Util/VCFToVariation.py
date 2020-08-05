@@ -105,14 +105,12 @@ class VCFToVariation:
         if ann_string is None:
             return None
 
-
         # TODO: Add more variant effects that
         #  may not be affecting the protein coding region
 
         allele_effect_list = ann_string.split(",")
         for a in allele_effect_list:
             eff = a.split("|")
-
             allele = eff[0].replace("ANN=","")
             annot = eff[1]
             if annot not in ANNOT:
@@ -187,16 +185,20 @@ class VCFToVariation:
             # Handle the actual VCF content and parse information
             counter = counter + 1
 
-            CHROM, POS, ID, REF, ALT, QUAL , FILTER, INFO,  *r = record.split("\t")
+            CHROM, POS, ID, REF, ALT, QUAL , FILTER, INFO, FORMAT , *genotypes = record.rstrip().split("\t")
 
+            snp_id = str(CHROM) + ":" + str(POS)
             annotation = self.parse_annotation(INFO)
+
 
             alleles = ALT.split(",")
             variation = {
+                "snp_id": snp_id,
                 "chrom" : CHROM,
                 "pos": POS,
                 "ref": REF,
-                "alt": alleles
+                "alt": alleles,
+                "genotypes":genotypes
             }
 
             if annotation is not None:
@@ -222,6 +224,7 @@ class VCFToVariation:
             'file_ref': vcf_filepath,
             'header': header
         }
+        print (vcf_info)
         return vcf_info
 
     def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):

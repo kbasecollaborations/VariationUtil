@@ -224,7 +224,6 @@ class VCFToVariation:
             'file_ref': vcf_filepath,
             'header': header
         }
-        print (vcf_info)
         return vcf_info
 
     def _validate_vcf_to_sample(self, vcf_genotypes, sample_ids):

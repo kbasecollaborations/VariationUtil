@@ -63,8 +63,10 @@ class VCFToVariation:
         ]
         """
         returninfo = {"Category": category}
-        info = re.sub(".*<", "", record)
-        info = info.replace(">", "")
+        record = record.rstrip()
+        # Remove last > character
+        record = record[:-1]
+        info = re.sub(".*=<", "", record)
         infolist = info.replace('"', '').rstrip().split(",")
         for fields in infolist:
             data = fields.split("=")

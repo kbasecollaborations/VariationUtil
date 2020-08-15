@@ -8,32 +8,12 @@ import time
 from installed_clients.AssemblyUtilClient import AssemblyUtil
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.WorkspaceClient import Workspace
+from VariationUtil.Util.VCFReaderStream import VCFReaderStream
 
 
 def log(message, prefix_newline=False):
     """Logging function, provides a hook to suppress or redirect log messages."""
     print(('\n' if prefix_newline else '') + '{0:.2f}'.format(time.time()) + ': ' + str(message))
-
-
-def md5_sum_local_file(fname):
-    md5hash = hashlib.md5()
-    with open(fname, 'rb') as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            md5hash.update(chunk)
-    return md5hash.hexdigest()
-
-
-def compare_md5_local_with_shock(fname, shock_file_ref):
-    local_md5 = md5_sum_local_file(fname)
-
-    shock_md5 = shock_file_ref['handle']['remote_md5']
-
-    if local_md5 != shock_md5:
-        raise ValueError(f'Local md5 {local_md5} does not match shock md5 {shock_md5}')
-
-    if not shock_file_ref['shock_id']:
-        raise ValueError('Unable to upload assembly index to Shock!')
-
 
 class VCFToVariation:
     def __init__(self, Config):
@@ -77,73 +57,6 @@ class VCFToVariation:
         return returninfo
 
 
-    def parse_annotation(self, info_string):
-        """
-        parses annotation string into a structure
-        [gene_id, transcript_id,
-        :param ann_string:
-        :return:
-        """
-        #
-        # Fields are delimited by ;
-        # annotation field starts with ANN=
-        # Each allele-effect in annotation field is separated by ,
-        annotation_info = list()
-        ANNOT = {
-            "synonymous_variant":1,
-            "missense_variant":1,
-            "frameshift_variant":1,
-            "stop_gained":1,
-            "stop_lost":1
-        }
-
-        info = info_string.split(";")
-
-        ann_string = None
-        for j in info:
-            if j.startswith("ANN="):
-                ann_string = j
-
-        if ann_string is None:
-            return None
-
-        # TODO: Add more variant effects that
-        #  may not be affecting the protein coding region
-
-        allele_effect_list = ann_string.split(",")
-        for a in allele_effect_list:
-            eff = a.split("|")
-            allele = eff[0].replace("ANN=","")
-            annot = eff[1]
-            if annot not in ANNOT:
-                continue
-            gene_id = eff[3]
-            transcript_id = eff[6]
-            base = eff[9]
-            prot = eff[10]
-            annotation_info.append([allele, annot, gene_id, transcript_id, base, prot])
-
-        if annotation_info:
-            return annotation_info
-        else:
-            return None
-
-
-
-
-
-#        cond2 = "protein_coding" in ann_string
-#        print (ann_string)
-#        if cond1 and cond2:
-#            gene_id = ann_info[3]
-#            transcript_id = ann_info[4]
-#            coding_change = ann_info[9]
-#            protein_change = ann_info[10]
-#            info ={"ann":[gene_id,transcript_id,coding_change,protein_change]}
-#            return info
-#        else:
-#            return None
-
     def parse_vcf_data(self, vcf_filepath):
         """
         parses vcf file including headers and prepares
@@ -154,13 +67,11 @@ class VCFToVariation:
         reader = gzip.open(vcf_filepath, "rt")
         version = ""
         genotypes = ""
-        #
         counter = 0
         chromosomes = list()
         contigs = {}
         header = list()
         totalvars = 0
-        variation_details = list()
 
         for record in reader:
 
@@ -187,26 +98,8 @@ class VCFToVariation:
             # Handle the actual VCF content and parse information
             counter = counter + 1
 
-            CHROM, POS, ID, REF, ALT, QUAL , FILTER, INFO, FORMAT , *genotypes = record.rstrip().split("\t")
+            CHROM, *_ = record.split("\t")
 
-            snp_id = str(CHROM) + ":" + str(POS)
-            annotation = self.parse_annotation(INFO)
-
-
-            alleles = ALT.split(",")
-            variation = {
-                "snp_id": snp_id,
-                "chrom" : CHROM,
-                "pos": POS,
-                "ref": REF,
-                "alt": alleles,
-                "genotypes":genotypes
-            }
-
-            if annotation is not None:
-                variation['annot'] = annotation
-
-            variation_details.append(variation)
             totalvars += 1
             if CHROM not in chromosomes:
                 chromosomes.append(CHROM)
@@ -216,6 +109,8 @@ class VCFToVariation:
                 }
             else:
                 contigs[CHROM]['totalvariants'] += 1
+
+        variation_details = VCFReaderStream(vcf_filepath)
         vcf_info = {
             'version': version,
             'contigs': contigs,

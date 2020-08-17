@@ -43,6 +43,9 @@ class VCFToVariation:
         ]
         """
         returninfo = {"Category": category}
+
+        # remove all comma within quotes
+        record = re.sub(r'(?!(([^"]*"){2})*[^"]*$),', '', record)
         record = record.rstrip()
         # Remove last > character
         record = record[:-1]

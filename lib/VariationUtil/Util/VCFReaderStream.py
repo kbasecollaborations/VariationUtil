@@ -1,13 +1,44 @@
 import gzip
 import json
+import os
+import re
+
 
 class VCFReaderStream (list):
     def __init__(self, vcf_filepath):
-        self.vcf_filepath = vcf_filepath 
+        self.vcf_filepath = vcf_filepath
+        # Limits in byte / Limits in number of samples
+        # TODO: Move this filesize limit to a different location
+        self.vcf_filesize_limit = 1000000
         self.chr = dict()
         
     def __iter__(self):
         return self.createGenerator()
+
+    def is_file_ok_for_populating_genos(self):
+        '''
+        The workspace object size limit creates a problem for large vcf
+        with too many samples. This function checks whether file size limit is ok.
+        Single sample vcf may be ok. So that is always true
+        TODO: We may have to change the function depending on the performance and errors.
+
+        '''
+
+        reader = gzip.open(self.vcf_filepath, "rt")
+        for record in reader:
+            if record.startswith('#CHROM'):
+                CHROM, POS, ID, REF, ALT, QUAL, FILTER, INFO, FORMAT, *SAMPLES = record.split("\t")
+                if len(SAMPLES)==1:
+                    return True
+        if os.stat(self.vcf_filepath).st_size > self.vcf_filesize_limit:
+            return False
+        else:
+            return True
+
+
+
+
+
 
     def parse_annotation(self, info_string):
         """
@@ -39,7 +70,7 @@ class VCFReaderStream (list):
         if ann_string is None:
             return None
        # TODO: Add more variant effects that
-        #  may not be affecting the protein coding region
+       # TODO: may not be affecting the protein coding region
 
         allele_effect_list = ann_string.split(",")
         for a in allele_effect_list:
@@ -61,18 +92,25 @@ class VCFReaderStream (list):
 
 
     def createGenerator(self):
+
+      populate_genos = self.is_file_ok_for_populating_genos()
       reader = gzip.open(self.vcf_filepath, "rt")
       for record in reader:
          if record[0]=='#':
              continue
-         CHROM, POS, ID, REF, ALT, QUAL , FILTER, INFO, FORMAT , *_ = record.split("\t")
+
+         CHROM, POS, ID, REF, ALT, QUAL , FILTER, INFO, FORMAT , *GENOS = record.rstrip().split("\t")
          alleles = ALT.split(",")
          annotation = self.parse_annotation(INFO)
+         v = {"var":[CHROM,POS,REF,alleles]}
+
          if annotation is not None:
-             i = {"var":[CHROM,POS,REF,alleles], "annot": annotation}
-         else:
-             i = {"var":[CHROM,POS,REF,alleles]}
-         yield i
+             v['annot'] = annotation
+
+         if populate_genos:
+             v['geno'] = [re.sub(r':.*', '', i) for i in GENOS]
+
+         yield v
 
 
 

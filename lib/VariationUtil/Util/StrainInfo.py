@@ -25,7 +25,7 @@ class StrainInfo:
             name = sample['name']
             sample_dict[name] = {
                 "name":name,
-                "id": sample['id'],
+                "sample_id": sample['id'],
                 "version": sample['version']
             }
         StrainInfo = []

@@ -102,7 +102,8 @@ class VCFReaderStream (list):
          CHROM, POS, ID, REF, ALT, QUAL , FILTER, INFO, FORMAT , *GENOS = record.rstrip().split("\t")
          alleles = ALT.split(",")
          annotation = self.parse_annotation(INFO)
-         v = {"var":[CHROM,POS,REF,alleles]}
+         v = {"var":[CHROM,POS,REF]}
+         v['alt_alleles'] = alleles
 
          if annotation is not None:
              v['annot'] = annotation

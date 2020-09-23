@@ -43,6 +43,10 @@ class JbrowseUtil:
         sw_resp = requests.post(url=sw_url, data=json.dumps(json_obj))
         vfs_resp = sw_resp.json()
         self.shock_url = self.shock_url.replace("https://", "")
+        #TODO: Find a better solution for Cross-Origin Read Blocking (CORB) 
+        #blocked cross-origin respons
+        vfs_service_url = vfs_resp['result'][0]['url'].replace(":443","")
+        
         vfs_url = vfs_resp['result'][0]['url'] + "/jbrowse_query/" + self.shock_url + "/node"
         return vfs_url
 

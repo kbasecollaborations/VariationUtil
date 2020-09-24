@@ -47,7 +47,7 @@ class JbrowseUtil:
         #blocked cross-origin respons
         vfs_service_url = vfs_resp['result'][0]['url'].replace(":443","")
         
-        vfs_url = vfs_resp['result'][0]['url'] + "/jbrowse_query/" + self.shock_url + "/node"
+        vfs_url = vfs_service_url + "/jbrowse_query/" + self.shock_url + "/node"
         return vfs_url
 
     def _run_cmd(self, cmd):

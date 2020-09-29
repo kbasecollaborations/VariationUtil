@@ -57,9 +57,9 @@ class VariationUtilTest(unittest.TestCase):
 
     def test_save_variation_assembly_ref(self):
         ret = self.serviceImpl.save_variation_from_vcf(self.ctx, {
-            'workspace_name': 'man4ish_gupta:narrative_1597069509290',
-            'genome_or_assembly_ref': '52931/7/1',
-            'sample_set_ref':'52931/5/1',
+            'workspace_name': 'pranjan77:narrative_1601290579560',
+            'genome_or_assembly_ref': '48223/4/1',
+            'sample_set_ref':'48223/2/1',
             'sample_attribute_name':'sample_attr_new',
             'vcf_staging_file_path': '/kb/module/test/sample_data/small_poplar/test3.vcf',
             'variation_object_name': 'poplar_g4'

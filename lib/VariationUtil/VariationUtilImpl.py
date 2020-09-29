@@ -9,6 +9,8 @@ from VariationUtil.Util.VariationToVCF import VariationToVCF
 from VariationUtil.Util.htmlreportutils import htmlreportutils
 from VariationUtil.Util.StrainInfo import StrainInfo
 from VariationUtil.Util.JbrowseUtil import JbrowseUtil
+from VariationUtil.Util.VariationReport import VariationReport
+
 from installed_clients.WorkspaceClient import Workspace
 from installed_clients.DataFileUtilClient import DataFileUtil
 
@@ -229,14 +231,26 @@ class VariationUtil:
         print (var_obj_ref)
 
 
-        # 5) Build jbrowse html report
+        # 5) Build Variation report
+        # This is a simple report
+        #
         workspace = params['workspace_name']
         created_objects = []
         created_objects.append({
             "ref": var_obj_ref,
             "description": "Variation Object"
             })
-        report = self.hr.create_html_report(jbrowse_report['jbrowse_data_path'],
+        ReportConfig = {
+            "ws_url": self.ws_url,
+            "scratch": self.scratch,
+        }
+        ReportParams = {
+            "variation_ref": var_obj_ref
+        }
+        vr = VariationReport(ReportConfig)
+        htmlreport_dir = vr.create_variation_report(ReportParams)
+
+        report = self.hr.create_html_report(htmlreport_dir,
                                             workspace,
                                             created_objects)
         report['variation_ref'] = var_obj_ref
